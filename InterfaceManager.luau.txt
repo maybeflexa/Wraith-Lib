@@ -1,0 +1,66 @@
+local InterfaceManager = {}
+InterfaceManager.Library = nil
+InterfaceManager.Folder = "WraithScriptHub"
+
+local function safe(fn: (...any) -> ...any, ...: any): (boolean, ...any)
+    return pcall(fn, ...)
+end
+
+local function ensureFolder(path: string)
+    if typeof(isfolder) ~= "function" or typeof(makefolder) ~= "function" then return end
+    local current = ""
+    for part in string.gmatch(path, "[^/]+") do
+        current = current == "" and part or current .. "/" .. part
+        safe(function()
+            if not isfolder(current) then makefolder(current) end
+        end)
+    end
+end
+
+function InterfaceManager:SetLibrary(library: any)
+    self.Library = library
+    return self
+end
+
+function InterfaceManager:SetFolder(folder: string)
+    self.Folder = tostring(folder or self.Folder)
+    ensureFolder(self.Folder)
+    return self
+end
+
+function InterfaceManager:BuildInterfaceSection(tab: any)
+    if not tab then return end
+    tab:AddParagraph({Title = "Interface", Content = "Wraith UI is using a fixed monochrome interface with cross-platform input support."})
+    tab:AddKeybind("WraithMinimize", {Title = "Minimize Key", Mode = "Toggle", Default = "LeftControl", ChangedCallback = function(newKey)
+        local library = self.Library
+        if library and library.Windows then
+            for _, window in next, library.Windows do
+                local keyCode = Enum.KeyCode[tostring(newKey)]
+                if keyCode then window.MinimizeKey = keyCode end
+            end
+        end
+    end})
+    tab:AddButton({Title = "Toggle UI", Description = "Shows or hides the current Wraith window", Callback = function()
+        local library = self.Library
+        if library and library.Windows then
+            for _, window in next, library.Windows do
+                if window.Toggle then window:Toggle() end
+            end
+        end
+    end})
+    tab:AddButton({Title = "Unload", Description = "Destroys every Wraith window and marks the library as unloaded", Callback = function()
+        local library = self.Library
+        if library then
+            library.Unloaded = true
+            if library.Windows then
+                for _, window in next, library.Windows do
+                    safe(function()
+                        window:Destroy()
+                    end)
+                end
+            end
+        end
+    end})
+end
+
+return InterfaceManager
