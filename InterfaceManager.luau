@@ -1,6 +1,6 @@
 local InterfaceManager = {}
 InterfaceManager.Library = nil
-InterfaceManager.Folder = "WraithScriptHub"
+InterfaceManager.Folder = "Wraith-"
 
 local function safe(fn: (...any) -> ...any, ...: any): (boolean, ...any)
     return pcall(fn, ...)
