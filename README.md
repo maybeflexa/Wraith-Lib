@@ -56,20 +56,14 @@ Built with clean design, smooth animations, Lucide icons, and full feature suppo
 ## Quick Start
 
 ```lua
-local Wraith = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
-))()
+local Wraith = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"))()
 
-local SaveManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"
-))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"))()
 
-local InterfaceManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"
-))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"))()
 
 local Window = Wraith:CreateWindow({
-    Title = "My Script",
+    Title = "Test-Hub",
     SubTitle = "v1.0.0",
     Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
