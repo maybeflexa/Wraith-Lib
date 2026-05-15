@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1536" height="1024" alt="227216" src="https://github.com/user-attachments/assets/bab7ba9c-ec36-4181-bdb3-7173b27ee0c5" />
+<img width="885" height="260" alt="227218" src="https://github.com/user-attachments/assets/63352011-135e-4500-8932-7f963ab8b678" />
 
 
 # Wraith Library Ui
