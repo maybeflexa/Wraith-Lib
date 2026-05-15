@@ -2427,7 +2427,7 @@ function Wraith:CreateWindow(o)
                 C("TextLabel", {Size = UDim2.new(1, -50, 0, 14), Position = UDim2.new(0, 38, 0, (p.Description or "") ~= "" and 9 or 12), BackgroundTransparency = 1, Text = p.Title or "Checkbox", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
                 if (p.Description or "") ~= "" then C("TextLabel", {Size = UDim2.new(1, -50, 0, 12), Position = UDim2.new(0, 38, 0, 26), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}) end
                 local box = C("Frame", {Size = UDim2.new(0, 18, 0, 18), Position = UDim2.new(0, 14, 0.5, -9), BackgroundColor3 = checked and T.Acc or T.Bg3, Parent = container}); Cn(box, 4); St(box, T.Border, 1, 0.4)
-                local checkMark = C("TextLabel", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "ok", TextColor3 = T.Bg, TextSize = 12, Font = Enum.Font.GothamBold, Visible = checked, Parent = box})
+                local checkMark = C("TextLabel", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "✓", TextColor3 = T.Bg, TextSize = 12, Font = Enum.Font.GothamBold, Visible = checked, Parent = box})
                 local btn = C("TextButton", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = container})
                 local el = {Type = "Checkbox", Value = checked, Flag = flag, Save = p.Save ~= false}
                 local function upd() Tw(box, {BackgroundColor3 = checked and T.Acc or T.Bg3}, 0.2); checkMark.Visible = checked end
