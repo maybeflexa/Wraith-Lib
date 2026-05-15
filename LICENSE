@@ -1,0 +1,27 @@
+Wraith UI Library
+Copyright (c) 2026 maybeflexa
+
+All Rights Reserved.
+
+This software and associated documentation files (the "Software") 
+are the proprietary property of maybeflexa.
+
+PERMITTED:
+- Personal use in your own scripts
+- Loading via loadstring in Roblox executors
+
+NOT PERMITTED:
+- Modification and republishing under a different name
+- Commercial sale of the library
+- Removing credits or copyright notices
+- Claiming authorship
+
+For inquiries, contact the author through GitHub:
+https://github.com/maybeflexa
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE USE
+OF THE SOFTWARE.
