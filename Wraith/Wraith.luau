@@ -14,7 +14,12 @@ local DDRefresh = {}
 local TabRefreshers = {}
 local ScreenGui
 
-local PlatformURLs = {["Lucide"] = "https://raw.githubusercontent.com/latte-soft/lucide-roblox/master/files/lucide.json"}
+local PlatformURLs = {
+    ["Lucide"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Lucide.lua",
+    ["Gravity"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Gravity.lua",
+    ["Solar"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Solar.lua",
+    ["SFSymbols"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/SFSymbols.lua"
+}
 
 local Themes = {
     ["AMOLED"] = {Bg=Color3.fromRGB(0,0,0),Bg2=Color3.fromRGB(8,8,8),Bg3=Color3.fromRGB(18,18,18),El=Color3.fromRGB(13,13,13),ElHov=Color3.fromRGB(22,22,22),Border=Color3.fromRGB(34,34,34),Txt=Color3.fromRGB(255,255,255),Txt2=Color3.fromRGB(160,160,160),Txt3=Color3.fromRGB(95,95,95),Acc=Color3.fromRGB(212,212,212),AccD=Color3.fromRGB(160,160,160),TOn=Color3.fromRGB(220,220,220),TOff=Color3.fromRGB(40,40,40),Slider=Color3.fromRGB(200,200,200),BgTr=0.1,ElTr=0.4,SbTr=0.18},
@@ -131,18 +136,36 @@ local function EnsF()
 end
 
 local function LoadIcons(p)
-    p = p or "Lucide"; EnsF()
-    local cp = "Wraith/Icons/" .. p .. ".json"
-    local d
-    pcall(function() if isfile(cp) then local r = readfile(cp); if r and #r > 50 then d = HttpService:JSONDecode(r) end end end)
-    if d and next(d) then LoadedIcons = d; return end
-    local u = PlatformURLs[p]
-    if not u then LoadedIcons = {}; return end
-    local s, r = pcall(function() return game:HttpGet(u) end)
-    if s and r and #r > 50 then
-        local ok, dd = pcall(function() return HttpService:JSONDecode(r) end)
-        if ok and dd then LoadedIcons = dd; pcall(function() writefile(cp, r) end) else LoadedIcons = {} end
-    else LoadedIcons = {} end
+    p = p or "Lucide"
+    EnsF()
+    local cp = "Wraith/Icons/" .. p .. ".lua"
+    local raw
+    pcall(function()
+        if isfile(cp) then
+            local r = readfile(cp)
+            if r and #r > 50 then raw = r end
+        end
+    end)
+    if not raw then
+        local u = PlatformURLs[p]
+        if not u then LoadedIcons = {}; return end
+        local s, r = pcall(function() return game:HttpGet(u) end)
+        if s and r and #r > 50 then
+            raw = r
+            pcall(function() writefile(cp, r) end)
+        end
+    end
+    if not raw then LoadedIcons = {}; return end
+    local ok, result = pcall(function()
+        local fn = loadstring(raw)
+        if fn then return fn() end
+        return nil
+    end)
+    if ok and type(result) == "table" then
+        LoadedIcons = result
+    else
+        LoadedIcons = {}
+    end
 end
 
 local function GetIcon(n)
@@ -365,6 +388,29 @@ local function ColorDialog(curCol, cb)
     task.defer(function() task.wait(0.05); Tw(df,{Size=UDim2.new(0,290,0,280)},0.3,Enum.EasingStyle.Back) end)
 end
 
+local function ApplyIcon(img, iconData)
+    if not iconData then return end
+    if type(iconData) == "string" then
+        img.Image = iconData
+    elseif type(iconData) == "number" then
+        img.Image = "rbxassetid://" .. tostring(iconData)
+    elseif type(iconData) == "table" then
+        if iconData.Image then
+            img.Image = iconData.Image
+        elseif iconData.url then
+            img.Image = iconData.url
+        elseif iconData.id then
+            img.Image = "rbxassetid://" .. tostring(iconData.id)
+        end
+        if iconData.ImageRectOffset then
+            img.ImageRectOffset = Vector2.new(iconData.ImageRectOffset[1] or iconData.ImageRectOffset.X or 0, iconData.ImageRectOffset[2] or iconData.ImageRectOffset.Y or 0)
+        end
+        if iconData.ImageRectSize then
+            img.ImageRectSize = Vector2.new(iconData.ImageRectSize[1] or iconData.ImageRectSize.X or 0, iconData.ImageRectSize[2] or iconData.ImageRectSize.Y or 0)
+        end
+    end
+end
+
 function Wraith:CreateWindow(o)
     o = o or {}
     local wT, wS, wSz = o.Title or "Wraith", o.SubTitle or "", o.Size or UDim2.new(0,620,0,460)
@@ -482,12 +528,14 @@ function Wraith:CreateWindow(o)
             self.ActiveTab._sel = false
             Tw(self.ActiveTab.Btn, {BackgroundColor3 = T.Bg2, BackgroundTransparency = 1}, 0.2)
             Tw(self.ActiveTab.Lbl, {TextColor3 = T.Txt2}, 0.2)
+            if self.ActiveTab.Ico then Tw(self.ActiveTab.Ico, {ImageColor3 = T.Txt2}, 0.2) end
             if self.ActiveTab.Ind then Tw(self.ActiveTab.Ind, {BackgroundTransparency = 1}, 0.15) end
             self.ActiveTab.Pg.Visible = false
         end
         self.ActiveTab = tab; tab._sel = true
         Tw(tab.Btn, {BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr * 0.5}, 0.2)
         Tw(tab.Lbl, {TextColor3 = T.Txt}, 0.2)
+        if tab.Ico then Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.2) end
         if tab.Ind then Tw(tab.Ind, {BackgroundTransparency = 0}, 0.15) end
         tab.Pg.Visible = true
     end
@@ -495,23 +543,36 @@ function Wraith:CreateWindow(o)
     function W:AddTab(o2)
         o2 = o2 or {}
         local n = o2.Title or "Tab"
+        local ic = o2.Icon
         local tab = {Name = n, _sel = false}
         local btn = C("TextButton",{Size=UDim2.new(1,0,0,34),BackgroundColor3=T.Bg2,BackgroundTransparency=1,Text="",AutoButtonColor=false,Parent=tl})
         Cn(btn,7)
         local ind = C("Frame",{Size=UDim2.new(0,3,0,16),Position=UDim2.new(0,0,0.5,-8),BackgroundColor3=T.Acc,BackgroundTransparency=1,BorderSizePixel=0,Parent=btn})
         Cn(ind,2); B(ind,{BackgroundColor3="Acc"})
         tab.Ind = ind
-        local lbl = C("TextLabel",{Size=UDim2.new(1,-22,0,34),Position=UDim2.new(0,12,0,0),BackgroundTransparency=1,Text=n,TextColor3=T.Txt2,TextSize=12,Font=Enum.Font.GothamSemibold,TextXAlignment=Enum.TextXAlignment.Left,Parent=btn})
+
+        local iOff = 0
+        if ic then
+            local img = C("ImageLabel",{Size=UDim2.new(0,16,0,16),Position=UDim2.new(0,11,0.5,-8),BackgroundTransparency=1,ImageColor3=T.Txt2,Parent=btn})
+            local iD = GetIcon(ic)
+            ApplyIcon(img, iD)
+            iOff = 32; tab.Ico = img
+            B(img,{ImageColor3="Txt2"})
+        end
+
+        local lbl = C("TextLabel",{Size=UDim2.new(1,-(10+iOff),0,34),Position=UDim2.new(0,iOff+12,0,0),BackgroundTransparency=1,Text=n,TextColor3=T.Txt2,TextSize=12,Font=Enum.Font.GothamSemibold,TextXAlignment=Enum.TextXAlignment.Left,Parent=btn})
         tab.Btn = btn; tab.Lbl = lbl
 
         local function refreshTabColors()
             if tab._sel then
                 Tw(btn, {BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr * 0.5}, 0.3)
                 Tw(lbl, {TextColor3 = T.Txt}, 0.3)
+                if tab.Ico then Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.3) end
                 if ind then Tw(ind, {BackgroundColor3 = T.Acc, BackgroundTransparency = 0}, 0.3) end
             else
                 Tw(btn, {BackgroundColor3 = T.Bg2, BackgroundTransparency = 1}, 0.3)
                 Tw(lbl, {TextColor3 = T.Txt2}, 0.3)
+                if tab.Ico then Tw(tab.Ico, {ImageColor3 = T.Txt2}, 0.3) end
                 if ind then Tw(ind, {BackgroundColor3 = T.Acc, BackgroundTransparency = 1}, 0.3) end
             end
         end
