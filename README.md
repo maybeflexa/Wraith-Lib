@@ -5,7 +5,7 @@
 
 # Wraith Library Ui
 
-**A Simple User Friendly Liblary Ui.**
+**A Simple User Friendly Library Ui.**
 
 Built with clean design, smooth animations, Lucide icons, and full feature support.
 
