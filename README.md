@@ -1,5 +1,5 @@
 <div align="center">
-
+    
 <img width="885" height="260" alt="227218" src="https://github.com/user-attachments/assets/63352011-135e-4500-8932-7f963ab8b678" />
 
 
@@ -29,6 +29,7 @@ Built with clean design, smooth animations, Lucide icons, and full feature suppo
 - Tooltip system
 - Auto-save theme preference
 - gethui fallback for anti-cheat bypass
+- Dual API syntax (Fluent-style and table-style)
 
 ## Themes
 
@@ -48,6 +49,8 @@ Built with clean design, smooth animations, Lucide icons, and full feature suppo
 | Colorpicker | HSV color picker dialog |
 | Keybind | Key binding selector |
 | Input | Text input field |
+| MultiInput | Multiple text inputs in one row |
+| MultiSlider | Multiple sliders in one element |
 | NumberSpinner | +/- number selector |
 | DateTime | Live clock/date display |
 | StatusBar | Auto-updating value display |
@@ -59,14 +62,20 @@ Built with clean design, smooth animations, Lucide icons, and full feature suppo
 ## Quick Start
 
 ```lua
-local Wraith = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"))()
+local Wraith = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
+))()
 
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"))()
+local SaveManager = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"
+))()
 
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"
+))()
 
 local Window = Wraith:CreateWindow({
-    Title = "Test-Hub",
+    Title = "My Script",
     SubTitle = "v1.0.0",
     Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
@@ -75,13 +84,14 @@ local Window = Wraith:CreateWindow({
     Searchable = true
 })
 
-local MainTab = Window:AddTab({Title = "Main", Icon = "house"})
-local SettingsTab = Window:AddTab({Title = "Settings", Icon = "settings"})
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "house" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
 
-MainTab:AddToggle({
+Tabs.Main:AddToggle("MyFeature", {
     Title = "Feature",
     Default = false,
-    Flag = "MyFeature",
     Callback = function(value)
         print("Feature:", value)
     end
@@ -93,8 +103,7 @@ SaveManager:IgnoreThemeSettings()
 SaveManager:SetFolder("Wraith/MyScript")
 InterfaceManager:SetFolder("Wraith/MyScript")
 
-InterfaceManager:BuildInterfaceSection(SettingsTab)
-SaveManager:BuildConfigSection(SettingsTab)
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
 SaveManager:LoadAutoloadConfig()
 ```
-
