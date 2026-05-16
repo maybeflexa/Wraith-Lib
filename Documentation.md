@@ -728,7 +728,7 @@ local InterfaceManager = loadstring(game:HttpGet(
 ))()
 
 local Window = Wraith:CreateWindow({
-    Title = "Wraith Hub",
+    Title = "Test Hub",
     SubTitle = "v1.0.0",
     Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
@@ -747,7 +747,7 @@ local Tabs = {
 }
 
 Tabs.Main:AddParagraph("Welcome", {
-    Content = "Welcome to Wraith Hub! This example demonstrates every single element available in the library.",
+    Content = "Welcome to Test This example demonstrates every single element available in the library.",
     Tooltip = "This is a paragraph element"
 })
 
@@ -1407,7 +1407,7 @@ Tabs.Misc:AddMultiSlider("CharacterStats", {
 
 Tabs.Misc:AddDivider({ Text = "Miscellaneous" })
 
-Tabs.Misc:AddLabel({ Text = "Wraith Hub v1.0.0" })
+Tabs.Misc:AddLabel({ Text = "Test Hub" })
 Tabs.Misc:AddLabel({ Text = "Made with Wraith UI Library" })
 
 Tabs.Misc:AddSeparator()
@@ -1426,7 +1426,7 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 Wraith:Notify({
-    Title = "Wraith Hub",
+    Title = "Test-Hub",
     Content = "Script loaded successfully!",
     SubContent = "All features are ready. Press LCtrl to toggle UI.",
     Duration = 6
