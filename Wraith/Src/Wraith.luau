@@ -21,12 +21,36 @@ local PlatformURLs = {
 }
 
 local AnimPresets = {
-    Default = {Style = Enum.EasingStyle.Quart, Direction = Enum.EasingDirection.Out, Duration = 0.25},
-    Bounce = {Style = Enum.EasingStyle.Bounce, Direction = Enum.EasingDirection.Out, Duration = 0.5},
-    Elastic = {Style = Enum.EasingStyle.Elastic, Direction = Enum.EasingDirection.Out, Duration = 0.6},
-    Smooth = {Style = Enum.EasingStyle.Sine, Direction = Enum.EasingDirection.InOut, Duration = 0.4},
-    Snappy = {Style = Enum.EasingStyle.Back, Direction = Enum.EasingDirection.Out, Duration = 0.3},
-    Fade = {Style = Enum.EasingStyle.Linear, Direction = Enum.EasingDirection.InOut, Duration = 0.35}
+    Default = {
+        Style = Enum.EasingStyle.Quart,
+        Direction = Enum.EasingDirection.Out,
+        Duration = 0.25
+    },
+    Bounce = {
+        Style = Enum.EasingStyle.Bounce,
+        Direction = Enum.EasingDirection.Out,
+        Duration = 0.5
+    },
+    Elastic = {
+        Style = Enum.EasingStyle.Elastic,
+        Direction = Enum.EasingDirection.Out,
+        Duration = 0.6
+    },
+    Smooth = {
+        Style = Enum.EasingStyle.Sine,
+        Direction = Enum.EasingDirection.InOut,
+        Duration = 0.4
+    },
+    Snappy = {
+        Style = Enum.EasingStyle.Back,
+        Direction = Enum.EasingDirection.Out,
+        Duration = 0.3
+    },
+    Fade = {
+        Style = Enum.EasingStyle.Linear,
+        Direction = Enum.EasingDirection.InOut,
+        Duration = 0.35
+    }
 }
 local CurrentAnim = AnimPresets.Default
 
@@ -46,7 +70,9 @@ local Themes = {
         TOn = Color3.fromRGB(220, 220, 220),
         TOff = Color3.fromRGB(40, 40, 40),
         Slider = Color3.fromRGB(200, 200, 200),
-        BgTr = 0.1, ElTr = 0.4, SbTr = 0.18
+        BgTr = 0.1,
+        ElTr = 0.4,
+        SbTr = 0.18
     },
     ["Dark"] = {
         Bg = Color3.fromRGB(14, 14, 16),
@@ -63,7 +89,9 @@ local Themes = {
         TOn = Color3.fromRGB(210, 210, 216),
         TOff = Color3.fromRGB(50, 50, 54),
         Slider = Color3.fromRGB(190, 190, 198),
-        BgTr = 0.12, ElTr = 0.38, SbTr = 0.2
+        BgTr = 0.12,
+        ElTr = 0.38,
+        SbTr = 0.2
     },
     ["Darker"] = {
         Bg = Color3.fromRGB(6, 6, 8),
@@ -80,7 +108,9 @@ local Themes = {
         TOn = Color3.fromRGB(202, 202, 208),
         TOff = Color3.fromRGB(44, 44, 48),
         Slider = Color3.fromRGB(182, 182, 190),
-        BgTr = 0.08, ElTr = 0.36, SbTr = 0.15
+        BgTr = 0.08,
+        ElTr = 0.36,
+        SbTr = 0.15
     },
     ["Midnight"] = {
         Bg = Color3.fromRGB(4, 4, 12),
@@ -97,7 +127,9 @@ local Themes = {
         TOn = Color3.fromRGB(190, 190, 218),
         TOff = Color3.fromRGB(42, 42, 54),
         Slider = Color3.fromRGB(170, 170, 198),
-        BgTr = 0.1, ElTr = 0.38, SbTr = 0.18
+        BgTr = 0.1,
+        ElTr = 0.38,
+        SbTr = 0.18
     },
     ["Charcoal"] = {
         Bg = Color3.fromRGB(20, 20, 20),
@@ -114,7 +146,9 @@ local Themes = {
         TOn = Color3.fromRGB(222, 222, 222),
         TOff = Color3.fromRGB(58, 58, 58),
         Slider = Color3.fromRGB(198, 198, 198),
-        BgTr = 0.12, ElTr = 0.4, SbTr = 0.22
+        BgTr = 0.12,
+        ElTr = 0.4,
+        SbTr = 0.22
     },
     ["Light"] = {
         Bg = Color3.fromRGB(244, 244, 247),
@@ -131,7 +165,9 @@ local Themes = {
         TOn = Color3.fromRGB(28, 28, 34),
         TOff = Color3.fromRGB(188, 188, 194),
         Slider = Color3.fromRGB(48, 48, 56),
-        BgTr = 0.08, ElTr = 0.3, SbTr = 0.12
+        BgTr = 0.08,
+        ElTr = 0.3,
+        SbTr = 0.12
     },
     ["Obsidian"] = {
         Bg = Color3.fromRGB(2, 2, 4),
@@ -148,7 +184,9 @@ local Themes = {
         TOn = Color3.fromRGB(182, 182, 195),
         TOff = Color3.fromRGB(38, 38, 44),
         Slider = Color3.fromRGB(162, 162, 175),
-        BgTr = 0.06, ElTr = 0.34, SbTr = 0.12
+        BgTr = 0.06,
+        ElTr = 0.34,
+        SbTr = 0.12
     }
 }
 
@@ -172,7 +210,9 @@ local function C(className, properties)
     if properties then
         for key, value in pairs(properties) do
             if key ~= "Parent" then
-                pcall(function() inst[key] = value end)
+                pcall(function()
+                    inst[key] = value
+                end)
             end
         end
         if properties.Parent then
@@ -2284,7 +2324,6 @@ function Wraith:CreateWindow(o)
                 Size = UDim2.new(1, 0, 0, height),
                 BackgroundColor3 = T.El,
                 BackgroundTransparency = T.ElTr,
-                ClipsDescendants = true,
                 BorderSizePixel = 0,
                 Parent = targetParent
             })
@@ -2310,32 +2349,71 @@ function Wraith:CreateWindow(o)
                 return {}
             end
         end
-
         local function createElements(targetParent)
             local E = {}
 
             function E:AddParagraph(a, b)
                 local p = resolveArgs(a, b)
-                local container = C("Frame", {Size = UDim2.new(1, 0, 0, 0), BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr, AutomaticSize = Enum.AutomaticSize.Y, ClipsDescendants = true, BorderSizePixel = 0, Parent = targetParent})
+                local container = C("Frame", {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundColor3 = T.El,
+                    BackgroundTransparency = T.ElTr,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BorderSizePixel = 0,
+                    Parent = targetParent
+                })
                 Cn(container, 10)
                 local cs = St(container, T.Border, 1, 0.4)
                 Pd(container, 12, 12, 14, 14)
                 B(container, {BackgroundColor3 = "El", BackgroundTransparency = "ElTr"})
                 B(cs, {Color = "Border"})
-                C("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 2), Parent = container})
+                C("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, 2),
+                    Parent = container
+                })
                 local titleLbl
                 if (p.Title or "") ~= "" then
-                    titleLbl = C("TextLabel", {Size = UDim2.new(1, 0, 0, 15), BackgroundTransparency = 1, Text = p.Title, TextColor3 = T.Txt, TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                    titleLbl = C("TextLabel", {
+                        Size = UDim2.new(1, 0, 0, 15),
+                        BackgroundTransparency = 1,
+                        Text = p.Title,
+                        TextColor3 = T.Txt,
+                        TextSize = 13,
+                        Font = Enum.Font.GothamBold,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
                     B(titleLbl, {TextColor3 = "Txt"})
                 end
-                local contentLbl = C("TextLabel", {Size = UDim2.new(1, 0, 0, 0), BackgroundTransparency = 1, Text = p.Content or "", TextColor3 = T.Txt2, TextSize = 11, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, TextWrapped = true, AutomaticSize = Enum.AutomaticSize.Y, Parent = container})
+                local contentLbl = C("TextLabel", {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    Text = p.Content or "",
+                    TextColor3 = T.Txt2,
+                    TextSize = 11,
+                    Font = Enum.Font.Gotham,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextWrapped = true,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Parent = container
+                })
                 B(contentLbl, {TextColor3 = "Txt2"})
                 regSearch(container, p.Title or "", p.Content)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 local el = {Type = "Paragraph"}
-                function el:Set(x) if type(x) == "table" then if x.Title and titleLbl then titleLbl.Text = x.Title end; if x.Content then contentLbl.Text = x.Content end end end
-                function el:SetTitle(txt) if titleLbl then titleLbl.Text = txt end end
-                function el:SetDesc(txt) contentLbl.Text = txt end
+                function el:Set(x)
+                    if type(x) == "table" then
+                        if x.Title and titleLbl then titleLbl.Text = x.Title end
+                        if x.Content then contentLbl.Text = x.Content end
+                    end
+                end
+                function el:SetTitle(txt)
+                    if titleLbl then titleLbl.Text = txt end
+                end
+                function el:SetDesc(txt)
+                    contentLbl.Text = txt
+                end
                 return el
             end
 
@@ -2343,16 +2421,51 @@ function Wraith:CreateWindow(o)
                 local p = resolveArgs(a, b)
                 local h = (p.Description or "") ~= "" and 52 or 38
                 local container = makeContainer(targetParent, h)
-                local btn = C("TextButton", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = container})
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 9 or 12), BackgroundTransparency = 1, Text = p.Title or "Button", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local btn = C("TextButton", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Text = "",
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -28, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 9 or 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Button",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
                 if (p.Description or "") ~= "" then
-                    local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 26), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 26),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
                     B(descLbl, {TextColor3 = "Txt3"})
                 end
-                btn.MouseEnter:Connect(function() Tw(container, {BackgroundColor3 = T.ElHov}, 0.1) end)
-                btn.MouseLeave:Connect(function() Tw(container, {BackgroundColor3 = T.El}, 0.1) end)
-                btn.MouseButton1Click:Connect(function() Tw(container, {BackgroundColor3 = T.Bg3}, 0.05); task.wait(0.05); Tw(container, {BackgroundColor3 = T.El}, 0.1); if p.Callback then p.Callback() end end)
+                btn.MouseEnter:Connect(function()
+                    Tw(container, {BackgroundColor3 = T.ElHov}, 0.1)
+                end)
+                btn.MouseLeave:Connect(function()
+                    Tw(container, {BackgroundColor3 = T.El}, 0.1)
+                end)
+                btn.MouseButton1Click:Connect(function()
+                    Tw(container, {BackgroundColor3 = T.Bg3}, 0.05)
+                    task.wait(0.05)
+                    Tw(container, {BackgroundColor3 = T.El}, 0.1)
+                    if p.Callback then p.Callback() end
+                end)
                 regSearch(container, p.Title or "Button", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 return {Type = "Button"}
@@ -2365,19 +2478,68 @@ function Wraith:CreateWindow(o)
                 local flag = p.Flag or p.Title or "Tog"
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -68, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 9 or 12), BackgroundTransparency = 1, Text = p.Title or "Toggle", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -68, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 9 or 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Toggle",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
                 if (p.Description or "") ~= "" then
-                    local descLbl = C("TextLabel", {Size = UDim2.new(1, -68, 0, 12), Position = UDim2.new(0, 14, 0, 26), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -68, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 26),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
                     B(descLbl, {TextColor3 = "Txt3"})
                 end
-                local outer = C("Frame", {Size = UDim2.new(0, 38, 0, 20), Position = UDim2.new(1, -52, 0.5, -10), BackgroundColor3 = toggled and T.TOn or T.TOff, Parent = container}); Cn(outer, 10)
-                local inner = C("Frame", {Size = UDim2.new(0, 14, 0, 14), Position = toggled and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7), BackgroundColor3 = toggled and T.Bg or T.Txt2, Parent = outer}); Cn(inner, 7)
-                local btn = C("TextButton", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = container})
+                local outer = C("Frame", {
+                    Size = UDim2.new(0, 38, 0, 20),
+                    Position = UDim2.new(1, -52, 0.5, -10),
+                    BackgroundColor3 = toggled and T.TOn or T.TOff,
+                    Parent = container
+                })
+                Cn(outer, 10)
+                local inner = C("Frame", {
+                    Size = UDim2.new(0, 14, 0, 14),
+                    Position = toggled and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7),
+                    BackgroundColor3 = toggled and T.Bg or T.Txt2,
+                    Parent = outer
+                })
+                Cn(inner, 7)
+                local btn = C("TextButton", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Text = "",
+                    AutoButtonColor = false,
+                    Parent = container
+                })
                 local el = {Type = "Toggle", Value = toggled, Flag = flag, Save = p.Save ~= false}
-                local function update() Tw(outer, {BackgroundColor3 = toggled and T.TOn or T.TOff}, 0.2); Tw(inner, {Position = toggled and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7), BackgroundColor3 = toggled and T.Bg or T.Txt2}, 0.2, Enum.EasingStyle.Back) end
+                local function update()
+                    Tw(outer, {BackgroundColor3 = toggled and T.TOn or T.TOff}, 0.2)
+                    Tw(inner, {
+                        Position = toggled and UDim2.new(1, -17, 0.5, -7) or UDim2.new(0, 3, 0.5, -7),
+                        BackgroundColor3 = toggled and T.Bg or T.Txt2
+                    }, 0.2, Enum.EasingStyle.Back)
+                end
                 function el:Set(v) toggled = v; el.Value = v; update(); cb(v) end
-                btn.MouseButton1Click:Connect(function() toggled = not toggled; el.Value = toggled; update(); cb(toggled) end)
+                btn.MouseButton1Click:Connect(function()
+                    toggled = not toggled
+                    el.Value = toggled
+                    update()
+                    cb(toggled)
+                end)
                 table.insert(DDRefresh, {F = container, R = update})
                 regSearch(container, p.Title or "Toggle", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
@@ -2392,21 +2554,70 @@ function Wraith:CreateWindow(o)
                 local flag = p.Flag or p.Title or "Chk"
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -50, 0, 14), Position = UDim2.new(0, 38, 0, (p.Description or "") ~= "" and 9 or 12), BackgroundTransparency = 1, Text = p.Title or "Checkbox", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -50, 0, 14),
+                    Position = UDim2.new(0, 38, 0, (p.Description or "") ~= "" and 9 or 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Checkbox",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
                 if (p.Description or "") ~= "" then
-                    local descLbl = C("TextLabel", {Size = UDim2.new(1, -50, 0, 12), Position = UDim2.new(0, 38, 0, 26), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -50, 0, 12),
+                        Position = UDim2.new(0, 38, 0, 26),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
                     B(descLbl, {TextColor3 = "Txt3"})
                 end
-                local box = C("Frame", {Size = UDim2.new(0, 18, 0, 18), Position = UDim2.new(0, 14, 0.5, -9), BackgroundColor3 = checked and T.Acc or T.Bg3, Parent = container}); Cn(box, 4); St(box, T.Border, 1, 0.4)
-                local checkMark = C("Frame", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Visible = checked, Parent = box})
-                local checkLine1 = C("Frame", {Size = UDim2.new(0, 7, 0, 2), Position = UDim2.new(0.5, -5, 0.5, 1), AnchorPoint = Vector2.new(0, 0.5), BackgroundColor3 = T.Bg, BorderSizePixel = 0, Rotation = 45, Parent = checkMark}); Cn(checkLine1, 1); B(checkLine1, {BackgroundColor3 = "Bg"})
-                local checkLine2 = C("Frame", {Size = UDim2.new(0, 11, 0, 2), Position = UDim2.new(0.5, -2, 0.5, -1), AnchorPoint = Vector2.new(0, 0.5), BackgroundColor3 = T.Bg, BorderSizePixel = 0, Rotation = -45, Parent = checkMark}); Cn(checkLine2, 1); B(checkLine2, {BackgroundColor3 = "Bg"})
-                local btn = C("TextButton", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, Parent = container})
+                local box = C("Frame", {
+                    Size = UDim2.new(0, 18, 0, 18),
+                    Position = UDim2.new(0, 14, 0.5, -9),
+                    BackgroundColor3 = checked and T.Acc or T.Bg3,
+                    Parent = container
+                })
+                Cn(box, 4)
+                St(box, T.Border, 1, 0.4)
+                local checkMark = C("TextLabel", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Text = "✓",
+                    TextColor3 = T.Bg,
+                    TextSize = 14,
+                    Font = Enum.Font.GothamBold,
+                    Visible = checked,
+                    Parent = box
+                })
+                B(checkMark, {TextColor3 = "Bg"})
+                local btn = C("TextButton", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Text = "",
+                    AutoButtonColor = false,
+                    Parent = container
+                })
                 local el = {Type = "Checkbox", Value = checked, Flag = flag, Save = p.Save ~= false}
-                local function update() Tw(box, {BackgroundColor3 = checked and T.Acc or T.Bg3}, 0.2); checkMark.Visible = checked end
+                local function update()
+                    Tw(box, {BackgroundColor3 = checked and T.Acc or T.Bg3}, 0.2)
+                    checkMark.Visible = checked
+                end
                 function el:Set(v) checked = v; el.Value = v; update(); cb(v) end
-                btn.MouseButton1Click:Connect(function() checked = not checked; el.Value = checked; update(); cb(checked) end)
+                btn.MouseButton1Click:Connect(function()
+                    checked = not checked
+                    el.Value = checked
+                    update()
+                    cb(checked)
+                end)
                 table.insert(DDRefresh, {F = container, R = update})
                 regSearch(container, p.Title or "Checkbox", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
@@ -2424,28 +2635,130 @@ function Wraith:CreateWindow(o)
                 local sf = p.Suffix or ""
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -80, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5), BackgroundTransparency = 1, Text = p.Title or "Slider", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -80, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Slider",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local valBox = C("TextBox", {Size = UDim2.new(0, 60, 0, 16), Position = UDim2.new(1, -74, 0, (p.Description or "") ~= "" and 6 or 4), BackgroundTransparency = 1, Text = tostring(def) .. sf, TextColor3 = T.Txt2, TextSize = 11, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Right, ClearTextOnFocus = true, Parent = container})
+                local valBox = C("TextBox", {
+                    Size = UDim2.new(0, 60, 0, 16),
+                    Position = UDim2.new(1, -74, 0, (p.Description or "") ~= "" and 6 or 4),
+                    BackgroundTransparency = 1,
+                    Text = tostring(def) .. sf,
+                    TextColor3 = T.Txt2,
+                    TextSize = 11,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    ClearTextOnFocus = true,
+                    Parent = container
+                })
                 B(valBox, {TextColor3 = "Txt2"})
                 if (p.Description or "") ~= "" then
-                    local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 22), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 22),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
                     B(descLbl, {TextColor3 = "Txt3"})
                 end
                 local barY = (p.Description or "") ~= "" and 44 or 28
-                local bg = C("Frame", {Size = UDim2.new(1, -28, 0, 5), Position = UDim2.new(0, 14, 0, barY), BackgroundColor3 = T.Bg3, Parent = container}); Cn(bg, 2); B(bg, {BackgroundColor3 = "Bg3"})
+                local bg = C("Frame", {
+                    Size = UDim2.new(1, -28, 0, 5),
+                    Position = UDim2.new(0, 14, 0, barY),
+                    BackgroundColor3 = T.Bg3,
+                    Parent = container
+                })
+                Cn(bg, 2)
+                B(bg, {BackgroundColor3 = "Bg3"})
                 local initFill = math.clamp((def - mn) / (mx - mn), 0, 1)
-                local fill = C("Frame", {Size = UDim2.new(initFill, 0, 1, 0), BackgroundColor3 = T.Slider, Parent = bg}); Cn(fill, 2); B(fill, {BackgroundColor3 = "Slider"})
-                local knob = C("Frame", {Size = UDim2.new(0, 14, 0, 14), Position = UDim2.new(initFill, -7, 0.5, -7), BackgroundColor3 = T.Txt, ZIndex = 3, Parent = bg}); Cn(knob, 7); B(knob, {BackgroundColor3 = "Txt"})
-                local knobBtn = C("TextButton", {Size = UDim2.new(0, 24, 0, 24), Position = UDim2.new(0, -5, 0, -5), BackgroundTransparency = 1, Text = "", ZIndex = 4, Parent = knob})
+                local fill = C("Frame", {
+                    Size = UDim2.new(initFill, 0, 1, 0),
+                    BackgroundColor3 = T.Slider,
+                    Parent = bg
+                })
+                Cn(fill, 2)
+                B(fill, {BackgroundColor3 = "Slider"})
+                local knob = C("Frame", {
+                    Size = UDim2.new(0, 14, 0, 14),
+                    Position = UDim2.new(initFill, -7, 0.5, -7),
+                    BackgroundColor3 = T.Txt,
+                    ZIndex = 3,
+                    Parent = bg
+                })
+                Cn(knob, 7)
+                B(knob, {BackgroundColor3 = "Txt"})
+                local sliderBtn = C("TextButton", {
+                    Size = UDim2.new(1, 16, 1, 16),
+                    Position = UDim2.new(0, -8, 0, -8),
+                    BackgroundTransparency = 1,
+                    Text = "",
+                    AutoButtonColor = false,
+                    ZIndex = 4,
+                    Parent = bg
+                })
                 local dragging = false
                 local el = {Type = "Slider", Value = def, Flag = flag, Save = p.Save ~= false}
-                local function setVal(v) v = math.clamp(v, mn, mx); v = math.floor(v / rd + 0.5) * rd; el.Value = v; local f = math.clamp((v - mn) / (mx - mn), 0, 1); Tw(fill, {Size = UDim2.new(f, 0, 1, 0)}, 0.06); Tw(knob, {Position = UDim2.new(f, -7, 0.5, -7)}, 0.06); valBox.Text = tostring(v) .. sf; cb(v) end
+                local function setVal(v)
+                    v = math.clamp(v, mn, mx)
+                    v = math.floor(v / rd + 0.5) * rd
+                    el.Value = v
+                    local f = math.clamp((v - mn) / (mx - mn), 0, 1)
+                    Tw(fill, {Size = UDim2.new(f, 0, 1, 0)}, 0.06)
+                    Tw(knob, {Position = UDim2.new(f, -7, 0.5, -7)}, 0.06)
+                    valBox.Text = tostring(v) .. sf
+                    cb(v)
+                end
                 function el:Set(v) setVal(v) end
-                knobBtn.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = true end end)
-                knobBtn.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end end)
-                UIS.InputChanged:Connect(function(input) if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then local pp = math.clamp((input.Position.X - bg.AbsolutePosition.X) / bg.AbsoluteSize.X, 0, 1); setVal(mn + (mx - mn) * pp) end end)
-                valBox.FocusLost:Connect(function() local raw = valBox.Text:gsub(sf, ""); local num = tonumber(raw); if num then setVal(num) else valBox.Text = tostring(el.Value) .. sf end end)
+                local function handleSliderInput(input)
+                    local pp = math.clamp(
+                        (input.Position.X - bg.AbsolutePosition.X) / bg.AbsoluteSize.X,
+                        0, 1
+                    )
+                    setVal(mn + (mx - mn) * pp)
+                end
+                sliderBtn.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1
+                        or input.UserInputType == Enum.UserInputType.Touch then
+                        dragging = true
+                        handleSliderInput(input)
+                    end
+                end)
+                sliderBtn.InputEnded:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1
+                        or input.UserInputType == Enum.UserInputType.Touch then
+                        dragging = false
+                    end
+                end)
+                UIS.InputChanged:Connect(function(input)
+                    if dragging and (
+                        input.UserInputType == Enum.UserInputType.MouseMovement
+                        or input.UserInputType == Enum.UserInputType.Touch
+                    ) then
+                        handleSliderInput(input)
+                    end
+                end)
+                valBox.FocusLost:Connect(function()
+                    local raw = valBox.Text:gsub(sf, "")
+                    local num = tonumber(raw)
+                    if num then
+                        setVal(num)
+                    else
+                        valBox.Text = tostring(el.Value) .. sf
+                    end
+                end)
                 regSearch(container, p.Title or "Slider", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2460,34 +2773,173 @@ function Wraith:CreateWindow(o)
                 local flag = p.Flag or p.Title or "DD"
                 local cb = p.Callback or function() end
                 local isOpen = false
-                if multi and p.Default and type(p.Default) == "table" then for _, v in ipairs(p.Default) do sel[v] = true end end
+                if multi and p.Default and type(p.Default) == "table" then
+                    for _, v in ipairs(p.Default) do sel[v] = true end
+                end
                 local ht = (p.Description or "") ~= "" and 68 or 50
                 local container = makeContainer(targetParent, ht)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5), BackgroundTransparency = 1, Text = p.Title or "Dropdown", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                container.ClipsDescendants = true
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -28, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Dropdown",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                if (p.Description or "") ~= "" then local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 22), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}); B(descLbl, {TextColor3 = "Txt3"}) end
+                if (p.Description or "") ~= "" then
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 22),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
+                    B(descLbl, {TextColor3 = "Txt3"})
+                end
                 local dY = (p.Description or "") ~= "" and 40 or 24
-                local dropBtn = C("TextButton", {Size = UDim2.new(1, -28, 0, 20), Position = UDim2.new(0, 14, 0, dY), BackgroundColor3 = T.Bg3, Text = "", AutoButtonColor = false, Parent = container}); Cn(dropBtn, 5); local dbs = St(dropBtn, T.Border, 1, 0.5); B(dropBtn, {BackgroundColor3 = "Bg3"}); B(dbs, {Color = "Border"})
-                local function getDisp() if multi then local items = {}; for k, v in pairs(sel) do if v then table.insert(items, k) end end; return #items == 0 and "None" or table.concat(items, ", ") else return sel or "None" end end
-                local dropLbl = C("TextLabel", {Size = UDim2.new(1, -20, 1, 0), Position = UDim2.new(0, 7, 0, 0), BackgroundTransparency = 1, Text = getDisp(), TextColor3 = T.Txt2, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = dropBtn}); B(dropLbl, {TextColor3 = "Txt2"})
-                local arrowLbl = C("TextLabel", {Size = UDim2.new(0, 12, 1, 0), Position = UDim2.new(1, -16, 0, 0), BackgroundTransparency = 1, Text = "v", TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.GothamBold, Parent = dropBtn}); B(arrowLbl, {TextColor3 = "Txt3"})
-                local optionsFrame = C("Frame", {Size = UDim2.new(1, -28, 0, 0), Position = UDim2.new(0, 14, 0, dY + 24), BackgroundTransparency = 1, ClipsDescendants = true, Parent = container}); C("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 2), Parent = optionsFrame})
+                local dropBtn = C("TextButton", {
+                    Size = UDim2.new(1, -28, 0, 20),
+                    Position = UDim2.new(0, 14, 0, dY),
+                    BackgroundColor3 = T.Bg3,
+                    Text = "",
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                Cn(dropBtn, 5)
+                local dbs = St(dropBtn, T.Border, 1, 0.5)
+                B(dropBtn, {BackgroundColor3 = "Bg3"})
+                B(dbs, {Color = "Border"})
+                local function getDisp()
+                    if multi then
+                        local items = {}
+                        for k, v in pairs(sel) do
+                            if v then table.insert(items, k) end
+                        end
+                        return #items == 0 and "None" or table.concat(items, ", ")
+                    else
+                        return sel or "None"
+                    end
+                end
+                local dropLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -20, 1, 0),
+                    Position = UDim2.new(0, 7, 0, 0),
+                    BackgroundTransparency = 1,
+                    Text = getDisp(),
+                    TextColor3 = T.Txt2,
+                    TextSize = 10,
+                    Font = Enum.Font.Gotham,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextTruncate = Enum.TextTruncate.AtEnd,
+                    Parent = dropBtn
+                })
+                B(dropLbl, {TextColor3 = "Txt2"})
+                local arrowLbl = C("TextLabel", {
+                    Size = UDim2.new(0, 12, 1, 0),
+                    Position = UDim2.new(1, -16, 0, 0),
+                    BackgroundTransparency = 1,
+                    Text = "v",
+                    TextColor3 = T.Txt3,
+                    TextSize = 10,
+                    Font = Enum.Font.GothamBold,
+                    Parent = dropBtn
+                })
+                B(arrowLbl, {TextColor3 = "Txt3"})
+                local optionsFrame = C("Frame", {
+                    Size = UDim2.new(1, -28, 0, 0),
+                    Position = UDim2.new(0, 14, 0, dY + 24),
+                    BackgroundTransparency = 1,
+                    ClipsDescendants = true,
+                    Parent = container
+                })
+                C("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, 2),
+                    Parent = optionsFrame
+                })
                 local el = {Type = multi and "MultiDropdown" or "Dropdown", Value = sel, Flag = flag, Save = p.Save ~= false}
                 local function refresh()
-                    for _, ch in ipairs(optionsFrame:GetChildren()) do if ch:IsA("TextButton") then ch:Destroy() end end
+                    for _, ch in ipairs(optionsFrame:GetChildren()) do
+                        if ch:IsA("TextButton") then ch:Destroy() end
+                    end
                     for _, v in ipairs(vals) do
                         local isSel = multi and sel[v] or (sel == v)
-                        local ob = C("TextButton", {Size = UDim2.new(1, 0, 0, 24), BackgroundColor3 = isSel and T.ElHov or T.Bg3, BackgroundTransparency = isSel and 0.1 or 0.3, Text = v, TextColor3 = isSel and T.Txt or T.Txt2, TextSize = 10, Font = Enum.Font.Gotham, AutoButtonColor = false, Parent = optionsFrame}); Cn(ob, 5)
-                        if isSel then B(ob, {BackgroundColor3 = "ElHov", TextColor3 = "Txt"}) else B(ob, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"}) end
+                        local ob = C("TextButton", {
+                            Size = UDim2.new(1, 0, 0, 24),
+                            BackgroundColor3 = isSel and T.ElHov or T.Bg3,
+                            BackgroundTransparency = isSel and 0.1 or 0.3,
+                            Text = v,
+                            TextColor3 = isSel and T.Txt or T.Txt2,
+                            TextSize = 10,
+                            Font = Enum.Font.Gotham,
+                            AutoButtonColor = false,
+                            Parent = optionsFrame
+                        })
+                        Cn(ob, 5)
+                        if isSel then
+                            B(ob, {BackgroundColor3 = "ElHov", TextColor3 = "Txt"})
+                        else
+                            B(ob, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"})
+                        end
                         ob.MouseEnter:Connect(function() Tw(ob, {BackgroundTransparency = 0.05}, 0.08) end)
-                        ob.MouseLeave:Connect(function() local s = multi and sel[v] or (sel == v); Tw(ob, {BackgroundTransparency = s and 0.1 or 0.3}, 0.08) end)
-                        ob.MouseButton1Click:Connect(function() if multi then sel[v] = not sel[v]; el.Value = sel else sel = v; el.Value = v end; dropLbl.Text = getDisp(); refresh(); cb(multi and sel or v); if not multi then isOpen = false; Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2); Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2); arrowLbl.Text = "v" end end)
+                        ob.MouseLeave:Connect(function()
+                            local s = multi and sel[v] or (sel == v)
+                            Tw(ob, {BackgroundTransparency = s and 0.1 or 0.3}, 0.08)
+                        end)
+                        ob.MouseButton1Click:Connect(function()
+                            if multi then
+                                sel[v] = not sel[v]
+                                el.Value = sel
+                            else
+                                sel = v
+                                el.Value = v
+                            end
+                            dropLbl.Text = getDisp()
+                            refresh()
+                            cb(multi and sel or v)
+                            if not multi then
+                                isOpen = false
+                                Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2)
+                                Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2)
+                                arrowLbl.Text = "v"
+                            end
+                        end)
                     end
                 end
                 refresh()
                 table.insert(DDRefresh, {F = container, R = refresh})
-                dropBtn.MouseButton1Click:Connect(function() isOpen = not isOpen; if isOpen then local oh = #vals * 26; Tw(container, {Size = UDim2.new(1, 0, 0, ht + oh + 4)}, 0.2); Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, oh)}, 0.2); arrowLbl.Text = "^" else Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2); Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2); arrowLbl.Text = "v" end end)
-                function el:Set(v) if multi then if type(v) == "table" then sel = v end else sel = v end; el.Value = sel; dropLbl.Text = getDisp(); refresh(); cb(sel) end
+                dropBtn.MouseButton1Click:Connect(function()
+                    isOpen = not isOpen
+                    if isOpen then
+                        local oh = #vals * 26
+                        Tw(container, {Size = UDim2.new(1, 0, 0, ht + oh + 4)}, 0.2)
+                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, oh)}, 0.2)
+                        arrowLbl.Text = "^"
+                    else
+                        Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2)
+                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2)
+                        arrowLbl.Text = "v"
+                    end
+                end)
+                function el:Set(v)
+                    if multi then
+                        if type(v) == "table" then sel = v end
+                    else
+                        sel = v
+                    end
+                    el.Value = sel
+                    dropLbl.Text = getDisp()
+                    refresh()
+                    cb(sel)
+                end
                 function el:SetValues(nv) vals = nv; refresh() end
                 regSearch(container, p.Title or "Dropdown", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
@@ -2495,7 +2947,11 @@ function Wraith:CreateWindow(o)
                 return el
             end
 
-            function E:AddMultiDropdown(a, b) local p = resolveArgs(a, b); p.Multi = true; return self:AddDropdown(p) end
+            function E:AddMultiDropdown(a, b)
+                local p = resolveArgs(a, b)
+                p.Multi = true
+                return self:AddDropdown(p)
+            end
 
             function E:AddColorpicker(a, b)
                 local p = resolveArgs(a, b)
@@ -2503,12 +2959,45 @@ function Wraith:CreateWindow(o)
                 local flag = p.Flag or p.Title or "CP"
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, 38)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -68, 0, 14), Position = UDim2.new(0, 14, 0, 12), BackgroundTransparency = 1, Text = p.Title or "Color", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -68, 0, 14),
+                    Position = UDim2.new(0, 14, 0, 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Color",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local preview = C("TextButton", {Size = UDim2.new(0, 26, 0, 18), Position = UDim2.new(1, -40, 0, 10), BackgroundColor3 = cur, Text = "", AutoButtonColor = false, Parent = container}); Cn(preview, 5); local pvs = St(preview, T.Border, 1, 0.35); B(pvs, {Color = "Border"})
+                local preview = C("TextButton", {
+                    Size = UDim2.new(0, 26, 0, 18),
+                    Position = UDim2.new(1, -40, 0, 10),
+                    BackgroundColor3 = cur,
+                    Text = "",
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                Cn(preview, 5)
+                local pvs = St(preview, T.Border, 1, 0.35)
+                B(pvs, {Color = "Border"})
                 local el = {Type = "Colorpicker", Value = cur, Flag = flag, Save = p.Save ~= false}
-                preview.MouseButton1Click:Connect(function() ColorDialog(el.Value, function(nc) el.Value = nc; preview.BackgroundColor3 = nc; cb(nc) end) end)
-                function el:Set(col) if type(col) == "string" then pcall(function() col = Color3.fromHex(col) end) end; el.Value = col; preview.BackgroundColor3 = col; cb(col) end
+                preview.MouseButton1Click:Connect(function()
+                    ColorDialog(el.Value, function(nc)
+                        el.Value = nc
+                        preview.BackgroundColor3 = nc
+                        cb(nc)
+                    end)
+                end)
+                function el:Set(col)
+                    if type(col) == "string" then
+                        pcall(function() col = Color3.fromHex(col) end)
+                    end
+                    el.Value = col
+                    preview.BackgroundColor3 = col
+                    cb(col)
+                end
                 regSearch(container, p.Title or "Color")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2523,13 +3012,64 @@ function Wraith:CreateWindow(o)
                 local ccb = p.ChangedCallback or function() end
                 local listening = false
                 local container = makeContainer(targetParent, 38)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -94, 0, 14), Position = UDim2.new(0, 14, 0, 12), BackgroundTransparency = 1, Text = p.Title or "Keybind", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -94, 0, 14),
+                    Position = UDim2.new(0, 14, 0, 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Keybind",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local kbBtn = C("TextButton", {Size = UDim2.new(0, 66, 0, 22), Position = UDim2.new(1, -80, 0, 8), BackgroundColor3 = T.Bg3, Text = curKey and curKey.Name or "None", TextColor3 = T.Txt2, TextSize = 10, Font = Enum.Font.GothamSemibold, AutoButtonColor = false, Parent = container}); Cn(kbBtn, 5); local kbs = St(kbBtn, T.Border, 1, 0.5); B(kbBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"}); B(kbs, {Color = "Border"})
+                local kbBtn = C("TextButton", {
+                    Size = UDim2.new(0, 66, 0, 22),
+                    Position = UDim2.new(1, -80, 0, 8),
+                    BackgroundColor3 = T.Bg3,
+                    Text = curKey and curKey.Name or "None",
+                    TextColor3 = T.Txt2,
+                    TextSize = 10,
+                    Font = Enum.Font.GothamSemibold,
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                Cn(kbBtn, 5)
+                local kbs = St(kbBtn, T.Border, 1, 0.5)
+                B(kbBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"})
+                B(kbs, {Color = "Border"})
                 local el = {Type = "Keybind", Value = curKey, Flag = flag, Save = p.Save ~= false}
-                kbBtn.MouseButton1Click:Connect(function() listening = true; kbBtn.Text = "..." end)
-                UIS.InputBegan:Connect(function(input, gp) if gp then return end; if listening then if input.UserInputType == Enum.UserInputType.Keyboard then if input.KeyCode == Enum.KeyCode.Escape then curKey = nil; kbBtn.Text = "None" else curKey = input.KeyCode; kbBtn.Text = curKey.Name end; el.Value = curKey; listening = false; ccb(curKey) end elseif curKey and input.KeyCode == curKey then cb(curKey) end end)
-                function el:Set(k) if type(k) == "string" then k = Enum.KeyCode[k] end; curKey = k; el.Value = k; kbBtn.Text = k and k.Name or "None"; ccb(k) end
+                kbBtn.MouseButton1Click:Connect(function()
+                    listening = true
+                    kbBtn.Text = "..."
+                end)
+                UIS.InputBegan:Connect(function(input, gp)
+                    if gp then return end
+                    if listening then
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            if input.KeyCode == Enum.KeyCode.Escape then
+                                curKey = nil
+                                kbBtn.Text = "None"
+                            else
+                                curKey = input.KeyCode
+                                kbBtn.Text = curKey.Name
+                            end
+                            el.Value = curKey
+                            listening = false
+                            ccb(curKey)
+                        end
+                    elseif curKey and input.KeyCode == curKey then
+                        cb(curKey)
+                    end
+                end)
+                function el:Set(k)
+                    if type(k) == "string" then k = Enum.KeyCode[k] end
+                    curKey = k
+                    el.Value = k
+                    kbBtn.Text = k and k.Name or "None"
+                    ccb(k)
+                end
                 regSearch(container, p.Title or "Keybind")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2542,13 +3082,61 @@ function Wraith:CreateWindow(o)
                 local flag = p.Flag or p.Title or "In"
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5), BackgroundTransparency = 1, Text = p.Title or "Input", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -28, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 5),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Input",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                if (p.Description or "") ~= "" then local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 22), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}); B(descLbl, {TextColor3 = "Txt3"}) end
+                if (p.Description or "") ~= "" then
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 22),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
+                    B(descLbl, {TextColor3 = "Txt3"})
+                end
                 local iY = (p.Description or "") ~= "" and 40 or 26
-                local inputBox = C("TextBox", {Size = UDim2.new(1, -28, 0, 20), Position = UDim2.new(0, 14, 0, iY), BackgroundColor3 = T.Bg3, Text = p.Default or "", PlaceholderText = p.Placeholder or "Type...", PlaceholderColor3 = T.Txt3, TextColor3 = T.Txt, TextSize = 10, Font = Enum.Font.Gotham, ClearTextOnFocus = false, Parent = container}); Cn(inputBox, 5); Pd(inputBox, 0, 0, 7, 7); local ibs = St(inputBox, T.Border, 1, 0.5); B(inputBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"}); B(ibs, {Color = "Border"})
+                local inputBox = C("TextBox", {
+                    Size = UDim2.new(1, -28, 0, 20),
+                    Position = UDim2.new(0, 14, 0, iY),
+                    BackgroundColor3 = T.Bg3,
+                    Text = p.Default or "",
+                    PlaceholderText = p.Placeholder or "Type...",
+                    PlaceholderColor3 = T.Txt3,
+                    TextColor3 = T.Txt,
+                    TextSize = 10,
+                    Font = Enum.Font.Gotham,
+                    ClearTextOnFocus = false,
+                    Parent = container
+                })
+                Cn(inputBox, 5)
+                Pd(inputBox, 0, 0, 7, 7)
+                local ibs = St(inputBox, T.Border, 1, 0.5)
+                B(inputBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
+                B(ibs, {Color = "Border"})
                 local el = {Type = "Input", Value = p.Default or "", Flag = flag, Save = p.Save ~= false}
-                inputBox.FocusLost:Connect(function() local v = inputBox.Text; if p.Numeric then v = tonumber(v) or el.Value; inputBox.Text = tostring(v) end; el.Value = v; cb(v) end)
+                inputBox.FocusLost:Connect(function()
+                    local v = inputBox.Text
+                    if p.Numeric then
+                        v = tonumber(v) or el.Value
+                        inputBox.Text = tostring(v)
+                    end
+                    el.Value = v
+                    cb(v)
+                end)
                 function el:Set(v) el.Value = v; inputBox.Text = tostring(v); cb(v) end
                 regSearch(container, p.Title or "Input", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
@@ -2562,12 +3150,44 @@ function Wraith:CreateWindow(o)
                 local h = (p.Description or "") ~= "" and 76 or 58
                 local flag = p.Flag or p.Title or "MI"
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 6 or 4), BackgroundTransparency = 1, Text = p.Title or "Multi Input", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -28, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 6 or 4),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Multi Input",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                if (p.Description or "") ~= "" then local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 20), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}); B(descLbl, {TextColor3 = "Txt3"}) end
+                if (p.Description or "") ~= "" then
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 20),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
+                    B(descLbl, {TextColor3 = "Txt3"})
+                end
                 local inputsY = (p.Description or "") ~= "" and 38 or 24
-                local inputsFrame = C("Frame", {Size = UDim2.new(1, -28, 0, 22), Position = UDim2.new(0, 14, 0, inputsY), BackgroundTransparency = 1, Parent = container})
-                C("UIListLayout", {FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 6), Parent = inputsFrame})
+                local inputsFrame = C("Frame", {
+                    Size = UDim2.new(1, -28, 0, 22),
+                    Position = UDim2.new(0, 14, 0, inputsY),
+                    BackgroundTransparency = 1,
+                    Parent = container
+                })
+                C("UIListLayout", {
+                    FillDirection = Enum.FillDirection.Horizontal,
+                    Padding = UDim.new(0, 6),
+                    Parent = inputsFrame
+                })
                 local values = {}
                 local el = {Type = "MultiInput", Value = values, Flag = flag, Save = p.Save ~= false}
                 local count = #fields
@@ -2578,13 +3198,41 @@ function Wraith:CreateWindow(o)
                     local fieldPlaceholder = field.Placeholder or fieldName
                     local fieldCallback = field.Callback or function() end
                     values[fieldName] = fieldDefault
-                    local inBox = C("TextBox", {Size = UDim2.new(widthPerField, -6, 1, 0), BackgroundColor3 = T.Bg3, Text = fieldDefault, PlaceholderText = fieldPlaceholder, PlaceholderColor3 = T.Txt3, TextColor3 = T.Txt, TextSize = 10, Font = Enum.Font.Gotham, ClearTextOnFocus = false, Parent = inputsFrame})
-                    Cn(inBox, 5); Pd(inBox, 0, 0, 7, 7); local ibs = St(inBox, T.Border, 1, 0.5)
+                    local inBox = C("TextBox", {
+                        Size = UDim2.new(widthPerField, -6, 1, 0),
+                        BackgroundColor3 = T.Bg3,
+                        Text = fieldDefault,
+                        PlaceholderText = fieldPlaceholder,
+                        PlaceholderColor3 = T.Txt3,
+                        TextColor3 = T.Txt,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        ClearTextOnFocus = false,
+                        Parent = inputsFrame
+                    })
+                    Cn(inBox, 5)
+                    Pd(inBox, 0, 0, 7, 7)
+                    local ibs = St(inBox, T.Border, 1, 0.5)
                     B(inBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
                     B(ibs, {Color = "Border"})
-                    inBox.FocusLost:Connect(function() local v = inBox.Text; if field.Numeric then v = tonumber(v) or fieldDefault; inBox.Text = tostring(v) end; values[fieldName] = v; el.Value = values; fieldCallback(v, values); if p.Callback then p.Callback(values) end end)
+                    inBox.FocusLost:Connect(function()
+                        local v = inBox.Text
+                        if field.Numeric then
+                            v = tonumber(v) or fieldDefault
+                            inBox.Text = tostring(v)
+                        end
+                        values[fieldName] = v
+                        el.Value = values
+                        fieldCallback(v, values)
+                        if p.Callback then p.Callback(values) end
+                    end)
                 end
-                function el:Set(t) if type(t) ~= "table" then return end; for k, v in pairs(t) do values[k] = v end; el.Value = values; if p.Callback then p.Callback(values) end end
+                function el:Set(t)
+                    if type(t) ~= "table" then return end
+                    for k, v in pairs(t) do values[k] = v end
+                    el.Value = values
+                    if p.Callback then p.Callback(values) end
+                end
                 regSearch(container, p.Title or "Multi Input", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2598,9 +3246,32 @@ function Wraith:CreateWindow(o)
                 local h = (p.Description or "") ~= "" and (24 + count * 24 + 14) or (24 + count * 24)
                 local flag = p.Flag or p.Title or "MS"
                 local container = makeContainer(targetParent, h)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 14), Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 6 or 4), BackgroundTransparency = 1, Text = p.Title or "Multi Slider", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -28, 0, 14),
+                    Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 6 or 4),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Multi Slider",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                if (p.Description or "") ~= "" then local descLbl = C("TextLabel", {Size = UDim2.new(1, -28, 0, 12), Position = UDim2.new(0, 14, 0, 20), BackgroundTransparency = 1, Text = p.Description, TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}); B(descLbl, {TextColor3 = "Txt3"}) end
+                if (p.Description or "") ~= "" then
+                    local descLbl = C("TextLabel", {
+                        Size = UDim2.new(1, -28, 0, 12),
+                        Position = UDim2.new(0, 14, 0, 20),
+                        BackgroundTransparency = 1,
+                        Text = p.Description,
+                        TextColor3 = T.Txt3,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
+                    B(descLbl, {TextColor3 = "Txt3"})
+                end
                 local startY = (p.Description or "") ~= "" and 38 or 24
                 local values = {}
                 local el = {Type = "MultiSlider", Value = values, Flag = flag, Save = p.Save ~= false}
@@ -2613,21 +3284,122 @@ function Wraith:CreateWindow(o)
                     local fieldCb = field.Callback or function() end
                     values[fieldName] = def
                     local rowY = startY + (i - 1) * 24
-                    local nameLbl = C("TextLabel", {Size = UDim2.new(0, 60, 0, 16), Position = UDim2.new(0, 14, 0, rowY + 2), BackgroundTransparency = 1, Text = fieldName, TextColor3 = T.Txt2, TextSize = 10, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container}); B(nameLbl, {TextColor3 = "Txt2"})
-                    local valBox = C("TextBox", {Size = UDim2.new(0, 50, 0, 14), Position = UDim2.new(1, -64, 0, rowY + 3), BackgroundTransparency = 1, Text = tostring(def) .. sf, TextColor3 = T.Txt2, TextSize = 10, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Right, ClearTextOnFocus = true, Parent = container}); B(valBox, {TextColor3 = "Txt2"})
-                    local bg = C("Frame", {Size = UDim2.new(1, -158, 0, 4), Position = UDim2.new(0, 80, 0, rowY + 9), BackgroundColor3 = T.Bg3, Parent = container}); Cn(bg, 2); B(bg, {BackgroundColor3 = "Bg3"})
+                    local nameLbl = C("TextLabel", {
+                        Size = UDim2.new(0, 60, 0, 16),
+                        Position = UDim2.new(0, 14, 0, rowY + 2),
+                        BackgroundTransparency = 1,
+                        Text = fieldName,
+                        TextColor3 = T.Txt2,
+                        TextSize = 10,
+                        Font = Enum.Font.GothamSemibold,
+                        TextXAlignment = Enum.TextXAlignment.Left,
+                        Parent = container
+                    })
+                    B(nameLbl, {TextColor3 = "Txt2"})
+                    local valBox = C("TextBox", {
+                        Size = UDim2.new(0, 50, 0, 14),
+                        Position = UDim2.new(1, -64, 0, rowY + 3),
+                        BackgroundTransparency = 1,
+                        Text = tostring(def) .. sf,
+                        TextColor3 = T.Txt2,
+                        TextSize = 10,
+                        Font = Enum.Font.GothamSemibold,
+                        TextXAlignment = Enum.TextXAlignment.Right,
+                        ClearTextOnFocus = true,
+                        Parent = container
+                    })
+                    B(valBox, {TextColor3 = "Txt2"})
+                    local bg = C("Frame", {
+                        Size = UDim2.new(1, -158, 0, 4),
+                        Position = UDim2.new(0, 80, 0, rowY + 9),
+                        BackgroundColor3 = T.Bg3,
+                        Parent = container
+                    })
+                    Cn(bg, 2)
+                    B(bg, {BackgroundColor3 = "Bg3"})
                     local initFill = math.clamp((def - mn) / (mx - mn), 0, 1)
-                    local fill = C("Frame", {Size = UDim2.new(initFill, 0, 1, 0), BackgroundColor3 = T.Slider, Parent = bg}); Cn(fill, 2); B(fill, {BackgroundColor3 = "Slider"})
-                    local knob = C("Frame", {Size = UDim2.new(0, 10, 0, 10), Position = UDim2.new(initFill, -5, 0.5, -5), BackgroundColor3 = T.Txt, ZIndex = 3, Parent = bg}); Cn(knob, 5); B(knob, {BackgroundColor3 = "Txt"})
-                    local knobBtn = C("TextButton", {Size = UDim2.new(0, 22, 0, 22), Position = UDim2.new(0, -6, 0, -6), BackgroundTransparency = 1, Text = "", ZIndex = 4, Parent = knob})
+                    local fill = C("Frame", {
+                        Size = UDim2.new(initFill, 0, 1, 0),
+                        BackgroundColor3 = T.Slider,
+                        Parent = bg
+                    })
+                    Cn(fill, 2)
+                    B(fill, {BackgroundColor3 = "Slider"})
+                    local knob = C("Frame", {
+                        Size = UDim2.new(0, 10, 0, 10),
+                        Position = UDim2.new(initFill, -5, 0.5, -5),
+                        BackgroundColor3 = T.Txt,
+                        ZIndex = 3,
+                        Parent = bg
+                    })
+                    Cn(knob, 5)
+                    B(knob, {BackgroundColor3 = "Txt"})
+                    local sliderBtn = C("TextButton", {
+                        Size = UDim2.new(1, 16, 1, 16),
+                        Position = UDim2.new(0, -8, 0, -8),
+                        BackgroundTransparency = 1,
+                        Text = "",
+                        AutoButtonColor = false,
+                        ZIndex = 4,
+                        Parent = bg
+                    })
                     local dragging = false
-                    local function setVal(v) v = math.clamp(v, mn, mx); v = math.floor(v / rd + 0.5) * rd; values[fieldName] = v; el.Value = values; local f = math.clamp((v - mn) / (mx - mn), 0, 1); Tw(fill, {Size = UDim2.new(f, 0, 1, 0)}, 0.06); Tw(knob, {Position = UDim2.new(f, -5, 0.5, -5)}, 0.06); valBox.Text = tostring(v) .. sf; fieldCb(v, values); if p.Callback then p.Callback(values) end end
-                    knobBtn.InputBegan:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = true end end)
-                    knobBtn.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end end)
-                    UIS.InputChanged:Connect(function(input) if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then local pp = math.clamp((input.Position.X - bg.AbsolutePosition.X) / bg.AbsoluteSize.X, 0, 1); setVal(mn + (mx - mn) * pp) end end)
-                    valBox.FocusLost:Connect(function() local raw = valBox.Text:gsub(sf, ""); local num = tonumber(raw); if num then setVal(num) else valBox.Text = tostring(values[fieldName]) .. sf end end)
+                    local function setVal(v)
+                        v = math.clamp(v, mn, mx)
+                        v = math.floor(v / rd + 0.5) * rd
+                        values[fieldName] = v
+                        el.Value = values
+                        local f = math.clamp((v - mn) / (mx - mn), 0, 1)
+                        Tw(fill, {Size = UDim2.new(f, 0, 1, 0)}, 0.06)
+                        Tw(knob, {Position = UDim2.new(f, -5, 0.5, -5)}, 0.06)
+                        valBox.Text = tostring(v) .. sf
+                        fieldCb(v, values)
+                        if p.Callback then p.Callback(values) end
+                    end
+                    local function handleInput(input)
+                        local pp = math.clamp(
+                            (input.Position.X - bg.AbsolutePosition.X) / bg.AbsoluteSize.X,
+                            0, 1
+                        )
+                        setVal(mn + (mx - mn) * pp)
+                    end
+                    sliderBtn.InputBegan:Connect(function(input)
+                        if input.UserInputType == Enum.UserInputType.MouseButton1
+                            or input.UserInputType == Enum.UserInputType.Touch then
+                            dragging = true
+                            handleInput(input)
+                        end
+                    end)
+                    sliderBtn.InputEnded:Connect(function(input)
+                        if input.UserInputType == Enum.UserInputType.MouseButton1
+                            or input.UserInputType == Enum.UserInputType.Touch then
+                            dragging = false
+                        end
+                    end)
+                    UIS.InputChanged:Connect(function(input)
+                        if dragging and (
+                            input.UserInputType == Enum.UserInputType.MouseMovement
+                            or input.UserInputType == Enum.UserInputType.Touch
+                        ) then
+                            handleInput(input)
+                        end
+                    end)
+                    valBox.FocusLost:Connect(function()
+                        local raw = valBox.Text:gsub(sf, "")
+                        local num = tonumber(raw)
+                        if num then
+                            setVal(num)
+                        else
+                            valBox.Text = tostring(values[fieldName]) .. sf
+                        end
+                    end)
                 end
-                function el:Set(t) if type(t) ~= "table" then return end; for k, v in pairs(t) do values[k] = v end; el.Value = values; if p.Callback then p.Callback(values) end end
+                function el:Set(t)
+                    if type(t) ~= "table" then return end
+                    for k, v in pairs(t) do values[k] = v end
+                    el.Value = values
+                    if p.Callback then p.Callback(values) end
+                end
                 regSearch(container, p.Title or "Multi Slider", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2642,17 +3414,72 @@ function Wraith:CreateWindow(o)
                 local cb = p.Callback or function() end
                 local cur = math.clamp(p.Default or mn, mn, mx)
                 local container = makeContainer(targetParent, 38)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -110, 0, 14), Position = UDim2.new(0, 14, 0, 12), BackgroundTransparency = 1, Text = p.Title or "Number", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -110, 0, 14),
+                    Position = UDim2.new(0, 14, 0, 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Number",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local minusBtn = C("TextButton", {Size = UDim2.new(0, 22, 0, 22), Position = UDim2.new(1, -96, 0, 8), BackgroundColor3 = T.Bg3, Text = "-", TextColor3 = T.Txt, TextSize = 14, Font = Enum.Font.GothamBold, AutoButtonColor = false, Parent = container}); Cn(minusBtn, 5); B(minusBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt"})
-                local valBox = C("TextBox", {Size = UDim2.new(0, 42, 0, 22), Position = UDim2.new(1, -72, 0, 8), BackgroundColor3 = T.Bg3, Text = tostring(cur), TextColor3 = T.Txt, TextSize = 11, Font = Enum.Font.GothamSemibold, PlaceholderColor3 = T.Txt3, ClearTextOnFocus = true, Parent = container}); Cn(valBox, 5); B(valBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
-                local plusBtn = C("TextButton", {Size = UDim2.new(0, 22, 0, 22), Position = UDim2.new(1, -26, 0, 8), BackgroundColor3 = T.Bg3, Text = "+", TextColor3 = T.Txt, TextSize = 14, Font = Enum.Font.GothamBold, AutoButtonColor = false, Parent = container}); Cn(plusBtn, 5); B(plusBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt"})
+                local minusBtn = C("TextButton", {
+                    Size = UDim2.new(0, 22, 0, 22),
+                    Position = UDim2.new(1, -96, 0, 8),
+                    BackgroundColor3 = T.Bg3,
+                    Text = "-",
+                    TextColor3 = T.Txt,
+                    TextSize = 14,
+                    Font = Enum.Font.GothamBold,
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                Cn(minusBtn, 5)
+                B(minusBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt"})
+                local valBox = C("TextBox", {
+                    Size = UDim2.new(0, 42, 0, 22),
+                    Position = UDim2.new(1, -72, 0, 8),
+                    BackgroundColor3 = T.Bg3,
+                    Text = tostring(cur),
+                    TextColor3 = T.Txt,
+                    TextSize = 11,
+                    Font = Enum.Font.GothamSemibold,
+                    PlaceholderColor3 = T.Txt3,
+                    ClearTextOnFocus = true,
+                    Parent = container
+                })
+                Cn(valBox, 5)
+                B(valBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
+                local plusBtn = C("TextButton", {
+                    Size = UDim2.new(0, 22, 0, 22),
+                    Position = UDim2.new(1, -26, 0, 8),
+                    BackgroundColor3 = T.Bg3,
+                    Text = "+",
+                    TextColor3 = T.Txt,
+                    TextSize = 14,
+                    Font = Enum.Font.GothamBold,
+                    AutoButtonColor = false,
+                    Parent = container
+                })
+                Cn(plusBtn, 5)
+                B(plusBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt"})
                 local el = {Type = "NumberSpinner", Value = cur, Flag = flag, Save = p.Save ~= false}
-                local function setVal(v) cur = math.clamp(v, mn, mx); el.Value = cur; valBox.Text = tostring(cur); cb(cur) end
+                local function setVal(v)
+                    cur = math.clamp(v, mn, mx)
+                    el.Value = cur
+                    valBox.Text = tostring(cur)
+                    cb(cur)
+                end
                 function el:Set(v) setVal(v) end
                 minusBtn.MouseButton1Click:Connect(function() setVal(cur - step) end)
                 plusBtn.MouseButton1Click:Connect(function() setVal(cur + step) end)
-                valBox.FocusLost:Connect(function() local n = tonumber(valBox.Text); if n then setVal(n) else valBox.Text = tostring(cur) end end)
+                valBox.FocusLost:Connect(function()
+                    local n = tonumber(valBox.Text)
+                    if n then setVal(n) else valBox.Text = tostring(cur) end
+                end)
                 regSearch(container, p.Title or "Number")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -2662,12 +3489,37 @@ function Wraith:CreateWindow(o)
             function E:AddDateTime(a, b)
                 local p = resolveArgs(a, b)
                 local container = makeContainer(targetParent, 38)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -100, 0, 14), Position = UDim2.new(0, 14, 0, 12), BackgroundTransparency = 1, Text = p.Title or "Time", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -100, 0, 14),
+                    Position = UDim2.new(0, 14, 0, 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Time",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local dispLbl = C("TextLabel", {Size = UDim2.new(0, 90, 0, 16), Position = UDim2.new(1, -100, 0, 11), BackgroundTransparency = 1, Text = "", TextColor3 = T.Txt2, TextSize = 11, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Right, Parent = container})
+                local dispLbl = C("TextLabel", {
+                    Size = UDim2.new(0, 90, 0, 16),
+                    Position = UDim2.new(1, -100, 0, 11),
+                    BackgroundTransparency = 1,
+                    Text = "",
+                    TextColor3 = T.Txt2,
+                    TextSize = 11,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    Parent = container
+                })
                 B(dispLbl, {TextColor3 = "Txt2"})
                 local fmt = p.Format or "%H:%M:%S"
-                task.spawn(function() while container.Parent do dispLbl.Text = os.date(fmt); task.wait(1) end end)
+                task.spawn(function()
+                    while container.Parent do
+                        dispLbl.Text = os.date(fmt)
+                        task.wait(1)
+                    end
+                end)
                 regSearch(container, p.Title or "DateTime")
                 return {Type = "DateTime"}
             end
@@ -2675,13 +3527,39 @@ function Wraith:CreateWindow(o)
             function E:AddStatusBar(a, b)
                 local p = resolveArgs(a, b)
                 local container = makeContainer(targetParent, 38)
-                local titleLbl = C("TextLabel", {Size = UDim2.new(1, -100, 0, 14), Position = UDim2.new(0, 14, 0, 12), BackgroundTransparency = 1, Text = p.Title or "Status", TextColor3 = T.Txt, TextSize = 12, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = container})
+                local titleLbl = C("TextLabel", {
+                    Size = UDim2.new(1, -100, 0, 14),
+                    Position = UDim2.new(0, 14, 0, 12),
+                    BackgroundTransparency = 1,
+                    Text = p.Title or "Status",
+                    TextColor3 = T.Txt,
+                    TextSize = 12,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = container
+                })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local valLbl = C("TextLabel", {Size = UDim2.new(0, 90, 0, 16), Position = UDim2.new(1, -100, 0, 11), BackgroundTransparency = 1, Text = "...", TextColor3 = T.Acc, TextSize = 11, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = container})
+                local valLbl = C("TextLabel", {
+                    Size = UDim2.new(0, 90, 0, 16),
+                    Position = UDim2.new(1, -100, 0, 11),
+                    BackgroundTransparency = 1,
+                    Text = "...",
+                    TextColor3 = T.Acc,
+                    TextSize = 11,
+                    Font = Enum.Font.GothamBold,
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    Parent = container
+                })
                 B(valLbl, {TextColor3 = "Acc"})
                 local interval = p.UpdateInterval or 1
                 local getter = p.Getter or function() return "N/A" end
-                task.spawn(function() while container.Parent do local ok, val = pcall(getter); if ok then valLbl.Text = tostring(val) end; task.wait(interval) end end)
+                task.spawn(function()
+                    while container.Parent do
+                        local ok, val = pcall(getter)
+                        if ok then valLbl.Text = tostring(val) end
+                        task.wait(interval)
+                    end
+                end)
                 regSearch(container, p.Title or "Status")
                 local el = {Type = "StatusBar"}
                 function el:Set(v) valLbl.Text = tostring(v) end
@@ -2689,24 +3567,76 @@ function Wraith:CreateWindow(o)
             end
 
             function E:AddSeparator()
-                local s = C("Frame", {Size = UDim2.new(1, 0, 0, 1), BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0, Parent = targetParent})
+                local s = C("Frame", {
+                    Size = UDim2.new(1, 0, 0, 1),
+                    BackgroundColor3 = T.Border,
+                    BackgroundTransparency = 0.5,
+                    BorderSizePixel = 0,
+                    Parent = targetParent
+                })
                 B(s, {BackgroundColor3 = "Border"})
                 return {Type = "Separator"}
             end
 
             function E:AddDivider(a, b)
                 local p = resolveArgs(a, b)
-                local f = C("Frame", {Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1, Parent = targetParent})
-                C("UIListLayout", {FillDirection = Enum.FillDirection.Horizontal, HorizontalAlignment = Enum.HorizontalAlignment.Center, VerticalAlignment = Enum.VerticalAlignment.Center, Padding = UDim.new(0, 8), Parent = f})
-                local line1 = C("Frame", {Size = UDim2.new(0, 80, 0, 1), BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0, LayoutOrder = 1, Parent = f}); B(line1, {BackgroundColor3 = "Border"})
-                local lbl = C("TextLabel", {Size = UDim2.new(0, 0, 0, 14), AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, Text = p.Text or "---", TextColor3 = T.Txt3, TextSize = 10, Font = Enum.Font.GothamSemibold, LayoutOrder = 2, Parent = f}); B(lbl, {TextColor3 = "Txt3"})
-                local line2 = C("Frame", {Size = UDim2.new(0, 80, 0, 1), BackgroundColor3 = T.Border, BackgroundTransparency = 0.5, BorderSizePixel = 0, LayoutOrder = 3, Parent = f}); B(line2, {BackgroundColor3 = "Border"})
+                local f = C("Frame", {
+                    Size = UDim2.new(1, 0, 0, 22),
+                    BackgroundTransparency = 1,
+                    Parent = targetParent
+                })
+                C("UIListLayout", {
+                    FillDirection = Enum.FillDirection.Horizontal,
+                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                    Padding = UDim.new(0, 8),
+                    Parent = f
+                })
+                local line1 = C("Frame", {
+                    Size = UDim2.new(0.4, -50, 0, 1),
+                    BackgroundColor3 = T.Border,
+                    BackgroundTransparency = 0.5,
+                    BorderSizePixel = 0,
+                    LayoutOrder = 1,
+                    Parent = f
+                })
+                B(line1, {BackgroundColor3 = "Border"})
+                local lbl = C("TextLabel", {
+                    Size = UDim2.new(0, 0, 0, 14),
+                    AutomaticSize = Enum.AutomaticSize.X,
+                    BackgroundTransparency = 1,
+                    Text = p.Text or "---",
+                    TextColor3 = T.Txt3,
+                    TextSize = 10,
+                    Font = Enum.Font.GothamSemibold,
+                    LayoutOrder = 2,
+                    Parent = f
+                })
+                B(lbl, {TextColor3 = "Txt3"})
+                local line2 = C("Frame", {
+                    Size = UDim2.new(0.4, -50, 0, 1),
+                    BackgroundColor3 = T.Border,
+                    BackgroundTransparency = 0.5,
+                    BorderSizePixel = 0,
+                    LayoutOrder = 3,
+                    Parent = f
+                })
+                B(line2, {BackgroundColor3 = "Border"})
                 return {Type = "Divider"}
             end
 
             function E:AddLabel(a, b)
                 local p = resolveArgs(a, b)
-                local l = C("TextLabel", {Size = UDim2.new(1, 0, 0, 18), BackgroundTransparency = 1, Text = p.Text or "", TextColor3 = T.Txt3, TextSize = 11, Font = Enum.Font.GothamSemibold, TextXAlignment = Enum.TextXAlignment.Left, Parent = targetParent})
+                local l = C("TextLabel", {
+                    Size = UDim2.new(1, 0, 0, 18),
+                    BackgroundTransparency = 1,
+                    Text = p.Text or "",
+                    TextColor3 = T.Txt3,
+                    TextSize = 11,
+                    Font = Enum.Font.GothamSemibold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = targetParent
+                })
                 B(l, {TextColor3 = "Txt3"})
                 local el = {Type = "Label"}
                 function el:Set(txt) l.Text = txt end
@@ -2721,15 +3651,43 @@ function Wraith:CreateWindow(o)
 
         function tab:AddSection(a, b)
             local p
-            if type(a) == "string" then p = b or {}; p.Title = a
-            else p = a or {} end
-            local sFrame = C("Frame", {Size = UDim2.new(1, 0, 0, 0), BackgroundTransparency = 1, AutomaticSize = Enum.AutomaticSize.Y, Parent = page})
+            if type(a) == "string" then
+                p = b or {}
+                p.Title = a
+            else
+                p = a or {}
+            end
+            local sFrame = C("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                AutomaticSize = Enum.AutomaticSize.Y,
+                Parent = page
+            })
             if p.Title then
-                local tLbl = C("TextLabel", {Size = UDim2.new(1, 0, 0, 18), BackgroundTransparency = 1, Text = p.Title, TextColor3 = T.Txt, TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = sFrame})
+                local tLbl = C("TextLabel", {
+                    Size = UDim2.new(1, 0, 0, 18),
+                    BackgroundTransparency = 1,
+                    Text = p.Title,
+                    TextColor3 = T.Txt,
+                    TextSize = 13,
+                    Font = Enum.Font.GothamBold,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Parent = sFrame
+                })
                 B(tLbl, {TextColor3 = "Txt"})
             end
-            local content = C("Frame", {Size = UDim2.new(1, 0, 0, 0), Position = UDim2.new(0, 0, 0, p.Title and 22 or 0), BackgroundTransparency = 1, AutomaticSize = Enum.AutomaticSize.Y, Parent = sFrame})
-            C("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6), Parent = content})
+            local content = C("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                Position = UDim2.new(0, 0, 0, p.Title and 22 or 0),
+                BackgroundTransparency = 1,
+                AutomaticSize = Enum.AutomaticSize.Y,
+                Parent = sFrame
+            })
+            C("UIListLayout", {
+                SortOrder = Enum.SortOrder.LayoutOrder,
+                Padding = UDim.new(0, 6),
+                Parent = content
+            })
             return createElements(content)
         end
 
@@ -2741,8 +3699,14 @@ function Wraith:CreateWindow(o)
     function W:Show() showWindow() end
     function W:Hide() hideWindow() end
     function W:Minimize() minimizeWindow() end
-    function W:Destroy() if main then main:Destroy() end; if floatBtn then floatBtn:Destroy() end end
-    function W:Resize(w, h) W.CurrentSize = UDim2.new(0, w, 0, h); main.Size = W.CurrentSize end
+    function W:Destroy()
+        if main then main:Destroy() end
+        if floatBtn then floatBtn:Destroy() end
+    end
+    function W:Resize(w, h)
+        W.CurrentSize = UDim2.new(0, w, 0, h)
+        main.Size = W.CurrentSize
+    end
 
     return W
 end
