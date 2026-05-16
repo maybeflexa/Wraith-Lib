@@ -14,6 +14,10 @@ Built with clean design, smooth animations, Lucide icons, and full feature suppo
 
 </div>
 
+Check Out The Documentation For Full Experience!!
+
+https://github.com/maybeflexa/Wraith-Lib/blob/main/Documentation.md
+
 ---
 
 ## Features
