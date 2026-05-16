@@ -713,7 +713,7 @@ This auto-adds:
 ---
 
 ## Full Example
-```
+```lua
 local Wraith = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
 ))()
