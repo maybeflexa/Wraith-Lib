@@ -1,65 +1,15 @@
 
-## Documentation.md
-
-# Wraith UI Library - Documentation
-
-Complete documentation for Wraith UI Library. Every element, method, and addon explained with copy-paste ready examples.
-
 ---
 
-## Table of Contents
+# Wraith LibUi — Documentation
 
-- [Installation](#installation)
-- [Window](#window)
-- [Tabs](#tabs)
-- [Elements](#elements)
-  - [Paragraph](#paragraph)
-  - [Button](#button)
-  - [Toggle](#toggle)
-  - [Checkbox](#checkbox)
-  - [Slider](#slider)
-  - [Dropdown](#dropdown)
-  - [MultiDropdown](#multidropdown)
-  - [Colorpicker](#colorpicker)
-  - [Keybind](#keybind)
-  - [Input](#input)
-  - [NumberSpinner](#numberspinner)
-  - [DateTime](#datetime)
-  - [StatusBar](#statusbar)
-  - [Separator](#separator)
-  - [Divider](#divider)
-  - [Label](#label)
-  - [Section](#section)
-- [Notifications](#notifications)
-- [Dialogs](#dialogs)
-- [Theme System](#theme-system)
-  - [Built-in Themes](#built-in-themes)
-  - [Set Theme](#set-theme)
-  - [Custom Themes](#custom-themes)
-  - [Theme Properties](#theme-properties)
-- [Theme Editor](#theme-editor)
-- [Animation System](#animation-system)
-- [Tooltip System](#tooltip-system)
-- [Window Methods](#window-methods)
-- [Flags System](#flags-system)
-- [Addons](#addons)
-  - [SaveManager](#savemanager)
-  - [InterfaceManager](#interfacemanager)
-- [Full Example](#full-example)
+Complete guide for Wraith LibUi. Every element explained with what it does, parameters, methods, and copy-paste examples.
 
 ---
 
 ## Installation
 
-### Library only
-
-```lua
-local Wraith = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
-))()
-```
-
-### Library with addons
+Load the library and addons:
 
 ```lua
 local Wraith = loadstring(game:HttpGet(
@@ -79,11 +29,11 @@ local InterfaceManager = loadstring(game:HttpGet(
 
 ## Window
 
-Create the main window. Only one window should be created per script.
+The main UI container. Create one window per script.
 
 ```lua
 local Window = Wraith:CreateWindow({
-    Title = "My Script",
+    Title = "My Hub",
     SubTitle = "v1.0.0",
     Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
@@ -94,44 +44,64 @@ local Window = Wraith:CreateWindow({
 })
 ```
 
-### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Wraith" | Window title |
-| SubTitle | string | "" | Subtitle text. Title centers vertically if empty |
-| Size | UDim2 | 630x370 | Initial window size |
-| MinimizeKey | KeyCode | LeftControl | Key to toggle UI visibility |
-| TabWidth | number | 170 | Sidebar width in pixels |
-| Resizable | boolean | true | Allow resize from bottom-right corner |
-| Searchable | boolean | true | Show search bar in sidebar |
-| MinSize | Vector2 | 450x280 | Minimum resize dimensions |
+**Parameters:**
+- `Title` — Window header text
+- `SubTitle` — Small text under title (centers title if empty)
+- `Size` — Initial window dimensions
+- `MinimizeKey` — Key to toggle UI visibility
+- `TabWidth` — Sidebar width in pixels
+- `Resizable` — Allow user to drag bottom-right corner to resize
+- `Searchable` — Show search bar in sidebar to filter elements
+- `MinSize` — Minimum size when resizing
 
 ---
 
 ## Tabs
 
-Add tabs to the sidebar. Each tab has its own scrollable page.
+Tabs are pages in the sidebar. Each tab has its own scrollable content area.
 
 ```lua
-local MyTab = Window:AddTab({
-    Title = "General",
-    Icon = "house"
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "house" }),
+    Combat = Window:AddTab({ Title = "Combat", Icon = "swords" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+```
+
+**Parameters:**
+- `Title` — Tab name shown in sidebar
+- `Icon` — Lucide icon name (optional)
+
+**Popular icons:** `house`, `swords`, `eye`, `settings`, `user`, `shield`, `zap`, `heart`, `star`, `target`, `lock`, `bell`, `search`, `code`, `terminal`, `database`, `cloud`, `sun`, `moon`, `sparkles`
+
+Full list: https://lucide.dev/icons
+
+---
+
+## API Syntax
+
+Every element supports two styles. Use whichever you prefer:
+
+**Fluent-style** (flag as first parameter, recommended for Fluent users):
+```lua
+local Toggle = Tabs.Main:AddToggle("MyFlag", {
+    Title = "My Toggle",
+    Default = false,
+    Callback = function(v) print(v) end
 })
 ```
 
-### Parameters
+**Table-style** (flag inside options table):
+```lua
+local Toggle = Tabs.Main:AddToggle({
+    Title = "My Toggle",
+    Flag = "MyFlag",
+    Default = false,
+    Callback = function(v) print(v) end
+})
+```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Tab name displayed in sidebar |
-| Icon | string | Lucide icon name (optional) |
-
-### Common Lucide Icon Names
-
-`house`, `swords`, `eye`, `settings`, `user`, `shield`, `zap`, `heart`, `star`, `target`, `globe`, `lock`, `unlock`, `bell`, `search`, `plus`, `minus`, `check`, `x`, `menu`, `arrow-right`, `arrow-left`, `download`, `upload`, `trash`, `edit`, `copy`, `save`, `folder`, `file`, `image`, `camera`, `mic`, `volume-2`, `wifi`, `bluetooth`, `battery`, `clock`, `calendar`, `map`, `compass`, `flag`, `bookmark`, `tag`, `gift`, `shopping-cart`, `credit-card`, `dollar-sign`, `percent`, `hash`, `at-sign`, `link`, `external-link`, `code`, `terminal`, `database`, `server`, `cloud`, `sun`, `moon`, `sparkles`
-
-Full list at https://lucide.dev/icons
+Both work identically.
 
 ---
 
@@ -139,224 +109,139 @@ Full list at https://lucide.dev/icons
 
 ### Paragraph
 
-Text block with title and content.
+**What it does:** Displays a title and a body of text. Use it for descriptions, info, or instructions.
 
 ```lua
-local paragraph = MyTab:AddParagraph({
-    Title = "Welcome",
-    Content = "This is a description paragraph.",
-    Tooltip = "Hover for more info"
+local Info = Tabs.Main:AddParagraph("Welcome", {
+    Content = "This is a welcome message with description text.",
+    Tooltip = "Hover info"
 })
-```
 
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Bold title text (optional) |
-| Content | string | Body text |
-| Tooltip | string | Hover tooltip text (optional) |
-
-#### Methods
-
-```lua
-paragraph:Set({Content = "Updated content text"})
+-- Update later:
+Info:Set({ Content = "Updated text" })
+Info:SetTitle("New Title")
+Info:SetDesc("New description")
 ```
 
 ---
 
 ### Button
 
-Clickable button with optional description.
+**What it does:** Clickable button that runs a function when pressed.
 
 ```lua
-MyTab:AddButton({
-    Title = "Click Me",
-    Description = "This button does something cool",
-    Tooltip = "Click to execute",
+Tabs.Main:AddButton("RejoinBtn", {
+    Title = "Rejoin Server",
+    Description = "Teleports you back to this server",
+    Tooltip = "Click to rejoin",
     Callback = function()
-        print("Button was clicked!")
+        game:GetService("TeleportService"):Teleport(game.PlaceId)
     end
 })
 ```
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Button title |
-| Description | string | Description text below title (optional) |
-| Tooltip | string | Hover tooltip (optional) |
-| Callback | function | Function called on click |
 
 ---
 
 ### Toggle
 
-On/off switch with animation.
+**What it does:** On/off switch. Best for enabling/disabling features.
 
 ```lua
-local toggle = MyTab:AddToggle({
+local AutoFarm = Tabs.Main:AddToggle("AutoFarm", {
     Title = "Auto Farm",
     Description = "Automatically farms resources",
     Default = false,
-    Flag = "AutoFarm",
-    Tooltip = "Toggle auto farming",
-    Save = true,
     Callback = function(value)
-        print("Auto Farm:", value)
+        print("AutoFarm is now:", value)
     end
 })
-```
 
-#### Parameters
+-- Get current state:
+print(AutoFarm.Value)  -- true or false
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Toggle" | Toggle title |
-| Description | string | "" | Description (optional) |
-| Default | boolean | false | Initial state |
-| Flag | string | Title | Unique identifier for saving |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when value changes |
-
-#### Methods
-
-```lua
-toggle:Set(true)
-toggle:Set(false)
-print(toggle.Value) -- true or false
+-- Set state programmatically:
+AutoFarm:Set(true)
 ```
 
 ---
 
 ### Checkbox
 
-Checkmark style boolean selector.
+**What it does:** Same as toggle but with a checkmark style. Use for boolean options in lists.
 
 ```lua
-local checkbox = MyTab:AddCheckbox({
-    Title = "Enable Feature",
-    Description = "Enables the cool feature",
+local LogActions = Tabs.Main:AddCheckbox("LogActions", {
+    Title = "Log to Console",
+    Description = "Print all actions to console",
     Default = true,
-    Flag = "CoolFeature",
     Callback = function(value)
-        print("Feature:", value)
+        print("Logging:", value)
     end
 })
-```
 
-#### Parameters
-
-Same as Toggle.
-
-#### Methods
-
-```lua
-checkbox:Set(false)
-print(checkbox.Value)
+LogActions:Set(false)
 ```
 
 ---
 
 ### Slider
 
-Draggable value slider. Drag the knob to change value, or click the value text to type a number manually.
+**What it does:** Draggable bar for selecting a number in a range. Click the value text to type manually.
 
 ```lua
-local slider = MyTab:AddSlider({
+local WalkSpeed = Tabs.Main:AddSlider("WalkSpeed", {
     Title = "Walk Speed",
-    Description = "Adjust character movement speed",
+    Description = "Character movement speed",
     Min = 16,
     Max = 200,
     Default = 16,
-    Rounding = 1,
-    Suffix = " studs/s",
-    Flag = "WalkSpeed",
-    Tooltip = "Drag or type a value",
+    Rounding = 1,           -- step size
+    Suffix = " studs/s",   -- text after value
     Callback = function(value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+        pcall(function()
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+        end)
     end
 })
-```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Slider" | Slider title |
-| Description | string | "" | Description (optional) |
-| Min | number | 0 | Minimum value |
-| Max | number | 100 | Maximum value |
-| Default | number | Min | Starting value |
-| Rounding | number | 1 | Step/increment size |
-| Suffix | string | "" | Text after the value display |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when value changes |
-
-#### Methods
-
-```lua
-slider:Set(100)
-print(slider.Value) -- 100
+WalkSpeed:Set(100)
 ```
 
 ---
 
 ### Dropdown
 
-Single selection dropdown menu.
+**What it does:** Click to open a list, pick one option.
 
 ```lua
-local dropdown = MyTab:AddDropdown({
+local GameMode = Tabs.Main:AddDropdown("GameMode", {
     Title = "Game Mode",
     Description = "Select difficulty",
     Values = {"Easy", "Medium", "Hard", "Extreme"},
     Default = "Easy",
-    Flag = "GameMode",
     Callback = function(value)
-        print("Mode:", value)
+        print("Selected:", value)
     end
 })
-```
 
-#### Parameters
+GameMode:Set("Hard")
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Dropdown" | Dropdown title |
-| Description | string | "" | Description (optional) |
-| Values | table | {} | List of options |
-| Default | string | nil | Initially selected value |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when selection changes |
-
-#### Methods
-
-```lua
-dropdown:Set("Hard")
-dropdown:SetValues({"A", "B", "C", "D"}) -- replace all options
-print(dropdown.Value) -- "Hard"
+-- Replace all options:
+GameMode:SetValues({"A", "B", "C"})
 ```
 
 ---
 
 ### MultiDropdown
 
-Multiple selection dropdown menu.
+**What it does:** Like dropdown but you can select multiple options at once. Returns a table.
 
 ```lua
-local multi = MyTab:AddMultiDropdown({
+local Targets = Tabs.Main:AddMultiDropdown("Targets", {
     Title = "Target Types",
-    Description = "Select which entities to target",
+    Description = "Pick which entities to target",
     Values = {"Players", "NPCs", "Bosses", "Animals"},
     Default = {"NPCs", "Bosses"},
-    Flag = "TargetTypes",
     Callback = function(values)
         for name, enabled in pairs(values) do
             if enabled then
@@ -365,235 +250,182 @@ local multi = MyTab:AddMultiDropdown({
         end
     end
 })
-```
 
-#### Parameters
-
-Same as Dropdown, but Default is a table of strings and the callback receives a table of `{[name] = boolean}`.
-
-#### Methods
-
-```lua
-multi:Set({Players = true, NPCs = true, Bosses = false})
-multi:SetValues({"A", "B", "C"})
--- multi.Value is a table: {Players = true, NPCs = true}
+Targets:Set({ Players = true, NPCs = true })
 ```
 
 ---
 
 ### Colorpicker
 
-HSV color picker that opens as a modal dialog. Only closes via Cancel or Apply buttons.
+**What it does:** Opens a modal HSV color picker. User selects color and hits Apply.
 
 ```lua
-local picker = MyTab:AddColorpicker({
+local ESPColor = Tabs.Main:AddColorpicker("ESPColor", {
     Title = "ESP Color",
     Default = Color3.fromRGB(255, 0, 0),
-    Flag = "ESPColor",
-    Tooltip = "Click to pick a color",
     Callback = function(color)
-        print("Color:", color)
         print("Hex:", "#" .. color:ToHex():upper())
     end
 })
-```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Color" | Colorpicker title |
-| Default | Color3 | White | Initial color |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when color is applied |
-
-#### Methods
-
-```lua
-picker:Set(Color3.fromRGB(0, 255, 0))
-picker:Set("#00FF00") -- hex string works too
-print(picker.Value) -- Color3
+ESPColor:Set(Color3.fromRGB(0, 255, 0))
+ESPColor:Set("#00FF00")  -- hex string works
 ```
 
 ---
 
 ### Keybind
 
-Keyboard key binding selector. Click the button then press a key to bind. Press Escape to unbind.
+**What it does:** Bind a keyboard key. Callback fires when the bound key is pressed. Press Escape to unbind.
 
 ```lua
-local keybind = MyTab:AddKeybind({
-    Title = "Toggle Key",
+local ToggleKey = Tabs.Main:AddKeybind("ToggleKey", {
+    Title = "Toggle Aimbot",
     Default = Enum.KeyCode.E,
-    Flag = "ToggleKey",
-    Callback = function(key)
-        print("Key was pressed!")
+    Callback = function()
+        print("Aimbot toggled!")
     end,
     ChangedCallback = function(key)
-        if key then
-            print("Keybind changed to:", key.Name)
-        else
-            print("Keybind cleared")
-        end
+        print("Key changed to:", key and key.Name or "None")
     end
 })
-```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Keybind" | Keybind title |
-| Default | KeyCode | nil | Initial key |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when the bound key is pressed |
-| ChangedCallback | function | nil | Called when the binding changes |
-
-#### Methods
-
-```lua
-keybind:Set(Enum.KeyCode.F)
-keybind:Set("F") -- string works too
-print(keybind.Value) -- Enum.KeyCode.F or nil
+ToggleKey:Set(Enum.KeyCode.F)
+ToggleKey:Set("F")  -- string works
 ```
 
 ---
 
 ### Input
 
-Text input field with optional numeric mode.
+**What it does:** Single-line text input field.
 
 ```lua
-local input = MyTab:AddInput({
-    Title = "Username",
-    Description = "Enter the target player name",
+local Username = Tabs.Main:AddInput("Username", {
+    Title = "Target Player",
+    Description = "Enter player username",
     Default = "",
-    Placeholder = "Type here...",
-    Numeric = false,
-    Flag = "TargetName",
+    Placeholder = "Type username...",
+    Numeric = false,         -- set true to only allow numbers
     Callback = function(value)
-        print("Input:", value)
+        print("Target:", value)
     end
 })
+
+Username:Set("RandomGuy123")
 ```
 
-#### Parameters
+---
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Input" | Input title |
-| Description | string | "" | Description (optional) |
-| Default | string | "" | Initial text |
-| Placeholder | string | "Type..." | Placeholder text |
-| Numeric | boolean | false | Only allow numbers |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when input loses focus |
+### MultiInput
 
-#### Methods
+**What it does:** Multiple text inputs in a single row. Perfect for coordinates, RGB values, etc.
 
 ```lua
-input:Set("NewValue")
-print(input.Value)
+local Coords = Tabs.Main:AddMultiInput("Coords", {
+    Title = "Teleport Position",
+    Description = "Enter X, Y, Z",
+    Fields = {
+        { Name = "X", Default = "0", Placeholder = "X", Numeric = true },
+        { Name = "Y", Default = "0", Placeholder = "Y", Numeric = true },
+        { Name = "Z", Default = "0", Placeholder = "Z", Numeric = true }
+    },
+    Callback = function(values)
+        print("X:", values.X, "Y:", values.Y, "Z:", values.Z)
+    end
+})
+
+Coords:Set({ X = "100", Y = "50", Z = "200" })
+```
+
+---
+
+### MultiSlider
+
+**What it does:** Multiple sliders stacked in one element. Great for adjusting related stats together.
+
+```lua
+local Stats = Tabs.Main:AddMultiSlider("Stats", {
+    Title = "Player Stats",
+    Description = "Adjust HP, MP, and STR",
+    Fields = {
+        { Name = "HP",  Min = 0, Max = 1000, Default = 100, Suffix = "" },
+        { Name = "MP",  Min = 0, Max = 500,  Default = 50,  Suffix = "" },
+        { Name = "STR", Min = 1, Max = 100,  Default = 10,  Suffix = "" }
+    },
+    Callback = function(values)
+        print("HP:", values.HP, "MP:", values.MP, "STR:", values.STR)
+    end
+})
+
+Stats:Set({ HP = 500, MP = 250 })
 ```
 
 ---
 
 ### NumberSpinner
 
-Number selector with +/- buttons and manual text input.
+**What it does:** Number input with + and - buttons. Click buttons or type to change value.
 
 ```lua
-local spinner = MyTab:AddNumberSpinner({
-    Title = "Amount",
+local Amount = Tabs.Main:AddNumberSpinner("Amount", {
+    Title = "Buy Amount",
     Min = 0,
-    Max = 1000,
-    Default = 100,
-    Step = 10,
-    Flag = "Amount",
+    Max = 100,
+    Default = 10,
+    Step = 5,           -- increment per button click
     Callback = function(value)
         print("Amount:", value)
     end
 })
-```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Number" | Spinner title |
-| Min | number | 0 | Minimum value |
-| Max | number | 100 | Maximum value |
-| Default | number | Min | Initial value |
-| Step | number | 1 | Increment per button click |
-| Flag | string | Title | Unique identifier |
-| Tooltip | string | nil | Hover tooltip (optional) |
-| Save | boolean | true | Include in config saves |
-| Callback | function | nil | Called when value changes |
-
-#### Methods
-
-```lua
-spinner:Set(500)
-print(spinner.Value)
+Amount:Set(50)
 ```
 
 ---
 
 ### DateTime
 
-Live updating clock or date display. Updates every second.
+**What it does:** Live clock or date display. Auto-updates every second.
 
 ```lua
-MyTab:AddDateTime({
+-- Live clock:
+Tabs.Main:AddDateTime({
     Title = "Current Time",
     Format = "%H:%M:%S"
 })
 
-MyTab:AddDateTime({
+-- Date:
+Tabs.Main:AddDateTime({
     Title = "Today's Date",
     Format = "%d/%m/%Y"
 })
 
-MyTab:AddDateTime({
-    Title = "Full DateTime",
+-- Full datetime:
+Tabs.Main:AddDateTime({
+    Title = "Full",
     Format = "%Y-%m-%d %H:%M:%S"
 })
 ```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Time" | Display title |
-| Format | string | "%H:%M:%S" | Lua os.date format string |
-
-#### Common Format Codes
-
-| Code | Output | Example |
-|------|--------|---------|
-| %H | Hour (24h) | 14 |
-| %M | Minute | 30 |
-| %S | Second | 45 |
-| %d | Day | 25 |
-| %m | Month | 12 |
-| %Y | Year | 2024 |
-| %A | Day name | Monday |
-| %B | Month name | December |
+**Format codes:**
+- `%H` hour (24h)
+- `%M` minute
+- `%S` second
+- `%d` day
+- `%m` month
+- `%Y` year
 
 ---
 
 ### StatusBar
 
-Auto-updating value display. Runs a getter function at a set interval.
+**What it does:** Auto-updating display that calls a function repeatedly and shows the result. Perfect for FPS, ping, player count, etc.
 
 ```lua
-MyTab:AddStatusBar({
+-- FPS counter:
+Tabs.Main:AddStatusBar({
     Title = "FPS",
     UpdateInterval = 0.5,
     Getter = function()
@@ -601,15 +433,17 @@ MyTab:AddStatusBar({
     end
 })
 
-MyTab:AddStatusBar({
-    Title = "Players Online",
+-- Player count:
+Tabs.Main:AddStatusBar({
+    Title = "Players",
     UpdateInterval = 5,
     Getter = function()
         return #game.Players:GetPlayers()
     end
 })
 
-MyTab:AddStatusBar({
+-- Ping:
+Tabs.Main:AddStatusBar({
     Title = "Ping",
     UpdateInterval = 2,
     Getter = function()
@@ -620,209 +454,112 @@ MyTab:AddStatusBar({
 })
 ```
 
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Status" | Display title |
-| UpdateInterval | number | 1 | Seconds between updates |
-| Getter | function | nil | Function that returns the display value |
-
-#### Methods
-
-```lua
-local status = MyTab:AddStatusBar({...})
-status:Set("Custom Value") -- manually override
-```
-
 ---
 
 ### Separator
 
-Simple horizontal line to separate elements.
+**What it does:** Simple horizontal line. Use to visually separate elements.
 
 ```lua
-MyTab:AddSeparator()
+Tabs.Main:AddSeparator()
 ```
-
-No parameters.
 
 ---
 
 ### Divider
 
-Labeled section divider with horizontal lines on both sides.
+**What it does:** Horizontal line with a label in the middle. Use to start a new section.
 
 ```lua
-MyTab:AddDivider({Text = "Combat Settings"})
+Tabs.Main:AddDivider({ Text = "Combat Settings" })
+Tabs.Main:AddDivider({ Text = "Visuals" })
+Tabs.Main:AddDivider({ Text = "Misc" })
 ```
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Text | string | Divider label text |
 
 ---
 
 ### Label
 
-Simple text label. Useful for version info or notes.
+**What it does:** Simple text label without background. Good for version info, notes, credits.
 
 ```lua
-local label = MyTab:AddLabel({Text = "Version 1.0.0"})
-```
+local Version = Tabs.Main:AddLabel({ Text = "v1.0.0" })
 
-#### Methods
-
-```lua
-label:Set("Version 2.0.0")
+-- Update:
+Version:Set("v2.0.0")
 ```
 
 ---
 
 ### Section
 
-Group elements under a titled section. All element methods are available inside sections.
+**What it does:** Group multiple elements under a titled section. All element methods are available inside.
 
 ```lua
-local section = MyTab:AddSection({Title = "Advanced Options"})
+local CombatSection = Tabs.Main:AddSection("Combat Options")
 
-section:AddToggle({
-    Title = "Feature A",
+CombatSection:AddToggle("KillAura", {
+    Title = "Kill Aura",
     Default = false,
-    Flag = "FeatureA",
     Callback = function() end
 })
 
-section:AddSlider({
-    Title = "Power",
-    Min = 0,
-    Max = 100,
-    Default = 50,
-    Flag = "Power",
-    Callback = function() end
-})
-
-section:AddDropdown({
-    Title = "Type",
-    Values = {"Alpha", "Beta", "Gamma"},
-    Default = "Alpha",
-    Flag = "Type",
+CombatSection:AddSlider("Range", {
+    Title = "Range",
+    Min = 5,
+    Max = 50,
+    Default = 15,
     Callback = function() end
 })
 ```
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Section header text (optional) |
 
 ---
 
 ## Notifications
 
-Display temporary notification messages. Maximum 5 visible at once.
+**What it does:** Pop-up message in the bottom-right corner. Max 5 visible at once.
 
 ```lua
 Wraith:Notify({
     Title = "Success",
     Content = "Operation completed!",
-    SubContent = "Additional details here",
+    SubContent = "Additional info",
     Duration = 5
 })
 ```
-
-#### Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| Title | string | "Wraith" | Notification title |
-| Content | string | "" | Main message |
-| SubContent | string | "" | Additional text below content (optional) |
-| Duration | number | 5 | Display duration in seconds |
 
 ---
 
 ## Dialogs
 
-Modal dialog that blocks interaction with the UI behind it.
+**What it does:** Modal confirmation popup. Blocks UI behind it until user clicks a button.
 
 ```lua
 Wraith:Dialog({
-    Title = "Confirm Action",
-    Content = "Are you sure you want to proceed? This cannot be undone.",
+    Title = "Confirm",
+    Content = "Are you sure you want to proceed?",
     Buttons = {
-        {
-            Title = "Cancel",
-            Callback = function()
-                print("User cancelled")
-            end
-        },
-        {
-            Title = "Confirm",
-            Callback = function()
-                print("User confirmed")
-            end
-        }
+        { Title = "Cancel", Callback = function() end },
+        { Title = "Confirm", Callback = function()
+            print("Confirmed!")
+        end }
     }
 })
 ```
 
-The last button in the list is styled as the primary (accent color) button.
-
-#### Parameters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Dialog title |
-| Content | string | Dialog message |
-| Buttons | table | List of button objects |
-
-#### Button Object
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| Title | string | Button text |
-| Callback | function | Called when button is clicked |
+The **last button** is highlighted as the primary action (accent color).
 
 ---
 
 ## Theme System
 
-### Built-in Themes
-
-| Theme | Description |
-|-------|-------------|
-| AMOLED | Pure black, high contrast |
-| Dark | Standard dark theme |
-| Darker | Very dark, low contrast |
-| Midnight | Dark blue tint |
-| Charcoal | Warm dark gray |
-| Light | Light mode |
-| Obsidian | Near-black with subtle tint |
-
-### Set Theme
+**Built-in themes:** `AMOLED`, `Dark`, `Darker`, `Midnight`, `Charcoal`, `Light`, `Obsidian`
 
 ```lua
-Wraith:SetTheme("Dark")
-```
+-- Change theme:
+Wraith:SetTheme("Midnight")
 
-Theme preference is automatically saved to `Wraith/theme.txt` and restored on next load.
-
-### Get Available Themes
-
-```lua
-local themes = Wraith:GetThemes()
--- Returns: {"AMOLED", "Dark", "Darker", "Midnight", "Charcoal", "Light", "Obsidian", ...}
-```
-
-### Custom Themes
-
-Create and save custom themes:
-
-```lua
+-- Add custom theme:
 Wraith:AddTheme("Ocean", {
     Bg = Color3.fromRGB(8, 12, 20),
     Bg2 = Color3.fromRGB(14, 20, 32),
@@ -843,140 +580,82 @@ Wraith:AddTheme("Ocean", {
     SbTr = 0.18
 })
 
-Wraith:SetTheme("Ocean")
+-- Get all theme names:
+local themes = Wraith:GetThemes()
 ```
 
-Custom themes are saved to `Wraith/themes/` as JSON files and persist across sessions.
-
-### Theme Properties
-
-| Property | Type | Description |
-|----------|------|-------------|
-| Bg | Color3 | Main background |
-| Bg2 | Color3 | Secondary background (topbar, sidebar) |
-| Bg3 | Color3 | Tertiary background (input fields) |
-| El | Color3 | Element background |
-| ElHov | Color3 | Element hover background |
-| Border | Color3 | Border/stroke color |
-| Txt | Color3 | Primary text |
-| Txt2 | Color3 | Secondary text |
-| Txt3 | Color3 | Muted text |
-| Acc | Color3 | Accent color (primary buttons) |
-| AccD | Color3 | Accent dark variant |
-| TOn | Color3 | Toggle on color |
-| TOff | Color3 | Toggle off color |
-| Slider | Color3 | Slider fill color |
-| BgTr | number | Background transparency (0-1) |
-| ElTr | number | Element transparency (0-1) |
-| SbTr | number | Sidebar transparency (0-1) |
+Theme preference auto-saves and loads on next run.
 
 ---
 
 ## Theme Editor
 
-Open the built-in visual theme editor:
+**What it does:** Visual editor to design your own theme. Pick colors with color picker, preview live, save when ready.
 
 ```lua
 Wraith:OpenThemeEditor()
 ```
 
-The theme editor allows you to:
-- Pick colors for every theme property using the color picker
-- Adjust transparency values
-- Preview changes live without saving
-- Save as a new named theme
-- Saved themes appear in the theme dropdown
-
 ---
 
 ## Animation System
 
-Change the UI animation style:
+**What it does:** Change how UI elements animate (transitions, hovers, etc.)
 
 ```lua
 Wraith:SetAnimation("Bounce")
 ```
 
-### Available Presets
-
-| Preset | Easing Style | Duration | Feel |
-|--------|-------------|----------|------|
-| Default | Quart | 0.25s | Standard smooth |
-| Bounce | Bounce | 0.5s | Bouncy pop |
-| Elastic | Elastic | 0.6s | Springy overshoot |
-| Smooth | Sine | 0.4s | Gentle ease |
-| Snappy | Back | 0.3s | Quick with slight overshoot |
-| Fade | Linear | 0.35s | Simple linear fade |
-
-### Get Animation List
-
-```lua
-local animations = Wraith:GetAnimations()
--- Returns: {"Default", "Bounce", "Elastic", "Smooth", "Snappy", "Fade"}
-```
+**Available presets:**
+- `Default` — Standard smooth (Quart, 0.25s)
+- `Bounce` — Bouncy pop (0.5s)
+- `Elastic` — Springy overshoot (0.6s)
+- `Smooth` — Gentle ease (Sine, 0.4s)
+- `Snappy` — Quick with slight overshoot (Back, 0.3s)
+- `Fade` — Linear fade (0.35s)
 
 ---
 
 ## Tooltip System
 
-Add hover tooltips to any element by including the `Tooltip` parameter:
+**What it does:** Show a small hint text when user hovers over an element. Add `Tooltip` parameter to any element.
 
 ```lua
-MyTab:AddButton({
-    Title = "My Button",
-    Tooltip = "This tooltip appears when you hover",
-    Callback = function() end
-})
-
-MyTab:AddToggle({
-    Title = "Feature",
-    Tooltip = "Enable or disable this feature",
-    Default = false,
-    Flag = "Feature",
-    Callback = function() end
-})
-
-MyTab:AddSlider({
-    Title = "Speed",
-    Tooltip = "Drag to adjust speed value",
-    Min = 0,
-    Max = 100,
-    Default = 50,
-    Flag = "Speed",
+Tabs.Main:AddButton("Btn", {
+    Title = "Mysterious Button",
+    Tooltip = "This button does something mysterious",
     Callback = function() end
 })
 ```
-
-Tooltips follow the mouse cursor and disappear when the mouse leaves the element.
 
 ---
 
 ## Window Methods
 
 ```lua
-Window:Show()              -- Show the window with animation
-Window:Hide()              -- Hide the window (reopen with keybind)
-Window:Minimize()          -- Minimize (floating button on mobile)
-Window:Destroy()           -- Completely destroy the UI
-Window:Resize(800, 500)    -- Resize to specific width, height
+Window:Show()              -- show window with animation
+Window:Hide()              -- hide window (reopen with keybind)
+Window:Minimize()          -- minimize (floating button on mobile)
+Window:Destroy()           -- destroy entirely
+Window:Resize(800, 500)    -- programmatic resize
 ```
 
 ---
 
 ## Flags System
 
-Every element with a `Flag` parameter is stored in `Wraith.Flags` and can be accessed from anywhere:
+Every element with a `Flag` is stored globally and can be accessed from anywhere:
 
 ```lua
--- Get a flag value
-local speed = Wraith.Flags["WalkSpeed"].Value
+-- Get value:
+local isOn = Wraith.Flags["AutoFarm"].Value
 
--- Set a flag value
+-- Set value:
 Wraith.Flags["WalkSpeed"]:Set(100)
 
--- Check toggle state
+-- Check in a loop:
 if Wraith.Flags["AutoFarm"].Value then
-    print("Auto farm is enabled")
+    -- do something
 end
 ```
 
@@ -986,98 +665,54 @@ end
 
 ### SaveManager
 
-Full configuration save/load system with autoload support.
-
-#### Setup
+**What it does:** Save/load all UI flag values to JSON files. Supports autoload (loads saved config on script start).
 
 ```lua
-local SaveManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"
-))()
-
 SaveManager:SetLibrary(Wraith)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetFolder("Wraith/MyScript")
-```
+SaveManager:IgnoreThemeSettings()  -- don't save theme in configs
+SaveManager:SetFolder("Wraith/MyHub")  -- folder path
 
-#### Build Config UI
+-- Build the full config UI in a tab:
+SaveManager:BuildConfigSection(Tabs.Settings)
 
-Automatically adds config management UI to a tab:
-
-```lua
-SaveManager:BuildConfigSection(SettingsTab)
-```
-
-This creates:
-- Config list dropdown
-- Config name input
-- Create / Save / Load / Delete / Refresh buttons
-- Autoload set/reset buttons
-
-#### Load Autoload Config
-
-Call at the end of your script:
-
-```lua
+-- Load autoload config at script start:
 SaveManager:LoadAutoloadConfig()
 ```
 
-#### Manual Methods
-
+**Manual methods:**
 ```lua
-SaveManager:Save("config_name")
-SaveManager:Load("config_name")
-SaveManager:Delete("config_name")
+SaveManager:Save("myconfig")
+SaveManager:Load("myconfig")
+SaveManager:Delete("myconfig")
 
 local configs = SaveManager:RefreshConfigList()
-
-SaveManager:SetAutoloadConfig("config_name")
+SaveManager:SetAutoloadConfig("myconfig")
 SaveManager:DeleteAutoLoadConfig()
-local autoload = SaveManager:GetAutoloadConfig()
-```
-
-#### Ignore Specific Flags
-
-```lua
-SaveManager:SetIgnoreIndexes({"FlagName1", "FlagName2"})
 ```
 
 ---
 
 ### InterfaceManager
 
-Theme and animation preference manager.
-
-#### Setup
+**What it does:** Save/load theme and animation preferences. Builds a settings UI section.
 
 ```lua
-local InterfaceManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"
-))()
-
 InterfaceManager:SetLibrary(Wraith)
-InterfaceManager:SetFolder("Wraith/MyScript")
+InterfaceManager:SetFolder("Wraith/MyHub")
+
+-- Build theme/animation settings UI:
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 ```
 
-#### Build Interface UI
-
-Automatically adds theme/animation settings to a tab:
-
-```lua
-InterfaceManager:BuildInterfaceSection(SettingsTab)
-```
-
-This creates:
-- Theme dropdown (auto-saved)
-- Animation style dropdown (auto-saved)
+This auto-adds:
+- Theme dropdown (saves on change)
+- Animation dropdown (saves on change)
 - Theme Editor button
 - Menu keybind selector
 
 ---
 
 ## Full Example
-
-Complete script demonstrating all features with addons:
 
 ```lua
 local Wraith = loadstring(game:HttpGet(
@@ -1102,252 +737,79 @@ local Window = Wraith:CreateWindow({
     Searchable = true
 })
 
-local MainTab = Window:AddTab({Title = "Main", Icon = "house"})
-local CombatTab = Window:AddTab({Title = "Combat", Icon = "swords"})
-local VisualsTab = Window:AddTab({Title = "Visuals", Icon = "eye"})
-local SettingsTab = Window:AddTab({Title = "Settings", Icon = "settings"})
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "house" }),
+    Combat = Window:AddTab({ Title = "Combat", Icon = "swords" }),
+    Visuals = Window:AddTab({ Title = "Visuals", Icon = "eye" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
 
--- Main Tab
-MainTab:AddParagraph({
-    Title = "Welcome",
-    Content = "Script loaded successfully.",
-    Tooltip = "Welcome message"
-})
+Tabs.Main:AddParagraph("Welcome", { Content = "Script loaded." })
+Tabs.Main:AddDivider({ Text = "Features" })
 
-MainTab:AddDivider({Text = "Features"})
-
-MainTab:AddToggle({
+Tabs.Main:AddToggle("AutoFarm", {
     Title = "Auto Farm",
-    Description = "Automatically farms resources",
     Default = false,
-    Flag = "AutoFarm",
-    Callback = function(value)
-        print("Farm:", value)
-    end
+    Callback = function(v) print("Farm:", v) end
 })
 
-MainTab:AddCheckbox({
-    Title = "Auto Collect",
-    Default = true,
-    Flag = "AutoCollect",
-    Callback = function(value)
-        print("Collect:", value)
-    end
-})
-
-MainTab:AddSlider({
-    Title = "Speed",
-    Description = "Character speed",
-    Min = 16,
-    Max = 200,
-    Default = 16,
-    Suffix = " studs/s",
-    Flag = "Speed",
-    Callback = function(value)
+Tabs.Main:AddSlider("Speed", {
+    Title = "Walk Speed",
+    Min = 16, Max = 200, Default = 16,
+    Suffix = " s/s",
+    Callback = function(v)
         pcall(function()
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
         end)
     end
 })
 
-MainTab:AddInput({
+Tabs.Main:AddInput("Target", {
     Title = "Target",
-    Placeholder = "Player name...",
-    Flag = "Target",
-    Callback = function(value)
-        print("Target:", value)
-    end
+    Placeholder = "Username...",
+    Callback = function(v) print(v) end
 })
 
-MainTab:AddNumberSpinner({
-    Title = "Amount",
-    Min = 0,
-    Max = 100,
-    Default = 10,
-    Step = 5,
-    Flag = "Amount",
-    Callback = function(value)
-        print("Amount:", value)
-    end
-})
-
--- Combat Tab
-CombatTab:AddParagraph({
-    Title = "Combat",
-    Content = "Configure combat settings."
-})
-
-CombatTab:AddDivider({Text = "Attack"})
-
-CombatTab:AddToggle({
+Tabs.Combat:AddToggle("KillAura", {
     Title = "Kill Aura",
     Default = false,
-    Flag = "KillAura",
     Callback = function() end
 })
 
-CombatTab:AddSlider({
-    Title = "Range",
-    Min = 5,
-    Max = 50,
-    Default = 15,
-    Suffix = " studs",
-    Flag = "Range",
-    Callback = function() end
-})
-
-CombatTab:AddDropdown({
-    Title = "Mode",
-    Values = {"Nearest", "Lowest HP", "Highest Level", "Random"},
-    Default = "Nearest",
-    Flag = "AttackMode",
-    Callback = function(value)
-        print("Mode:", value)
-    end
-})
-
-CombatTab:AddDivider({Text = "Targeting"})
-
-CombatTab:AddMultiDropdown({
-    Title = "Targets",
-    Values = {"Players", "NPCs", "Bosses", "Animals"},
-    Default = {"NPCs"},
-    Flag = "Targets",
-    Callback = function() end
-})
-
-CombatTab:AddKeybind({
-    Title = "Combat Key",
+Tabs.Combat:AddKeybind("CombatKey", {
+    Title = "Toggle Key",
     Default = Enum.KeyCode.X,
-    Flag = "CombatKey",
-    Callback = function()
-        print("Combat toggled!")
-    end
+    Callback = function() end
 })
 
--- Visuals Tab
-VisualsTab:AddParagraph({
-    Title = "Visuals",
-    Content = "Customize visual features."
-})
-
-VisualsTab:AddDivider({Text = "ESP"})
-
-VisualsTab:AddToggle({
-    Title = "ESP Enabled",
+Tabs.Visuals:AddToggle("ESP", {
+    Title = "ESP",
     Default = false,
-    Flag = "ESP",
     Callback = function() end
 })
 
-VisualsTab:AddCheckbox({
-    Title = "Show Names",
-    Default = true,
-    Flag = "ShowNames",
-    Callback = function() end
-})
-
-VisualsTab:AddCheckbox({
-    Title = "Show Health",
-    Default = true,
-    Flag = "ShowHealth",
-    Callback = function() end
-})
-
-VisualsTab:AddDivider({Text = "Colors"})
-
-VisualsTab:AddColorpicker({
+Tabs.Visuals:AddColorpicker("ESPColor", {
     Title = "ESP Color",
     Default = Color3.fromRGB(255, 255, 255),
-    Flag = "ESPColor",
-    Callback = function(color)
-        print("ESP Color:", color)
-    end
-})
-
-VisualsTab:AddColorpicker({
-    Title = "Chams Color",
-    Default = Color3.fromRGB(150, 150, 150),
-    Flag = "ChamsColor",
     Callback = function() end
 })
 
-VisualsTab:AddDivider({Text = "Style"})
-
-VisualsTab:AddDropdown({
-    Title = "ESP Style",
-    Values = {"Box", "Corner", "3D", "Skeleton"},
-    Default = "Box",
-    Flag = "ESPStyle",
-    Callback = function() end
-})
-
-VisualsTab:AddDivider({Text = "Info"})
-
-VisualsTab:AddDateTime({
-    Title = "Time",
-    Format = "%H:%M:%S"
-})
-
-VisualsTab:AddStatusBar({
-    Title = "FPS",
-    UpdateInterval = 0.5,
-    Getter = function()
-        return math.floor(1 / game:GetService("RunService").Heartbeat:Wait())
-    end
-})
-
--- Settings Tab (Automatic)
 SaveManager:SetLibrary(Wraith)
 InterfaceManager:SetLibrary(Wraith)
 SaveManager:IgnoreThemeSettings()
-SaveManager:SetFolder("Wraith/MyScript")
-InterfaceManager:SetFolder("Wraith/MyScript")
+SaveManager:SetFolder("Wraith/MyHub")
+InterfaceManager:SetFolder("Wraith/MyHub")
 
-InterfaceManager:BuildInterfaceSection(SettingsTab)
-SaveManager:BuildConfigSection(SettingsTab)
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
 
--- Welcome notification
 Wraith:Notify({
     Title = "Loaded",
-    Content = "Script initialized successfully!",
-    SubContent = "All features ready.",
+    Content = "Ready!",
     Duration = 5
 })
 
--- Load autoload config if set
 SaveManager:LoadAutoloadConfig()
 ```
 
 ---
-
-## File Structure
-
-```
-Wraith-Lib/
-├── README.md
-├── Documentation.md
-└── Wraith/
-    ├── Src/
-    │   └── Wraith.luau
-    ├── Addons/
-    │   ├── SaveManager.lua
-    │   └── InterfaceManager.lua
-    └── Icons/
-        └── Lucide.lua
-```
-
----
-
-## Credits
-
-- **Wraith** by [maybeflexa](https://github.com/maybeflexa)
-- Inspired by [Fluent](https://github.com/dawid-scripts/Fluent) by dawid-scripts
-- Icons by [Lucide](https://lucide.dev)
-
----
-```
-
-## Support
-
-Issues or suggestions? Open an issue on [GitHub](https://github.com/maybeflexa/Wraith-Lib/issues).
