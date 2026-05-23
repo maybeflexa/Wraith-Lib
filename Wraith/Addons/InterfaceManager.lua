@@ -57,42 +57,6 @@ local InterfaceManager = {} do
 
         self:LoadSettings()
         
-        tab:AddDivider({ Text = "Effects" })
-
-        tab:AddToggle("AcrylicToggle", {
-            Title = "Acrylic Blur",
-            Description = "Enable background blur effect",
-            Default = false,
-            Save = false,
-            Callback = function(value)
-                if value then
-                    Library:EnableAcrylic()
-                else
-                    Library:DisableAcrylic()
-                end
-                self.Settings.Acrylic = value
-                self:SaveSettings()
-            end
-        })
-
-        tab:AddDropdown("TransitionStyle", {
-            Title = "Page Transition",
-            Description = "Animation when switching tabs",
-            Values = Library:GetTransitions(),
-            Default = "Fade",
-            Save = false,
-            Callback = function(value)
-                Library:SetTransition(value)
-                self.Settings.Transition = value
-                self:SaveSettings()
-                Library:Notify({
-                    Title = "Wraith",
-                    Content = "Transition set to " .. value,
-                    Duration = 3
-                })
-            end
-        })
-
         tab:AddDivider({Text = "Interface"})
 
         tab:AddDropdown({
@@ -168,9 +132,6 @@ local InterfaceManager = {} do
     end
 
     function InterfaceManager:Apply()
-            if self.Settings.Acrylic and self.Library then
-        self.Library:EnableAcrylic()
-    end
     if self.Settings.Transition and self.Library then
         self.Library:SetTransition(self.Settings.Transition)
         end
