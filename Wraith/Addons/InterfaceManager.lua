@@ -168,6 +168,12 @@ local InterfaceManager = {} do
     end
 
     function InterfaceManager:Apply()
+            if self.Settings.Acrylic and self.Library then
+        self.Library:EnableAcrylic()
+    end
+    if self.Settings.Transition and self.Library then
+        self.Library:SetTransition(self.Settings.Transition)
+        end
         if self.Settings.Theme and self.Library then
             self.Library:SetTheme(self.Settings.Theme)
         end
