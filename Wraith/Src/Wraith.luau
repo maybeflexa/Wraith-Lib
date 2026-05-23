@@ -15,6 +15,10 @@ local DDRefresh = {}
 local TabRefreshers = {}
 local SearchableElements = {}
 local ScreenGui
+local Lighting = game:GetService("Lighting")
+local AcrylicBlur = nil
+local CurrentTransition = "Fade"
+local TransitionPresets = {"Fade", "Slide", "Scale", "SlideAndFade"}
 
 local PlatformURLs = {
     ["Lucide"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Lucide.lua"
@@ -112,24 +116,81 @@ local Themes = {
         ElTr = 0.36,
         SbTr = 0.15
     },
-    ["Midnight"] = {
-        Bg = Color3.fromRGB(4, 4, 12),
-        Bg2 = Color3.fromRGB(10, 10, 20),
-        Bg3 = Color3.fromRGB(18, 18, 30),
-        El = Color3.fromRGB(14, 14, 24),
-        ElHov = Color3.fromRGB(26, 26, 38),
-        Border = Color3.fromRGB(40, 40, 54),
-        Txt = Color3.fromRGB(232, 232, 242),
-        Txt2 = Color3.fromRGB(144, 144, 164),
-        Txt3 = Color3.fromRGB(94, 94, 114),
-        Acc = Color3.fromRGB(180, 180, 208),
-        AccD = Color3.fromRGB(130, 130, 158),
-        TOn = Color3.fromRGB(190, 190, 218),
-        TOff = Color3.fromRGB(42, 42, 54),
-        Slider = Color3.fromRGB(170, 170, 198),
+        ["Stealth"] = {
+        Bg = Color3.fromRGB(30, 30, 30),
+        Bg2 = Color3.fromRGB(38, 38, 38),
+        Bg3 = Color3.fromRGB(48, 48, 48),
+        El = Color3.fromRGB(42, 42, 42),
+        ElHov = Color3.fromRGB(55, 55, 55),
+        Border = Color3.fromRGB(62, 62, 62),
+        Txt = Color3.fromRGB(240, 240, 240),
+        Txt2 = Color3.fromRGB(158, 158, 158),
+        Txt3 = Color3.fromRGB(105, 105, 105),
+        Acc = Color3.fromRGB(195, 195, 195),
+        AccD = Color3.fromRGB(145, 145, 145),
+        TOn = Color3.fromRGB(205, 205, 205),
+        TOff = Color3.fromRGB(60, 60, 60),
+        Slider = Color3.fromRGB(185, 185, 185),
+        BgTr = 0.15,
+        ElTr = 0.42,
+        SbTr = 0.25
+    },
+    ["Graphite"] = {
+        Bg = Color3.fromRGB(22, 20, 18),
+        Bg2 = Color3.fromRGB(30, 28, 25),
+        Bg3 = Color3.fromRGB(40, 37, 34),
+        El = Color3.fromRGB(34, 32, 28),
+        ElHov = Color3.fromRGB(48, 44, 40),
+        Border = Color3.fromRGB(56, 52, 48),
+        Txt = Color3.fromRGB(242, 238, 232),
+        Txt2 = Color3.fromRGB(162, 155, 148),
+        Txt3 = Color3.fromRGB(108, 102, 96),
+        Acc = Color3.fromRGB(205, 198, 188),
+        AccD = Color3.fromRGB(155, 148, 138),
+        TOn = Color3.fromRGB(215, 208, 198),
+        TOff = Color3.fromRGB(52, 48, 44),
+        Slider = Color3.fromRGB(195, 188, 178),
+        BgTr = 0.12,
+        ElTr = 0.4,
+        SbTr = 0.2
+    },
+    ["Slate"] = {
+        Bg = Color3.fromRGB(16, 20, 26),
+        Bg2 = Color3.fromRGB(22, 28, 36),
+        Bg3 = Color3.fromRGB(30, 38, 48),
+        El = Color3.fromRGB(26, 32, 42),
+        ElHov = Color3.fromRGB(38, 46, 58),
+        Border = Color3.fromRGB(48, 56, 68),
+        Txt = Color3.fromRGB(228, 235, 245),
+        Txt2 = Color3.fromRGB(142, 155, 172),
+        Txt3 = Color3.fromRGB(92, 105, 122),
+        Acc = Color3.fromRGB(168, 185, 208),
+        AccD = Color3.fromRGB(118, 135, 158),
+        TOn = Color3.fromRGB(178, 195, 218),
+        TOff = Color3.fromRGB(40, 48, 58),
+        Slider = Color3.fromRGB(158, 175, 198),
         BgTr = 0.1,
         ElTr = 0.38,
         SbTr = 0.18
+    },
+    ["Ash"] = {
+        Bg = Color3.fromRGB(24, 26, 28),
+        Bg2 = Color3.fromRGB(32, 34, 36),
+        Bg3 = Color3.fromRGB(42, 44, 46),
+        El = Color3.fromRGB(36, 38, 40),
+        ElHov = Color3.fromRGB(50, 52, 54),
+        Border = Color3.fromRGB(58, 60, 62),
+        Txt = Color3.fromRGB(235, 238, 242),
+        Txt2 = Color3.fromRGB(148, 152, 158),
+        Txt3 = Color3.fromRGB(98, 102, 108),
+        Acc = Color3.fromRGB(188, 192, 198),
+        AccD = Color3.fromRGB(138, 142, 148),
+        TOn = Color3.fromRGB(198, 202, 208),
+        TOff = Color3.fromRGB(52, 54, 56),
+        Slider = Color3.fromRGB(178, 182, 188),
+        BgTr = 0.12,
+        ElTr = 0.4,
+        SbTr = 0.2
     },
     ["Charcoal"] = {
         Bg = Color3.fromRGB(20, 20, 20),
@@ -149,44 +210,6 @@ local Themes = {
         BgTr = 0.12,
         ElTr = 0.4,
         SbTr = 0.22
-    },
-    ["Light"] = {
-        Bg = Color3.fromRGB(244, 244, 247),
-        Bg2 = Color3.fromRGB(232, 232, 236),
-        Bg3 = Color3.fromRGB(218, 218, 224),
-        El = Color3.fromRGB(225, 225, 230),
-        ElHov = Color3.fromRGB(210, 210, 216),
-        Border = Color3.fromRGB(192, 192, 198),
-        Txt = Color3.fromRGB(15, 15, 18),
-        Txt2 = Color3.fromRGB(68, 68, 76),
-        Txt3 = Color3.fromRGB(110, 110, 118),
-        Acc = Color3.fromRGB(40, 40, 48),
-        AccD = Color3.fromRGB(80, 80, 88),
-        TOn = Color3.fromRGB(28, 28, 34),
-        TOff = Color3.fromRGB(188, 188, 194),
-        Slider = Color3.fromRGB(48, 48, 56),
-        BgTr = 0.08,
-        ElTr = 0.3,
-        SbTr = 0.12
-    },
-    ["Obsidian"] = {
-        Bg = Color3.fromRGB(2, 2, 4),
-        Bg2 = Color3.fromRGB(6, 6, 10),
-        Bg3 = Color3.fromRGB(14, 14, 18),
-        El = Color3.fromRGB(10, 10, 14),
-        ElHov = Color3.fromRGB(22, 22, 26),
-        Border = Color3.fromRGB(32, 32, 38),
-        Txt = Color3.fromRGB(228, 228, 232),
-        Txt2 = Color3.fromRGB(138, 138, 148),
-        Txt3 = Color3.fromRGB(88, 88, 98),
-        Acc = Color3.fromRGB(172, 172, 185),
-        AccD = Color3.fromRGB(122, 122, 135),
-        TOn = Color3.fromRGB(182, 182, 195),
-        TOff = Color3.fromRGB(38, 38, 44),
-        Slider = Color3.fromRGB(162, 162, 175),
-        BgTr = 0.06,
-        ElTr = 0.34,
-        SbTr = 0.12
     }
 }
 
@@ -702,6 +725,41 @@ function Wraith:AddTheme(name, themeData)
         )
     end)
     return true
+end
+
+local function EnableAcrylic()
+    if AcrylicBlur then return end
+    AcrylicBlur = Instance.new("BlurEffect")
+    AcrylicBlur.Size = 12
+    AcrylicBlur.Parent = Lighting
+end
+
+local function DisableAcrylic()
+    if AcrylicBlur then
+        AcrylicBlur:Destroy()
+        AcrylicBlur = nil
+    end
+end
+
+function Wraith:EnableAcrylic()
+    EnableAcrylic()
+end
+
+function Wraith:DisableAcrylic()
+    DisableAcrylic()
+end
+
+function Wraith:SetTransition(name)
+    for _, preset in ipairs(TransitionPresets) do
+        if preset == name then
+            CurrentTransition = name
+            return
+        end
+    end
+end
+
+function Wraith:GetTransitions()
+    return TransitionPresets
 end
 
 function Wraith:Notify(o)
@@ -2197,23 +2255,101 @@ function Wraith:CreateWindow(o)
         end
     end)
 
+        local function doPageTransition(oldPage, newPage)
+        if not oldPage then
+            newPage.Visible = true
+            return
+        end
+
+        if CurrentTransition == "Fade" then
+            newPage.GroupTransparency = 1
+            newPage.Visible = true
+            Tw(oldPage, {GroupTransparency = 1}, 0.15, Enum.EasingStyle.Quart)
+            task.wait(0.15)
+            oldPage.Visible = false
+            oldPage.GroupTransparency = 0
+            Tw(newPage, {GroupTransparency = 0}, 0.2, Enum.EasingStyle.Quart)
+
+        elseif CurrentTransition == "Slide" then
+            newPage.Position = UDim2.new(1, 0, 0, 9)
+            newPage.Visible = true
+            Tw(oldPage, {Position = UDim2.new(-1, 0, 0, 9)}, 0.25, Enum.EasingStyle.Quart)
+            Tw(newPage, {Position = UDim2.new(0, 9, 0, 9)}, 0.25, Enum.EasingStyle.Quart)
+            task.wait(0.25)
+            oldPage.Visible = false
+            oldPage.Position = UDim2.new(0, 9, 0, 9)
+
+        elseif CurrentTransition == "Scale" then
+            newPage.Visible = true
+            newPage.GroupTransparency = 1
+            newPage.Size = UDim2.new(0.9, -18, 0.9, -18)
+            newPage.Position = UDim2.new(0.05, 9, 0.05, 9)
+            Tw(oldPage, {GroupTransparency = 1}, 0.12, Enum.EasingStyle.Quart)
+            task.wait(0.12)
+            oldPage.Visible = false
+            oldPage.GroupTransparency = 0
+            Tw(newPage, {
+                GroupTransparency = 0,
+                Size = UDim2.new(1, -18, 1, -18),
+                Position = UDim2.new(0, 9, 0, 9)
+            }, 0.2, Enum.EasingStyle.Back)
+
+        elseif CurrentTransition == "SlideAndFade" then
+            newPage.Position = UDim2.new(0.1, 9, 0, 9)
+            newPage.GroupTransparency = 1
+            newPage.Visible = true
+            Tw(oldPage, {
+                GroupTransparency = 1,
+                Position = UDim2.new(-0.1, 9, 0, 9)
+            }, 0.2, Enum.EasingStyle.Quart)
+            task.wait(0.2)
+            oldPage.Visible = false
+            oldPage.GroupTransparency = 0
+            oldPage.Position = UDim2.new(0, 9, 0, 9)
+            Tw(newPage, {
+                GroupTransparency = 0,
+                Position = UDim2.new(0, 9, 0, 9)
+            }, 0.2, Enum.EasingStyle.Quart)
+
+        else
+            oldPage.Visible = false
+            newPage.Visible = true
+        end
+    end
+
     function W:SelectTab(tab)
         if self.ActiveTab == tab then return end
+        local oldPage = self.ActiveTab and self.ActiveTab.Pg or nil
         if self.ActiveTab then
             self.ActiveTab._sel = false
-            Tw(self.ActiveTab.Btn, {BackgroundColor3 = T.Bg2, BackgroundTransparency = 1}, 0.2)
+            Tw(self.ActiveTab.Btn, {
+                BackgroundColor3 = T.Bg2,
+                BackgroundTransparency = 1
+            }, 0.2)
             Tw(self.ActiveTab.Lbl, {TextColor3 = T.Txt2}, 0.2)
-            if self.ActiveTab.Ico then Tw(self.ActiveTab.Ico, {ImageColor3 = T.Txt2}, 0.2) end
-            if self.ActiveTab.Ind then Tw(self.ActiveTab.Ind, {BackgroundTransparency = 1}, 0.15) end
-            self.ActiveTab.Pg.Visible = false
+            if self.ActiveTab.Ico then
+                Tw(self.ActiveTab.Ico, {ImageColor3 = T.Txt2}, 0.2)
+            end
+            if self.ActiveTab.Ind then
+                Tw(self.ActiveTab.Ind, {BackgroundTransparency = 1}, 0.15)
+            end
         end
         self.ActiveTab = tab
         tab._sel = true
-        Tw(tab.Btn, {BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr * 0.5}, 0.2)
+        Tw(tab.Btn, {
+            BackgroundColor3 = T.El,
+            BackgroundTransparency = T.ElTr * 0.5
+        }, 0.2)
         Tw(tab.Lbl, {TextColor3 = T.Txt}, 0.2)
-        if tab.Ico then Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.2) end
-        if tab.Ind then Tw(tab.Ind, {BackgroundTransparency = 0}, 0.15) end
-        tab.Pg.Visible = true
+        if tab.Ico then
+            Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.2)
+        end
+        if tab.Ind then
+            Tw(tab.Ind, {BackgroundTransparency = 0}, 0.15)
+        end
+        task.spawn(function()
+            doPageTransition(oldPage, tab.Pg)
+        end)
     end
 
     function W:AddTab(tabOpts)
@@ -3699,7 +3835,11 @@ function Wraith:CreateWindow(o)
     function W:Show() showWindow() end
     function W:Hide() hideWindow() end
     function W:Minimize() minimizeWindow() end
-    function W:Destroy()
+        function W:Destroy()
+        if main then main:Destroy() end
+        if floatBtn then floatBtn:Destroy() end
+        DisableAcrylic()
+    end
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
     end
