@@ -3840,9 +3840,6 @@ function Wraith:CreateWindow(o)
         if floatBtn then floatBtn:Destroy() end
         DisableAcrylic()
     end
-        if main then main:Destroy() end
-        if floatBtn then floatBtn:Destroy() end
-    end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
         main.Size = W.CurrentSize
