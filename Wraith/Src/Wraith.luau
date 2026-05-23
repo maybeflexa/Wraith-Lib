@@ -2262,19 +2262,13 @@ function Wraith:CreateWindow(o)
         end
 
         if CurrentTransition == "Fade" then
+            newPage.GroupTransparency = 1
             newPage.Visible = true
-            newPage.CanvasPosition = Vector2.new(0, 0)
-            for _, child in ipairs(newPage:GetChildren()) do
-                if child:IsA("GuiObject") then
-                    child.BackgroundTransparency = 1
-                end
-            end
+            Tw(oldPage, {GroupTransparency = 1}, 0.15, Enum.EasingStyle.Quart)
+            task.wait(0.15)
             oldPage.Visible = false
-            for _, child in ipairs(newPage:GetChildren()) do
-                if child:IsA("GuiObject") then
-                    Tw(child, {BackgroundTransparency = child:GetAttribute("OrigTr") or 0}, 0.2)
-                end
-            end
+            oldPage.GroupTransparency = 0
+            Tw(newPage, {GroupTransparency = 0}, 0.2, Enum.EasingStyle.Quart)
 
         elseif CurrentTransition == "Slide" then
             newPage.Position = UDim2.new(1, 0, 0, 9)
@@ -2286,23 +2280,36 @@ function Wraith:CreateWindow(o)
             oldPage.Position = UDim2.new(0, 9, 0, 9)
 
         elseif CurrentTransition == "Scale" then
-            newPage.Size = UDim2.new(0.95, -18, 0.95, -18)
-            newPage.Position = UDim2.new(0.025, 9, 0.025, 9)
             newPage.Visible = true
+            newPage.GroupTransparency = 1
+            newPage.Size = UDim2.new(0.9, -18, 0.9, -18)
+            newPage.Position = UDim2.new(0.05, 9, 0.05, 9)
+            Tw(oldPage, {GroupTransparency = 1}, 0.12, Enum.EasingStyle.Quart)
+            task.wait(0.12)
             oldPage.Visible = false
+            oldPage.GroupTransparency = 0
             Tw(newPage, {
+                GroupTransparency = 0,
                 Size = UDim2.new(1, -18, 1, -18),
                 Position = UDim2.new(0, 9, 0, 9)
-            }, 0.25, Enum.EasingStyle.Back)
+            }, 0.2, Enum.EasingStyle.Back)
 
         elseif CurrentTransition == "SlideAndFade" then
-            newPage.Position = UDim2.new(0.05, 9, 0, 9)
+            newPage.Position = UDim2.new(0.1, 9, 0, 9)
+            newPage.GroupTransparency = 1
             newPage.Visible = true
-            Tw(oldPage, {Position = UDim2.new(-0.05, 9, 0, 9)}, 0.15, Enum.EasingStyle.Quart)
-            task.wait(0.15)
+            Tw(oldPage, {
+                GroupTransparency = 1,
+                Position = UDim2.new(-0.1, 9, 0, 9)
+            }, 0.2, Enum.EasingStyle.Quart)
+            task.wait(0.2)
             oldPage.Visible = false
+            oldPage.GroupTransparency = 0
             oldPage.Position = UDim2.new(0, 9, 0, 9)
-            Tw(newPage, {Position = UDim2.new(0, 9, 0, 9)}, 0.2, Enum.EasingStyle.Quart)
+            Tw(newPage, {
+                GroupTransparency = 0,
+                Position = UDim2.new(0, 9, 0, 9)
+            }, 0.2, Enum.EasingStyle.Quart)
 
         else
             oldPage.Visible = false
