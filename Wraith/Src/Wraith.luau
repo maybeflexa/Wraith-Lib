@@ -15,10 +15,6 @@ local DDRefresh = {}
 local TabRefreshers = {}
 local SearchableElements = {}
 local ScreenGui
-local Lighting = game:GetService("Lighting")
-local AcrylicBlur = nil
-local CurrentTransition = "Fade"
-local TransitionPresets = {"Fade", "Slide", "Scale", "SlideAndFade"}
 
 local PlatformURLs = {
     ["Lucide"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Lucide.lua"
@@ -116,82 +112,6 @@ local Themes = {
         ElTr = 0.36,
         SbTr = 0.15
     },
-        ["Stealth"] = {
-        Bg = Color3.fromRGB(30, 30, 30),
-        Bg2 = Color3.fromRGB(38, 38, 38),
-        Bg3 = Color3.fromRGB(48, 48, 48),
-        El = Color3.fromRGB(42, 42, 42),
-        ElHov = Color3.fromRGB(55, 55, 55),
-        Border = Color3.fromRGB(62, 62, 62),
-        Txt = Color3.fromRGB(240, 240, 240),
-        Txt2 = Color3.fromRGB(158, 158, 158),
-        Txt3 = Color3.fromRGB(105, 105, 105),
-        Acc = Color3.fromRGB(195, 195, 195),
-        AccD = Color3.fromRGB(145, 145, 145),
-        TOn = Color3.fromRGB(205, 205, 205),
-        TOff = Color3.fromRGB(60, 60, 60),
-        Slider = Color3.fromRGB(185, 185, 185),
-        BgTr = 0.15,
-        ElTr = 0.42,
-        SbTr = 0.25
-    },
-    ["Graphite"] = {
-        Bg = Color3.fromRGB(22, 20, 18),
-        Bg2 = Color3.fromRGB(30, 28, 25),
-        Bg3 = Color3.fromRGB(40, 37, 34),
-        El = Color3.fromRGB(34, 32, 28),
-        ElHov = Color3.fromRGB(48, 44, 40),
-        Border = Color3.fromRGB(56, 52, 48),
-        Txt = Color3.fromRGB(242, 238, 232),
-        Txt2 = Color3.fromRGB(162, 155, 148),
-        Txt3 = Color3.fromRGB(108, 102, 96),
-        Acc = Color3.fromRGB(205, 198, 188),
-        AccD = Color3.fromRGB(155, 148, 138),
-        TOn = Color3.fromRGB(215, 208, 198),
-        TOff = Color3.fromRGB(52, 48, 44),
-        Slider = Color3.fromRGB(195, 188, 178),
-        BgTr = 0.12,
-        ElTr = 0.4,
-        SbTr = 0.2
-    },
-    ["Slate"] = {
-        Bg = Color3.fromRGB(16, 20, 26),
-        Bg2 = Color3.fromRGB(22, 28, 36),
-        Bg3 = Color3.fromRGB(30, 38, 48),
-        El = Color3.fromRGB(26, 32, 42),
-        ElHov = Color3.fromRGB(38, 46, 58),
-        Border = Color3.fromRGB(48, 56, 68),
-        Txt = Color3.fromRGB(228, 235, 245),
-        Txt2 = Color3.fromRGB(142, 155, 172),
-        Txt3 = Color3.fromRGB(92, 105, 122),
-        Acc = Color3.fromRGB(168, 185, 208),
-        AccD = Color3.fromRGB(118, 135, 158),
-        TOn = Color3.fromRGB(178, 195, 218),
-        TOff = Color3.fromRGB(40, 48, 58),
-        Slider = Color3.fromRGB(158, 175, 198),
-        BgTr = 0.1,
-        ElTr = 0.38,
-        SbTr = 0.18
-    },
-    ["Ash"] = {
-        Bg = Color3.fromRGB(24, 26, 28),
-        Bg2 = Color3.fromRGB(32, 34, 36),
-        Bg3 = Color3.fromRGB(42, 44, 46),
-        El = Color3.fromRGB(36, 38, 40),
-        ElHov = Color3.fromRGB(50, 52, 54),
-        Border = Color3.fromRGB(58, 60, 62),
-        Txt = Color3.fromRGB(235, 238, 242),
-        Txt2 = Color3.fromRGB(148, 152, 158),
-        Txt3 = Color3.fromRGB(98, 102, 108),
-        Acc = Color3.fromRGB(188, 192, 198),
-        AccD = Color3.fromRGB(138, 142, 148),
-        TOn = Color3.fromRGB(198, 202, 208),
-        TOff = Color3.fromRGB(52, 54, 56),
-        Slider = Color3.fromRGB(178, 182, 188),
-        BgTr = 0.12,
-        ElTr = 0.4,
-        SbTr = 0.2
-    },
     ["Charcoal"] = {
         Bg = Color3.fromRGB(20, 20, 20),
         Bg2 = Color3.fromRGB(28, 28, 28),
@@ -210,7 +130,159 @@ local Themes = {
         BgTr = 0.12,
         ElTr = 0.4,
         SbTr = 0.22
-    }
+    },
+    ["Neon Noir"] = {
+        Bg = Color3.fromRGB(4, 2, 10),
+        Bg2 = Color3.fromRGB(8, 4, 18),
+        Bg3 = Color3.fromRGB(14, 8, 28),
+        El = Color3.fromRGB(10, 5, 22),
+        ElHov = Color3.fromRGB(20, 10, 38),
+        Border = Color3.fromRGB(80, 20, 120),
+        Txt = Color3.fromRGB(240, 220, 255),
+        Txt2 = Color3.fromRGB(180, 100, 230),
+        Txt3 = Color3.fromRGB(110, 50, 155),
+        Acc = Color3.fromRGB(210, 80, 255),
+        AccD = Color3.fromRGB(150, 40, 200),
+        TOn = Color3.fromRGB(220, 90, 255),
+        TOff = Color3.fromRGB(40, 10, 60),
+        Slider = Color3.fromRGB(200, 70, 245),
+        BgTr = 0.08,
+        ElTr = 0.35,
+        SbTr = 0.14
+    },
+    ["Copper"] = {
+        Bg = Color3.fromRGB(12, 7, 3),
+        Bg2 = Color3.fromRGB(20, 12, 5),
+        Bg3 = Color3.fromRGB(30, 18, 8),
+        El = Color3.fromRGB(24, 14, 6),
+        ElHov = Color3.fromRGB(40, 24, 10),
+        Border = Color3.fromRGB(120, 65, 20),
+        Txt = Color3.fromRGB(255, 225, 185),
+        Txt2 = Color3.fromRGB(200, 135, 70),
+        Txt3 = Color3.fromRGB(135, 82, 35),
+        Acc = Color3.fromRGB(210, 120, 45),
+        AccD = Color3.fromRGB(158, 82, 25),
+        TOn = Color3.fromRGB(225, 130, 50),
+        TOff = Color3.fromRGB(48, 24, 8),
+        Slider = Color3.fromRGB(200, 110, 40),
+        BgTr = 0.08,
+        ElTr = 0.36,
+        SbTr = 0.15
+    },
+    ["Arctic"] = {
+        Bg = Color3.fromRGB(2, 10, 20),
+        Bg2 = Color3.fromRGB(4, 16, 30),
+        Bg3 = Color3.fromRGB(8, 24, 42),
+        El = Color3.fromRGB(6, 20, 36),
+        ElHov = Color3.fromRGB(12, 32, 54),
+        Border = Color3.fromRGB(20, 80, 140),
+        Txt = Color3.fromRGB(200, 235, 255),
+        Txt2 = Color3.fromRGB(90, 170, 230),
+        Txt3 = Color3.fromRGB(45, 110, 170),
+        Acc = Color3.fromRGB(60, 180, 255),
+        AccD = Color3.fromRGB(30, 130, 210),
+        TOn = Color3.fromRGB(70, 190, 255),
+        TOff = Color3.fromRGB(8, 40, 70),
+        Slider = Color3.fromRGB(50, 170, 245),
+        BgTr = 0.08,
+        ElTr = 0.35,
+        SbTr = 0.14
+    },
+    ["Ember"] = {
+        Bg = Color3.fromRGB(12, 4, 2),
+        Bg2 = Color3.fromRGB(20, 7, 3),
+        Bg3 = Color3.fromRGB(30, 11, 5),
+        El = Color3.fromRGB(24, 8, 4),
+        ElHov = Color3.fromRGB(40, 14, 6),
+        Border = Color3.fromRGB(140, 40, 10),
+        Txt = Color3.fromRGB(255, 220, 195),
+        Txt2 = Color3.fromRGB(220, 120, 60),
+        Txt3 = Color3.fromRGB(150, 65, 25),
+        Acc = Color3.fromRGB(245, 100, 30),
+        AccD = Color3.fromRGB(190, 65, 15),
+        TOn = Color3.fromRGB(255, 110, 35),
+        TOff = Color3.fromRGB(50, 14, 5),
+        Slider = Color3.fromRGB(235, 90, 25),
+        BgTr = 0.08,
+        ElTr = 0.36,
+        SbTr = 0.14
+    },
+    ["Toxic"] = {
+        Bg = Color3.fromRGB(2, 10, 4),
+        Bg2 = Color3.fromRGB(4, 16, 6),
+        Bg3 = Color3.fromRGB(6, 24, 10),
+        El = Color3.fromRGB(5, 20, 8),
+        ElHov = Color3.fromRGB(10, 34, 14),
+        Border = Color3.fromRGB(30, 120, 40),
+        Txt = Color3.fromRGB(195, 255, 200),
+        Txt2 = Color3.fromRGB(80, 210, 95),
+        Txt3 = Color3.fromRGB(35, 138, 50),
+        Acc = Color3.fromRGB(50, 230, 70),
+        AccD = Color3.fromRGB(25, 172, 44),
+        TOn = Color3.fromRGB(55, 240, 75),
+        TOff = Color3.fromRGB(8, 42, 12),
+        Slider = Color3.fromRGB(40, 220, 60),
+        BgTr = 0.08,
+        ElTr = 0.35,
+        SbTr = 0.14
+    },
+    ["Sakura"] = {
+        Bg = Color3.fromRGB(14, 5, 8),
+        Bg2 = Color3.fromRGB(22, 8, 13),
+        Bg3 = Color3.fromRGB(32, 12, 19),
+        El = Color3.fromRGB(26, 9, 15),
+        ElHov = Color3.fromRGB(44, 16, 26),
+        Border = Color3.fromRGB(160, 50, 90),
+        Txt = Color3.fromRGB(255, 215, 228),
+        Txt2 = Color3.fromRGB(230, 120, 158),
+        Txt3 = Color3.fromRGB(160, 65, 100),
+        Acc = Color3.fromRGB(248, 100, 148),
+        AccD = Color3.fromRGB(195, 60, 105),
+        TOn = Color3.fromRGB(255, 110, 158),
+        TOff = Color3.fromRGB(55, 16, 30),
+        Slider = Color3.fromRGB(238, 90, 138),
+        BgTr = 0.08,
+        ElTr = 0.36,
+        SbTr = 0.15
+    },
+    ["Abyss"] = {
+        Bg = Color3.fromRGB(0, 4, 14),
+        Bg2 = Color3.fromRGB(2, 8, 22),
+        Bg3 = Color3.fromRGB(4, 13, 32),
+        El = Color3.fromRGB(3, 10, 26),
+        ElHov = Color3.fromRGB(6, 18, 42),
+        Border = Color3.fromRGB(10, 50, 130),
+        Txt = Color3.fromRGB(180, 205, 255),
+        Txt2 = Color3.fromRGB(70, 120, 210),
+        Txt3 = Color3.fromRGB(30, 70, 148),
+        Acc = Color3.fromRGB(40, 100, 235),
+        AccD = Color3.fromRGB(20, 65, 178),
+        TOn = Color3.fromRGB(45, 110, 245),
+        TOff = Color3.fromRGB(5, 20, 58),
+        Slider = Color3.fromRGB(30, 90, 225),
+        BgTr = 0.06,
+        ElTr = 0.34,
+        SbTr = 0.12
+    },
+    ["Sand"] = {
+        Bg = Color3.fromRGB(16, 13, 7),
+        Bg2 = Color3.fromRGB(25, 20, 11),
+        Bg3 = Color3.fromRGB(36, 29, 16),
+        El = Color3.fromRGB(29, 23, 12),
+        ElHov = Color3.fromRGB(46, 37, 19),
+        Border = Color3.fromRGB(110, 88, 42),
+        Txt = Color3.fromRGB(255, 242, 210),
+        Txt2 = Color3.fromRGB(198, 168, 100),
+        Txt3 = Color3.fromRGB(135, 108, 55),
+        Acc = Color3.fromRGB(218, 178, 88),
+        AccD = Color3.fromRGB(165, 130, 52),
+        TOn = Color3.fromRGB(228, 188, 95),
+        TOff = Color3.fromRGB(50, 38, 17),
+        Slider = Color3.fromRGB(208, 168, 78),
+        BgTr = 0.1,
+        ElTr = 0.38,
+        SbTr = 0.17
+    },
 }
 
 local T = Themes["AMOLED"]
@@ -725,41 +797,6 @@ function Wraith:AddTheme(name, themeData)
         )
     end)
     return true
-end
-
-local function EnableAcrylic()
-    if AcrylicBlur then return end
-    AcrylicBlur = Instance.new("BlurEffect")
-    AcrylicBlur.Size = 12
-    AcrylicBlur.Parent = Lighting
-end
-
-local function DisableAcrylic()
-    if AcrylicBlur then
-        AcrylicBlur:Destroy()
-        AcrylicBlur = nil
-    end
-end
-
-function Wraith:EnableAcrylic()
-    EnableAcrylic()
-end
-
-function Wraith:DisableAcrylic()
-    DisableAcrylic()
-end
-
-function Wraith:SetTransition(name)
-    for _, preset in ipairs(TransitionPresets) do
-        if preset == name then
-            CurrentTransition = name
-            return
-        end
-    end
-end
-
-function Wraith:GetTransitions()
-    return TransitionPresets
 end
 
 function Wraith:Notify(o)
@@ -2255,101 +2292,23 @@ function Wraith:CreateWindow(o)
         end
     end)
 
-        local function doPageTransition(oldPage, newPage)
-        if not oldPage then
-            newPage.Visible = true
-            return
-        end
-
-        if CurrentTransition == "Fade" then
-            newPage.GroupTransparency = 1
-            newPage.Visible = true
-            Tw(oldPage, {GroupTransparency = 1}, 0.15, Enum.EasingStyle.Quart)
-            task.wait(0.15)
-            oldPage.Visible = false
-            oldPage.GroupTransparency = 0
-            Tw(newPage, {GroupTransparency = 0}, 0.2, Enum.EasingStyle.Quart)
-
-        elseif CurrentTransition == "Slide" then
-            newPage.Position = UDim2.new(1, 0, 0, 9)
-            newPage.Visible = true
-            Tw(oldPage, {Position = UDim2.new(-1, 0, 0, 9)}, 0.25, Enum.EasingStyle.Quart)
-            Tw(newPage, {Position = UDim2.new(0, 9, 0, 9)}, 0.25, Enum.EasingStyle.Quart)
-            task.wait(0.25)
-            oldPage.Visible = false
-            oldPage.Position = UDim2.new(0, 9, 0, 9)
-
-        elseif CurrentTransition == "Scale" then
-            newPage.Visible = true
-            newPage.GroupTransparency = 1
-            newPage.Size = UDim2.new(0.9, -18, 0.9, -18)
-            newPage.Position = UDim2.new(0.05, 9, 0.05, 9)
-            Tw(oldPage, {GroupTransparency = 1}, 0.12, Enum.EasingStyle.Quart)
-            task.wait(0.12)
-            oldPage.Visible = false
-            oldPage.GroupTransparency = 0
-            Tw(newPage, {
-                GroupTransparency = 0,
-                Size = UDim2.new(1, -18, 1, -18),
-                Position = UDim2.new(0, 9, 0, 9)
-            }, 0.2, Enum.EasingStyle.Back)
-
-        elseif CurrentTransition == "SlideAndFade" then
-            newPage.Position = UDim2.new(0.1, 9, 0, 9)
-            newPage.GroupTransparency = 1
-            newPage.Visible = true
-            Tw(oldPage, {
-                GroupTransparency = 1,
-                Position = UDim2.new(-0.1, 9, 0, 9)
-            }, 0.2, Enum.EasingStyle.Quart)
-            task.wait(0.2)
-            oldPage.Visible = false
-            oldPage.GroupTransparency = 0
-            oldPage.Position = UDim2.new(0, 9, 0, 9)
-            Tw(newPage, {
-                GroupTransparency = 0,
-                Position = UDim2.new(0, 9, 0, 9)
-            }, 0.2, Enum.EasingStyle.Quart)
-
-        else
-            oldPage.Visible = false
-            newPage.Visible = true
-        end
-    end
-
     function W:SelectTab(tab)
         if self.ActiveTab == tab then return end
-        local oldPage = self.ActiveTab and self.ActiveTab.Pg or nil
         if self.ActiveTab then
             self.ActiveTab._sel = false
-            Tw(self.ActiveTab.Btn, {
-                BackgroundColor3 = T.Bg2,
-                BackgroundTransparency = 1
-            }, 0.2)
+            Tw(self.ActiveTab.Btn, {BackgroundColor3 = T.Bg2, BackgroundTransparency = 1}, 0.2)
             Tw(self.ActiveTab.Lbl, {TextColor3 = T.Txt2}, 0.2)
-            if self.ActiveTab.Ico then
-                Tw(self.ActiveTab.Ico, {ImageColor3 = T.Txt2}, 0.2)
-            end
-            if self.ActiveTab.Ind then
-                Tw(self.ActiveTab.Ind, {BackgroundTransparency = 1}, 0.15)
-            end
+            if self.ActiveTab.Ico then Tw(self.ActiveTab.Ico, {ImageColor3 = T.Txt2}, 0.2) end
+            if self.ActiveTab.Ind then Tw(self.ActiveTab.Ind, {BackgroundTransparency = 1}, 0.15) end
+            self.ActiveTab.Pg.Visible = false
         end
         self.ActiveTab = tab
         tab._sel = true
-        Tw(tab.Btn, {
-            BackgroundColor3 = T.El,
-            BackgroundTransparency = T.ElTr * 0.5
-        }, 0.2)
+        Tw(tab.Btn, {BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr * 0.5}, 0.2)
         Tw(tab.Lbl, {TextColor3 = T.Txt}, 0.2)
-        if tab.Ico then
-            Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.2)
-        end
-        if tab.Ind then
-            Tw(tab.Ind, {BackgroundTransparency = 0}, 0.15)
-        end
-        task.spawn(function()
-            doPageTransition(oldPage, tab.Pg)
-        end)
+        if tab.Ico then Tw(tab.Ico, {ImageColor3 = T.Txt}, 0.2) end
+        if tab.Ind then Tw(tab.Ind, {BackgroundTransparency = 0}, 0.15) end
+        tab.Pg.Visible = true
     end
 
     function W:AddTab(tabOpts)
@@ -3835,10 +3794,9 @@ function Wraith:CreateWindow(o)
     function W:Show() showWindow() end
     function W:Hide() hideWindow() end
     function W:Minimize() minimizeWindow() end
-        function W:Destroy()
+    function W:Destroy()
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
-        DisableAcrylic()
     end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
