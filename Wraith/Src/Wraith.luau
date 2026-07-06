@@ -172,6 +172,63 @@ local Themes = {
         BgTr = 0.06,
         ElTr = 0.34,
         SbTr = 0.12
+    },
+    ["Mocha"] = {
+        Bg = Color3.fromRGB(25, 20, 18),
+        Bg2 = Color3.fromRGB(34, 27, 24),
+        Bg3 = Color3.fromRGB(45, 36, 31),
+        El = Color3.fromRGB(39, 31, 28),
+        ElHov = Color3.fromRGB(55, 43, 37),
+        Border = Color3.fromRGB(73, 56, 48),
+        Txt = Color3.fromRGB(245, 236, 226),
+        Txt2 = Color3.fromRGB(184, 165, 151),
+        Txt3 = Color3.fromRGB(123, 103, 91),
+        Acc = Color3.fromRGB(215, 158, 111),
+        AccD = Color3.fromRGB(169, 113, 76),
+        TOn = Color3.fromRGB(215, 158, 111),
+        TOff = Color3.fromRGB(65, 49, 42),
+        Slider = Color3.fromRGB(215, 158, 111),
+        BgTr = 0.1,
+        ElTr = 0.34,
+        SbTr = 0.18
+    },
+    ["Nord"] = {
+        Bg = Color3.fromRGB(20, 25, 34),
+        Bg2 = Color3.fromRGB(28, 34, 45),
+        Bg3 = Color3.fromRGB(38, 46, 59),
+        El = Color3.fromRGB(33, 40, 52),
+        ElHov = Color3.fromRGB(47, 56, 70),
+        Border = Color3.fromRGB(63, 75, 91),
+        Txt = Color3.fromRGB(236, 241, 248),
+        Txt2 = Color3.fromRGB(169, 183, 199),
+        Txt3 = Color3.fromRGB(111, 127, 145),
+        Acc = Color3.fromRGB(136, 192, 208),
+        AccD = Color3.fromRGB(94, 145, 163),
+        TOn = Color3.fromRGB(136, 192, 208),
+        TOff = Color3.fromRGB(54, 63, 77),
+        Slider = Color3.fromRGB(136, 192, 208),
+        BgTr = 0.11,
+        ElTr = 0.35,
+        SbTr = 0.2
+    },
+    ["Rose"] = {
+        Bg = Color3.fromRGB(28, 20, 27),
+        Bg2 = Color3.fromRGB(38, 28, 37),
+        Bg3 = Color3.fromRGB(50, 38, 49),
+        El = Color3.fromRGB(44, 33, 43),
+        ElHov = Color3.fromRGB(61, 45, 59),
+        Border = Color3.fromRGB(82, 61, 77),
+        Txt = Color3.fromRGB(249, 234, 243),
+        Txt2 = Color3.fromRGB(196, 161, 181),
+        Txt3 = Color3.fromRGB(132, 98, 117),
+        Acc = Color3.fromRGB(235, 142, 181),
+        AccD = Color3.fromRGB(188, 92, 135),
+        TOn = Color3.fromRGB(235, 142, 181),
+        TOff = Color3.fromRGB(67, 48, 62),
+        Slider = Color3.fromRGB(235, 142, 181),
+        BgTr = 0.1,
+        ElTr = 0.35,
+        SbTr = 0.18
     }
 }
 
@@ -1804,6 +1861,17 @@ function Wraith:CreateWindow(o)
     B(main, {BackgroundColor3 = "Bg", BackgroundTransparency = "BgTr"})
     B(mainStroke, {Color = "Border"})
 
+    local bgImage = C("ImageLabel", {
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundTransparency = 1,
+        Image = o.BackgroundImage or "",
+        ImageTransparency = o.BackgroundImage and (o.BackgroundImageTransparency or 0.72) or 1,
+        ScaleType = o.BackgroundImageScaleType or Enum.ScaleType.Crop,
+        ZIndex = 0,
+        Parent = main
+    })
+    Cn(bgImage, 14)
+
     local topBar = C("Frame", {
         Size = UDim2.new(1, 0, 0, 48),
         BackgroundColor3 = T.Bg2,
@@ -2198,7 +2266,17 @@ function Wraith:CreateWindow(o)
     })
     B(sbDiv, {BackgroundColor3 = "Border"})
 
-    local searchHeight = searchable and 36 or 0
+    local searchHeight = searchable and 64 or 0
+    local searchCategory = "All"
+    local searchCategories = {
+        "All",
+        "Button",
+        "Toggle",
+        "Slider",
+        "Dropdown",
+        "Input",
+        "ProgressBar"
+    }
     if searchable then
         local searchBox = C("TextBox", {
             Size = UDim2.new(1, -12, 0, 28),
@@ -2219,25 +2297,46 @@ function Wraith:CreateWindow(o)
         B(searchBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
         B(sStroke, {Color = "Border"})
 
-        searchBox:GetPropertyChangedSignal("Text"):Connect(function()
+        local categoryBtn = C("TextButton", {
+            Size = UDim2.new(1, -12, 0, 22),
+            Position = UDim2.new(0, 6, 0, 36),
+            BackgroundColor3 = T.Bg3,
+            BackgroundTransparency = 0.25,
+            Text = "Category: All",
+            TextColor3 = T.Txt2,
+            TextSize = 10,
+            Font = Enum.Font.GothamSemibold,
+            AutoButtonColor = false,
+            Parent = sideBar
+        })
+        Cn(categoryBtn, 6)
+        local categoryStroke = St(categoryBtn, T.Border, 1, 0.55)
+        B(categoryBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"})
+        B(categoryStroke, {Color = "Border"})
+
+        local function applySearch()
             local query = searchBox.Text:lower()
             for _, el in ipairs(SearchableElements) do
                 if el.Frame and el.Frame.Parent then
-                    if query == "" then
-                        el.Frame.Visible = true
-                    else
-                        local visible = false
-                        if el.Title and el.Title:lower():find(query, 1, true) then
-                            visible = true
-                        end
-                        if not visible and el.Description
-                            and el.Description:lower():find(query, 1, true) then
-                            visible = true
-                        end
-                        el.Frame.Visible = visible
+                    local categoryMatch = searchCategory == "All" or el.Type == searchCategory
+                    local textMatch = query == ""
+                    if not textMatch and el.Title and el.Title:lower():find(query, 1, true) then
+                        textMatch = true
                     end
+                    if not textMatch and el.Description and el.Description:lower():find(query, 1, true) then
+                        textMatch = true
+                    end
+                    el.Frame.Visible = categoryMatch and textMatch
                 end
             end
+        end
+
+        searchBox:GetPropertyChangedSignal("Text"):Connect(applySearch)
+        categoryBtn.MouseButton1Click:Connect(function()
+            local index = table.find(searchCategories, searchCategory) or 1
+            searchCategory = searchCategories[index + 1] or searchCategories[1]
+            categoryBtn.Text = "Category: " .. searchCategory
+            applySearch()
         end)
     end
 
@@ -2310,7 +2409,7 @@ function Wraith:CreateWindow(o)
             BackgroundTransparency = 1,
             Text = "",
             AutoButtonColor = false,
-            Parent = tabList
+            Parent = tabOpts.Parent or tabList
         })
         Cn(tabBtn, 7)
 
@@ -2416,8 +2515,8 @@ function Wraith:CreateWindow(o)
             return container
         end
 
-        local function regSearch(frame, title, desc)
-            table.insert(SearchableElements, {Frame = frame, Title = title, Description = desc or ""})
+        local function regSearch(frame, title, desc, elementType)
+            table.insert(SearchableElements, {Frame = frame, Title = title, Description = desc or "", Type = elementType or "Other"})
         end
 
         local function resolveArgs(a, b)
@@ -2513,7 +2612,7 @@ function Wraith:CreateWindow(o)
                     Parent = container
                 })
                 B(contentLbl, {TextColor3 = "Txt2"})
-                regSearch(container, p.Title or "", p.Content)
+                regSearch(container, p.Title or "", p.Content, "Paragraph")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 local el = {Type = "Paragraph"}
                 function el:Set(x)
@@ -2580,7 +2679,7 @@ function Wraith:CreateWindow(o)
                     Tw(container, {BackgroundColor3 = T.El}, 0.1)
                     if p.Callback then p.Callback() end
                 end)
-                regSearch(container, p.Title or "Button", p.Description)
+                regSearch(container, p.Title or "Button", p.Description, "Button")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 return {Type = "Button"}
             end
@@ -2655,7 +2754,7 @@ function Wraith:CreateWindow(o)
                     cb(toggled)
                 end)
                 table.insert(DDRefresh, {F = container, R = update})
-                regSearch(container, p.Title or "Toggle", p.Description)
+                regSearch(container, p.Title or "Toggle", p.Description, "Toggle")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -2733,7 +2832,7 @@ function Wraith:CreateWindow(o)
                     cb(checked)
                 end)
                 table.insert(DDRefresh, {F = container, R = update})
-                regSearch(container, p.Title or "Checkbox", p.Description)
+                regSearch(container, p.Title or "Checkbox", p.Description, "Toggle")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -2771,6 +2870,7 @@ function Wraith:CreateWindow(o)
                     Font = Enum.Font.GothamSemibold,
                     TextXAlignment = Enum.TextXAlignment.Right,
                     ClearTextOnFocus = true,
+                    ZIndex = 6,
                     Parent = container
                 })
                 B(valBox, {TextColor3 = "Txt2"})
@@ -2865,7 +2965,10 @@ function Wraith:CreateWindow(o)
                     end
                 end)
                 valBox.FocusLost:Connect(function()
-                    local raw = valBox.Text:gsub(sf, "")
+                    local raw = valBox.Text
+                    if sf ~= "" and raw:sub(-#sf) == sf then
+                        raw = raw:sub(1, #raw - #sf)
+                    end
                     local num = tonumber(raw)
                     if num then
                         setVal(num)
@@ -2873,7 +2976,7 @@ function Wraith:CreateWindow(o)
                         valBox.Text = tostring(el.Value) .. sf
                     end
                 end)
-                regSearch(container, p.Title or "Slider", p.Description)
+                regSearch(container, p.Title or "Slider", p.Description, "Slider")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3010,10 +3113,47 @@ function Wraith:CreateWindow(o)
                     Parent = optionsFrame
                 })
                 local el = {Type = multi and "MultiDropdown" or "Dropdown", Value = sel, Flag = flag, Save = p.Save ~= false}
+                local optionQuery = ""
+                local dropdownSearchable = p.Searchable ~= false
+                local optionSearch
+                if dropdownSearchable then
+                    optionSearch = C("TextBox", {
+                        Name = "OptionSearch",
+                        Size = UDim2.new(1, 0, 0, 24),
+                        BackgroundColor3 = T.Bg3,
+                        BackgroundTransparency = 0.15,
+                        Text = "",
+                        PlaceholderText = "Search options...",
+                        PlaceholderColor3 = T.Txt3,
+                        TextColor3 = T.Txt2,
+                        TextSize = 10,
+                        Font = Enum.Font.Gotham,
+                        ClearTextOnFocus = false,
+                        Parent = optionsFrame
+                    })
+                    Cn(optionSearch, 5)
+                    local optionStroke = St(optionSearch, T.Border, 1, 0.55)
+                    Pd(optionSearch, 0, 0, 7, 7)
+                    B(optionSearch, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2", PlaceholderColor3 = "Txt3"})
+                    B(optionStroke, {Color = "Border"})
+                end
+                local function optionMatches(option)
+                    if optionQuery == "" or (type(option) == "table" and option.Type == "Divider") then
+                        return true
+                    end
+                    local query = optionQuery:lower()
+                    if getOptionTitle(option):lower():find(query, 1, true) then
+                        return true
+                    end
+                    local description = getOptionDescription(option)
+                    return description and description:lower():find(query, 1, true) ~= nil
+                end
                 local function getOptionsHeight()
-                    local height = 0
+                    local height = dropdownSearchable and 28 or 0
                     for _, option in ipairs(vals) do
-                        height = height + getOptionHeight(option) + 2
+                        if optionMatches(option) then
+                            height = height + getOptionHeight(option) + 2
+                        end
                     end
                     return height
                 end
@@ -3025,10 +3165,10 @@ function Wraith:CreateWindow(o)
                 end
                 local function refresh()
                     for _, ch in ipairs(optionsFrame:GetChildren()) do
-                        if ch:IsA("GuiObject") then ch:Destroy() end
+                        if ch:IsA("GuiObject") and ch ~= optionSearch then ch:Destroy() end
                     end
                     for _, option in ipairs(vals) do
-                        if type(option) == "table" and option.Type == "Divider" then
+                        if optionMatches(option) and type(option) == "table" and option.Type == "Divider" then
                             local lineHolder = C("Frame", {
                                 Size = UDim2.new(1, 0, 0, 6),
                                 BackgroundTransparency = 1,
@@ -3043,7 +3183,7 @@ function Wraith:CreateWindow(o)
                                 Parent = lineHolder
                             })
                             B(line, {BackgroundColor3 = "Border"})
-                        else
+                        elseif optionMatches(option) then
                             local value = getOptionValue(option)
                             local title = getOptionTitle(option)
                             local description = getOptionDescription(option)
@@ -3134,6 +3274,12 @@ function Wraith:CreateWindow(o)
                         Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, height)}, 0.2)
                     end
                 end
+                if optionSearch then
+                    optionSearch:GetPropertyChangedSignal("Text"):Connect(function()
+                        optionQuery = optionSearch.Text
+                        refresh()
+                    end)
+                end
                 refresh()
                 table.insert(DDRefresh, {F = container, R = refresh})
                 dropBtn.MouseButton1Click:Connect(function()
@@ -3177,7 +3323,7 @@ function Wraith:CreateWindow(o)
                 function el:Select(v)
                     self:Set(v)
                 end
-                regSearch(container, p.Title or "Dropdown", p.Description)
+                regSearch(container, p.Title or "Dropdown", p.Description, "Dropdown")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3234,7 +3380,7 @@ function Wraith:CreateWindow(o)
                     preview.BackgroundColor3 = col
                     cb(col)
                 end
-                regSearch(container, p.Title or "Color")
+                regSearch(container, p.Title or "Color", nil, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3306,7 +3452,7 @@ function Wraith:CreateWindow(o)
                     kbBtn.Text = k and k.Name or "None"
                     ccb(k)
                 end
-                regSearch(container, p.Title or "Keybind")
+                regSearch(container, p.Title or "Keybind", nil, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3374,7 +3520,7 @@ function Wraith:CreateWindow(o)
                     cb(v)
                 end)
                 function el:Set(v) el.Value = v; inputBox.Text = tostring(v); cb(v) end
-                regSearch(container, p.Title or "Input", p.Description)
+                regSearch(container, p.Title or "Input", p.Description, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3465,11 +3611,17 @@ function Wraith:CreateWindow(o)
                 end
                 function el:Set(t)
                     if type(t) ~= "table" then return end
-                    for k, v in pairs(t) do values[k] = v end
+                    for k, v in pairs(t) do
+                        if setters[k] then
+                            setters[k](v)
+                        else
+                            values[k] = v
+                        end
+                    end
                     el.Value = values
                     if p.Callback then p.Callback(values) end
                 end
-                regSearch(container, p.Title or "Multi Input", p.Description)
+                regSearch(container, p.Title or "Multi Input", p.Description, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3510,6 +3662,7 @@ function Wraith:CreateWindow(o)
                 end
                 local startY = (p.Description or "") ~= "" and 38 or 24
                 local values = {}
+                local setters = {}
                 local el = {Type = "MultiSlider", Value = values, Flag = flag, Save = p.Save ~= false}
                 for i, field in ipairs(fields) do
                     local fieldName = field.Name or ("Slider" .. i)
@@ -3542,6 +3695,7 @@ function Wraith:CreateWindow(o)
                         Font = Enum.Font.GothamSemibold,
                         TextXAlignment = Enum.TextXAlignment.Right,
                         ClearTextOnFocus = true,
+                        ZIndex = 6,
                         Parent = container
                     })
                     B(valBox, {TextColor3 = "Txt2"})
@@ -3592,6 +3746,7 @@ function Wraith:CreateWindow(o)
                         fieldCb(v, values)
                         if p.Callback then p.Callback(values) end
                     end
+                    setters[fieldName] = setVal
                     local function handleInput(input)
                         local pp = math.clamp(
                             (input.Position.X - bg.AbsolutePosition.X) / bg.AbsoluteSize.X,
@@ -3621,7 +3776,10 @@ function Wraith:CreateWindow(o)
                         end
                     end)
                     valBox.FocusLost:Connect(function()
-                        local raw = valBox.Text:gsub(sf, "")
+                        local raw = valBox.Text
+                        if sf ~= "" and raw:sub(-#sf) == sf then
+                            raw = raw:sub(1, #raw - #sf)
+                        end
                         local num = tonumber(raw)
                         if num then
                             setVal(num)
@@ -3636,7 +3794,7 @@ function Wraith:CreateWindow(o)
                     el.Value = values
                     if p.Callback then p.Callback(values) end
                 end
-                regSearch(container, p.Title or "Multi Slider", p.Description)
+                regSearch(container, p.Title or "Multi Slider", p.Description, "Slider")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3716,7 +3874,7 @@ function Wraith:CreateWindow(o)
                     local n = tonumber(valBox.Text)
                     if n then setVal(n) else valBox.Text = tostring(cur) end
                 end)
-                regSearch(container, p.Title or "Number")
+                regSearch(container, p.Title or "Number", nil, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -3756,7 +3914,7 @@ function Wraith:CreateWindow(o)
                         task.wait(1)
                     end
                 end)
-                regSearch(container, p.Title or "DateTime")
+                regSearch(container, p.Title or "DateTime", nil, "Other")
                 return {Type = "DateTime"}
             end
 
@@ -3796,7 +3954,7 @@ function Wraith:CreateWindow(o)
                         task.wait(interval)
                     end
                 end)
-                regSearch(container, p.Title or "Status")
+                regSearch(container, p.Title or "Status", nil, "Other")
                 local el = {Type = "StatusBar"}
                 function el:Set(v) valLbl.Text = tostring(v) end
                 return el
@@ -3921,7 +4079,7 @@ function Wraith:CreateWindow(o)
                 end
                 update(cur)
                 if type(getter) == "function" then run() end
-                regSearch(container, p.Title or "Progress", p.Description)
+                regSearch(container, p.Title or "Progress", p.Description, "ProgressBar")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
                 return el
@@ -4057,6 +4215,88 @@ function Wraith:CreateWindow(o)
         return tab
     end
 
+    function W:AddTabGroup(groupOpts)
+        groupOpts = groupOpts or {}
+        local opened = groupOpts.Opened ~= false
+        local groupFrame = C("Frame", {
+            Size = UDim2.new(1, 0, 0, 0),
+            BackgroundTransparency = 1,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Parent = tabList
+        })
+        local header = C("TextButton", {
+            Size = UDim2.new(1, 0, 0, 30),
+            BackgroundColor3 = T.Bg2,
+            BackgroundTransparency = 0.6,
+            Text = "",
+            AutoButtonColor = false,
+            Parent = groupFrame
+        })
+        Cn(header, 7)
+        B(header, {BackgroundColor3 = "Bg2"})
+        local arrow = C("TextLabel", {
+            Size = UDim2.new(0, 18, 1, 0),
+            Position = UDim2.new(0, 7, 0, 0),
+            BackgroundTransparency = 1,
+            Text = opened and "v" or ">",
+            TextColor3 = T.Txt3,
+            TextSize = 11,
+            Font = Enum.Font.GothamBold,
+            Parent = header
+        })
+        B(arrow, {TextColor3 = "Txt3"})
+        local label = C("TextLabel", {
+            Size = UDim2.new(1, -34, 1, 0),
+            Position = UDim2.new(0, 28, 0, 0),
+            BackgroundTransparency = 1,
+            Text = groupOpts.Title or "Group",
+            TextColor3 = T.Txt2,
+            TextSize = 11,
+            Font = Enum.Font.GothamBold,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Parent = header
+        })
+        B(label, {TextColor3 = "Txt2"})
+        local content = C("Frame", {
+            Size = UDim2.new(1, -8, 0, 0),
+            Position = UDim2.new(0, 8, 0, 34),
+            BackgroundTransparency = 1,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Visible = opened,
+            Parent = groupFrame
+        })
+        C("UIListLayout", {
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 3),
+            Parent = content
+        })
+        local group = {Frame = groupFrame, Content = content, Tabs = {}, Opened = opened}
+        local function update()
+            content.Visible = group.Opened
+            arrow.Text = group.Opened and "v" or ">"
+        end
+        function group:AddTab(tabOpts)
+            tabOpts = tabOpts or {}
+            tabOpts.Parent = content
+            local tab = W:AddTab(tabOpts)
+            table.insert(self.Tabs, tab)
+            return tab
+        end
+        function group:SetOpen(value)
+            self.Opened = value == true
+            update()
+        end
+        function group:Toggle()
+            self.Opened = not self.Opened
+            update()
+        end
+        header.MouseButton1Click:Connect(function()
+            group:Toggle()
+        end)
+        update()
+        return group
+    end
+
     W.MainFrame = main
     W.FloatButton = floatBtn
     function W:Show() showWindow() end
@@ -4065,6 +4305,13 @@ function Wraith:CreateWindow(o)
     function W:Destroy()
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
+    end
+    function W:SetBackgroundImage(image, transparency)
+        bgImage.Image = image or ""
+        bgImage.ImageTransparency = image and (transparency or bgImage.ImageTransparency) or 1
+    end
+    function W:SetBackgroundImageTransparency(transparency)
+        bgImage.ImageTransparency = math.clamp(tonumber(transparency) or bgImage.ImageTransparency, 0, 1)
     end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
