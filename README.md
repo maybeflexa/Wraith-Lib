@@ -4,7 +4,7 @@
 
 # Wraith Library UI
 
-A clean, modern Roblox UI library with themes, animations, addons, configs, icons and advanced elements.
+A clean Roblox UI library with themes, animations, configs, icons and modern elements.
 
 ![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)
 ![Roblox](https://img.shields.io/badge/Roblox-000000?style=for-the-badge&logo=roblox&logoColor=white)
@@ -23,33 +23,25 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 
 ## Features
 
-- Modern monochrome design
+- Dark monochrome design
 - 7 built-in themes
-- Custom themes
+- Custom theme support
 - Theme editor
-- Theme change callback
-- Transparency helpers
-- Gradient helper
-- Font system
-- Localization system
+- Current theme getter
+- Transparency getter
+- Smooth animations
 - Lucide icons
-- Custom icon packs
-- Prefix icon support
-- Smooth animation presets
-- Notification system
-- Dialog system
-- Tooltip system
 - Searchable sidebar
 - Resizable window
 - UI scale support
-- Floating OpenButton
-- Window tags
-- Custom topbar buttons
+- Advanced dropdown
+- ProgressBar element
 - SaveManager addon
 - InterfaceManager addon
-- Built-in ConfigManager bridge
-- Dual API syntax
+- ConfigManager bridge
+- Tooltip system
 - Mobile support
+- Dual API syntax
 
 ## Themes
 
@@ -70,7 +62,6 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 | Colorpicker | HSV color picker |
 | Keybind | Key selector |
 | Input | Text input |
-| Textarea | Multi-line input |
 | MultiInput | Multiple inputs in one element |
 | MultiSlider | Multiple sliders in one element |
 | NumberSpinner | Stepper number input |
@@ -80,10 +71,6 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 | Divider | Labeled divider |
 | Label | Simple text label |
 | Section | Element section |
-| Group | Element group |
-| VStack | Vertical stack |
-| HStack | Horizontal stack |
-| Space | Empty spacing |
 
 ## Quick Start
 
@@ -101,21 +88,15 @@ local InterfaceManager = loadstring(game:HttpGet(
 ))()
 
 local Window = Wraith:CreateWindow({
-    Title = "Wraith v1.1.0",
+    Title = "Wraith v1.0.0",
     SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 650, 0, 390),
+    Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(470, 300),
-    UIScale = 1,
-    OpenButton = {
-        Enabled = true,
-        Title = "W",
-        Draggable = true,
-        OnlyMobile = false
-    }
+    MinSize = Vector2.new(450, 280),
+    UIScale = 1
 })
 
 local Tabs = {
@@ -124,8 +105,8 @@ local Tabs = {
 }
 
 Tabs.Main:AddParagraph({
-    Title = "Paragraph",
-    Content = "This is a paragraph."
+    Title = "Theme Info",
+    Content = "Current theme: " .. Wraith:GetCurrentTheme()
 })
 
 Tabs.Main:AddButton({
@@ -140,15 +121,7 @@ Tabs.Main:AddButton({
     end
 })
 
-Tabs.Main:AddToggle("ExampleToggle", {
-    Title = "Toggle",
-    Default = false,
-    Callback = function(value)
-        print(value)
-    end
-})
-
-Tabs.Main:AddProgressBar({
+Tabs.Main:AddProgressBar("Progress", {
     Title = "Progress",
     Min = 0,
     Max = 100,
@@ -167,26 +140,6 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 SaveManager:LoadAutoloadConfig()
-```
-
-## Addons
-
-### SaveManager
-
-```lua
-SaveManager:SetLibrary(Wraith)
-SaveManager:SetFolder("WraithExample/specific-game")
-SaveManager:IgnoreThemeSettings()
-SaveManager:BuildConfigSection(Tabs.Settings)
-SaveManager:LoadAutoloadConfig()
-```
-
-### InterfaceManager
-
-```lua
-InterfaceManager:SetLibrary(Wraith)
-InterfaceManager:SetFolder("WraithExample")
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 ```
 
 ## Advanced Dropdown
@@ -219,31 +172,47 @@ Tabs.Main:AddDropdown("Actions", {
 })
 ```
 
-## Window Utilities
+## UI Scale
 
 ```lua
-Window:Tag({Title = "v1.1.0"})
-Window:CreateTopbarButton("Settings", "settings", function() end)
 Window:SetUIScale(0.9)
+local scale = Window:GetUIScale()
 ```
 
-## Theme Utilities
+## Theme State
 
 ```lua
-Wraith:OnThemeChange(function(name, theme)
-    print(name)
-end)
-
-print(Wraith:GetCurrentTheme())
-print(Wraith:GetTransparency().Background)
+local currentTheme = Wraith:GetCurrentTheme()
+local transparency = Wraith:GetTransparency()
 ```
 
-## Icon Packs
+## ConfigManager Bridge
 
 ```lua
-Wraith:AddIconPack("custom", {
-    star = "rbxassetid://6031068426"
-})
+local Config = Window.ConfigManager:CreateConfig("default")
 
-Window:CreateTopbarButton("Star", "custom:star", function() end)
+Config:Save()
+Config:Load()
+Config:SetAutoLoad(true)
+Config:Delete()
+```
+
+## Addons
+
+### SaveManager
+
+```lua
+SaveManager:SetLibrary(Wraith)
+SaveManager:SetFolder("WraithExample/specific-game")
+SaveManager:IgnoreThemeSettings()
+SaveManager:BuildConfigSection(Tabs.Settings)
+SaveManager:LoadAutoloadConfig()
+```
+
+### InterfaceManager
+
+```lua
+InterfaceManager:SetLibrary(Wraith)
+InterfaceManager:SetFolder("WraithExample")
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 ```
