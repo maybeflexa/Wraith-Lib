@@ -10,7 +10,6 @@ local IsMobile = UIS.TouchEnabled and not UIS.KeyboardEnabled
 
 local WraithFlags = {}
 local LoadedIcons = {}
-local IconPacks = {}
 local AllBinds = {}
 local DDRefresh = {}
 local TabRefreshers = {}
@@ -193,10 +192,6 @@ local Themes = {
 
 local T = Themes["AMOLED"]
 local CurrentThemeName = "AMOLED"
-local ThemeCallbacks = {}
-local CurrentFont = Enum.Font.Gotham
-local Localizations = {}
-local CurrentLanguage = "en"
 
 local function Tw(inst, props, dur, style, dir)
     if not inst or not inst.Parent then return end
@@ -475,24 +470,14 @@ local function LoadIcons(platform)
     end)
     if ok and type(result) == "table" then
         LoadedIcons = result
-        IconPacks[platform] = result
     else
         LoadedIcons = {}
-        IconPacks[platform] = {}
     end
 end
 
 local function GetIcon(name)
-    if not name then return nil end
-    if type(name) ~= "string" then return name end
-    local pack, iconName = name:match("^([^:]+):(.+)$")
-    if pack and iconName and IconPacks[pack] and IconPacks[pack][iconName] then
-        return IconPacks[pack][iconName]
-    end
-    if LoadedIcons and LoadedIcons[name] then return LoadedIcons[name] end
-    for _, icons in pairs(IconPacks) do
-        if icons[name] then return icons[name] end
-    end
+    if not LoadedIcons or not name then return nil end
+    if LoadedIcons[name] then return LoadedIcons[name] end
     return nil
 end
 
@@ -667,29 +652,40 @@ local ConfigManager = {
 
 function ConfigManager:CreateConfig(name, autoload)
     local configName = name or "default"
-    local config = {Name = configName, AutoLoad = autoload == true}
+    local config = {
+        Name = configName,
+        AutoLoad = autoload == true
+    }
+
     function config:Save()
         SaveMgr:Save(configName)
         return true
     end
+
     function config:Load()
         SaveMgr:Load(configName)
         return true
     end
+
     function config:Delete()
         SaveMgr:Delete(configName)
         return true
     end
+
     function config:SetAutoLoad(value)
         self.AutoLoad = value == true
+        SaveMgr:Ensure()
         pcall(function()
+            local path = SaveMgr.CfgFolder .. "/autoload.txt"
             if self.AutoLoad then
-                writefile(SaveMgr.CfgFolder .. "/autoload.txt", configName)
-            elseif isfile(SaveMgr.CfgFolder .. "/autoload.txt") then
-                delfile(SaveMgr.CfgFolder .. "/autoload.txt")
+                writefile(path, configName)
+            elseif isfile(path) then
+                delfile(path)
             end
         end)
+        return true
     end
+
     return config
 end
 
@@ -697,21 +693,37 @@ function ConfigManager:Config(name, autoload)
     return self:CreateConfig(name, autoload)
 end
 
-function ConfigManager:AllConfigs()
-    return SaveMgr:GetConfigs()
-end
-
 function ConfigManager:GetConfig(name)
     return self:CreateConfig(name)
 end
 
-function ConfigManager:GetAutoLoadConfigs()
-    local result = nil
+function ConfigManager:AllConfigs()
+    return SaveMgr:GetConfigs()
+end
+
+function ConfigManager:GetAutoLoadConfig()
+    SaveMgr:Ensure()
+    local configName
     pcall(function()
         local path = SaveMgr.CfgFolder .. "/autoload.txt"
-        if isfile(path) then result = readfile(path) end
+        if isfile(path) then
+            configName = readfile(path)
+        end
     end)
-    return result
+    return configName
+end
+
+function ConfigManager:GetAutoLoadConfigs()
+    return self:GetAutoLoadConfig()
+end
+
+function ConfigManager:LoadAutoLoadConfig()
+    local configName = self:GetAutoLoadConfig()
+    if configName then
+        SaveMgr:Load(configName)
+        return true
+    end
+    return false
 end
 
 Wraith.SaveManager = SaveMgr
@@ -720,7 +732,6 @@ Wraith.Flags = WraithFlags
 Wraith.Themes = Themes
 Wraith.LoadIcons = LoadIcons
 Wraith.GetIcon = GetIcon
-Wraith.IconPacks = IconPacks
 Wraith.IsMobile = IsMobile
 Wraith.AnimPresets = AnimPresets
 
@@ -730,21 +741,7 @@ function Wraith:SetTheme(name)
         CurrentThemeName = name
         Apply()
         SaveThemePref(name)
-        for i = #ThemeCallbacks, 1, -1 do
-            local callback = ThemeCallbacks[i]
-            if type(callback) == "function" then
-                pcall(callback, name, T)
-            else
-                table.remove(ThemeCallbacks, i)
-            end
-        end
     end
-end
-
-function Wraith:OnThemeChange(callback)
-    if type(callback) ~= "function" then return nil end
-    table.insert(ThemeCallbacks, callback)
-    return callback
 end
 
 function Wraith:GetCurrentTheme()
@@ -757,71 +754,6 @@ function Wraith:GetTransparency()
         Element = T.ElTr,
         Sidebar = T.SbTr
     }
-end
-
-function Wraith:Gradient(stops, props)
-    local keypoints = {}
-    for _, stop in ipairs(stops or {}) do
-        if typeof(stop) == "Color3" then
-            table.insert(keypoints, ColorSequenceKeypoint.new((#keypoints == 0 and 0 or 1), stop))
-        elseif type(stop) == "table" then
-            local time = stop.Time or stop[1] or 0
-            local color = stop.Color or stop[2]
-            if typeof(color) == "Color3" then
-                table.insert(keypoints, ColorSequenceKeypoint.new(time, color))
-            end
-        end
-    end
-    if #keypoints == 0 then
-        return ColorSequence.new(T.Acc)
-    end
-    if #keypoints == 1 then
-        return ColorSequence.new(keypoints[1].Value)
-    end
-    table.sort(keypoints, function(a, b) return a.Time < b.Time end)
-    return ColorSequence.new(keypoints)
-end
-
-function Wraith:SetFont(font)
-    CurrentFont = font or CurrentFont
-    if ScreenGui then
-        for _, inst in ipairs(ScreenGui:GetDescendants()) do
-            if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then
-                pcall(function() inst.Font = CurrentFont end)
-            end
-        end
-    end
-end
-
-function Wraith:Localization(config)
-    if type(config) == "table" then
-        for language, values in pairs(config) do
-            if type(values) == "table" then
-                Localizations[language] = values
-            end
-        end
-    end
-    return Localizations
-end
-
-function Wraith:SetLanguage(language)
-    if type(language) == "string" then
-        CurrentLanguage = language
-    end
-end
-
-function Wraith:Translate(key)
-    local lang = Localizations[CurrentLanguage]
-    if lang and lang[key] then
-        return lang[key]
-    end
-    return key
-end
-
-function Wraith:AddIconPack(name, icons)
-    if type(name) ~= "string" or type(icons) ~= "table" then return false end
-    IconPacks[name] = icons
-    return true
 end
 
 function Wraith:SetAnimation(name)
@@ -1866,7 +1798,6 @@ function Wraith:CreateWindow(o)
         Min = false,
         Gui = gui,
         CurrentSize = windowSize,
-        Tags = {},
         ConfigManager = Wraith.ConfigManager,
         CurrentConfig = Wraith.ConfigManager:CreateConfig("default")
     }
@@ -1970,10 +1901,9 @@ function Wraith:CreateWindow(o)
         B(subLabel, {TextColor3 = "Txt3"})
     end
 
-    local controlsWidth = 66
     local controlsFrame = C("Frame", {
-        Size = UDim2.new(0, controlsWidth, 0, 26),
-        Position = UDim2.new(1, -(controlsWidth + 12), 0, 11),
+        Size = UDim2.new(0, 66, 0, 26),
+        Position = UDim2.new(1, -78, 0, 11),
         BackgroundTransparency = 1,
         ZIndex = 4,
         Parent = topBar
@@ -2056,18 +1986,13 @@ function Wraith:CreateWindow(o)
     end)
 
     local floatBtn
-    local openButtonConfig = type(o.OpenButton) == "table" and o.OpenButton or {}
-    local openButtonEnabled = IsMobile or openButtonConfig.Enabled == true
-    if openButtonConfig.Enabled == false then openButtonEnabled = false end
-    if openButtonConfig.OnlyMobile and not IsMobile then openButtonEnabled = false end
-    local floatSize = openButtonConfig.Size or UDim2.new(0, 46, 0, 46)
-    if openButtonEnabled then
+    if IsMobile then
         floatBtn = C("ImageButton", {
             Name = "WFloat",
-            Size = floatSize,
-            Position = openButtonConfig.Position or UDim2.new(0, 16, 0.5, -23),
-            BackgroundColor3 = typeof(openButtonConfig.Color) == "Color3" and openButtonConfig.Color or T.Bg2,
-            BackgroundTransparency = openButtonConfig.Transparency or 0.05,
+            Size = UDim2.new(0, 46, 0, 46),
+            Position = UDim2.new(0, 16, 0.5, -23),
+            BackgroundColor3 = T.Bg2,
+            BackgroundTransparency = 0.05,
             Image = "",
             AutoButtonColor = false,
             Visible = false,
@@ -2079,18 +2004,16 @@ function Wraith:CreateWindow(o)
         B(floatBtn, {BackgroundColor3 = "Bg2"})
         B(fStroke, {Color = "Border"})
         C("TextLabel", {
-            Size = UDim2.new(1, -8, 1, 0),
-            Position = UDim2.new(0, 4, 0, 0),
+            Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1,
-            Text = openButtonConfig.Title or "W",
+            Text = "W",
             TextColor3 = T.Txt,
-            TextSize = openButtonConfig.TextSize or (openButtonConfig.Title and 12 or 22),
+            TextSize = 22,
             Font = Enum.Font.GothamBold,
-            TextScaled = openButtonConfig.TextScaled == true,
             ZIndex = 51,
             Parent = floatBtn
         })
-        if openButtonConfig.Draggable ~= false then Drag(floatBtn) end
+        Drag(floatBtn)
     end
 
     local function showWindow()
@@ -2129,7 +2052,7 @@ function Wraith:CreateWindow(o)
             floatBtn.Visible = true
             floatBtn.Size = UDim2.new(0, 0, 0, 0)
             Tw(floatBtn, {
-                Size = floatSize
+                Size = UDim2.new(0, 46, 0, 46)
             }, 0.3, Enum.EasingStyle.Back)
         end
     end
@@ -2529,41 +2452,35 @@ function Wraith:CreateWindow(o)
             end
         end
 
-        local function attachElementMethods(el, frame, titleLabel, descLabel)
-            el.Frame = frame
-            function el:Destroy()
-                if frame and frame.Parent then
-                    frame:Destroy()
-                end
-                if self.Flag and WraithFlags[self.Flag] == self then
-                    WraithFlags[self.Flag] = nil
-                end
-            end
-            function el:SetTitle(text)
-                if titleLabel then
-                    titleLabel.Text = tostring(text or "")
-                end
-            end
-            function el:SetDesc(text)
-                if descLabel then
-                    descLabel.Text = tostring(text or "")
-                end
-            end
-            return el
-        end
-
         local function getOptionTitle(option)
             if type(option) == "table" then
-                return tostring(option.Title or option.Text or option.Value or option.Name or "Option")
+                return tostring(option.Title or option.Text or option.Name or option.Value or "Option")
             end
             return tostring(option)
         end
 
         local function getOptionValue(option)
             if type(option) == "table" then
-                return option.Value ~= nil and option.Value or getOptionTitle(option)
+                if option.Value ~= nil then
+                    return option.Value
+                end
+                return getOptionTitle(option)
             end
             return option
+        end
+
+        local function getOptionDescription(option)
+            if type(option) == "table" then
+                return option.Description or option.Desc
+            end
+            return nil
+        end
+
+        local function getOptionHeight(option)
+            if type(option) == "table" and option.Type == "Divider" then
+                return 8
+            end
+            return getOptionDescription(option) and 34 or 24
         end
 
         local function createElements(targetParent)
@@ -2618,7 +2535,7 @@ function Wraith:CreateWindow(o)
                 B(contentLbl, {TextColor3 = "Txt2"})
                 regSearch(container, p.Title or "", p.Content)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
-                local el = attachElementMethods({Type = "Paragraph"}, container, titleLbl, contentLbl)
+                local el = {Type = "Paragraph"}
                 function el:Set(x)
                     if type(x) == "table" then
                         if x.Title and titleLbl then titleLbl.Text = x.Title end
@@ -2657,9 +2574,8 @@ function Wraith:CreateWindow(o)
                     Parent = container
                 })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local descLbl
                 if (p.Description or "") ~= "" then
-                    descLbl = C("TextLabel", {
+                    local descLbl = C("TextLabel", {
                         Size = UDim2.new(1, -28, 0, 12),
                         Position = UDim2.new(0, 14, 0, 26),
                         BackgroundTransparency = 1,
@@ -2686,16 +2602,7 @@ function Wraith:CreateWindow(o)
                 end)
                 regSearch(container, p.Title or "Button", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
-                local el = attachElementMethods({Type = "Button"}, container, titleLbl, descLbl)
-                function el:Highlight()
-                    Tw(container, {BackgroundColor3 = T.Acc, BackgroundTransparency = 0.1}, 0.12)
-                    task.delay(0.18, function()
-                        if container and container.Parent then
-                            Tw(container, {BackgroundColor3 = T.El, BackgroundTransparency = T.ElTr}, 0.18)
-                        end
-                    end)
-                end
-                return el
+                return {Type = "Button"}
             end
 
             function E:AddToggle(a, b)
@@ -2996,13 +2903,20 @@ function Wraith:CreateWindow(o)
                 local p = resolveArgs(a, b)
                 local multi = p.Multi or false
                 local vals = p.Values or {}
-                local sel = multi and {} or (p.Default ~= nil and p.Default or p.Value)
+                local defaultValue = p.Default ~= nil and p.Default or p.Value
+                local sel = multi and {} or defaultValue
                 local flag = p.Flag or p.Title or "DD"
                 local cb = p.Callback or function() end
                 local isOpen = false
-                local defaultValues = p.Default or p.Value
-                if multi and defaultValues and type(defaultValues) == "table" then
-                    for _, v in ipairs(defaultValues) do sel[v] = true end
+                if multi and type(defaultValue) == "table" then
+                    for _, value in ipairs(defaultValue) do
+                        sel[value] = true
+                    end
+                    for value, state in pairs(defaultValue) do
+                        if type(value) ~= "number" then
+                            sel[value] = state == true
+                        end
+                    end
                 end
                 local ht = (p.Description or "") ~= "" and 68 or 50
                 local container = makeContainer(targetParent, ht)
@@ -3055,16 +2969,18 @@ function Wraith:CreateWindow(o)
                                 table.insert(items, getOptionTitle(option))
                             end
                         end
-                        for key, value in pairs(sel) do
-                            if value then
-                                local found = false
+                        for value, state in pairs(sel) do
+                            if state then
+                                local exists = false
                                 for _, option in ipairs(vals) do
-                                    if getOptionValue(option) == key then
-                                        found = true
+                                    if getOptionValue(option) == value then
+                                        exists = true
                                         break
                                     end
                                 end
-                                if not found then table.insert(items, tostring(key)) end
+                                if not exists then
+                                    table.insert(items, tostring(value))
+                                end
                             end
                         end
                         return #items == 0 and "None" or table.concat(items, ", ")
@@ -3114,91 +3030,106 @@ function Wraith:CreateWindow(o)
                     Parent = optionsFrame
                 })
                 local el = {Type = multi and "MultiDropdown" or "Dropdown", Value = sel, Flag = flag, Save = p.Save ~= false}
+                local function getOptionsHeight()
+                    local height = 0
+                    for _, option in ipairs(vals) do
+                        height = height + getOptionHeight(option) + 2
+                    end
+                    return height
+                end
+                local function closeDropdown()
+                    isOpen = false
+                    Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2)
+                    Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2)
+                    arrowLbl.Text = "v"
+                end
                 local function refresh()
                     for _, ch in ipairs(optionsFrame:GetChildren()) do
                         if ch:IsA("GuiObject") then ch:Destroy() end
                     end
                     for _, option in ipairs(vals) do
                         if type(option) == "table" and option.Type == "Divider" then
+                            local lineHolder = C("Frame", {
+                                Size = UDim2.new(1, 0, 0, 6),
+                                BackgroundTransparency = 1,
+                                Parent = optionsFrame
+                            })
                             local line = C("Frame", {
                                 Size = UDim2.new(1, 0, 0, 1),
+                                Position = UDim2.new(0, 0, 0.5, 0),
                                 BackgroundColor3 = T.Border,
                                 BackgroundTransparency = 0.5,
                                 BorderSizePixel = 0,
-                                Parent = optionsFrame
+                                Parent = lineHolder
                             })
                             B(line, {BackgroundColor3 = "Border"})
                         else
                             local value = getOptionValue(option)
                             local title = getOptionTitle(option)
-                            local desc = type(option) == "table" and (option.Description or option.Desc) or nil
-                            local locked = type(option) == "table" and option.Locked
+                            local description = getOptionDescription(option)
                             local icon = type(option) == "table" and option.Icon or nil
-                            local isSel = multi and sel[value] or (sel == value)
-                            local optionHeight = desc and 32 or 24
-                            local ob = C("TextButton", {
+                            local locked = type(option) == "table" and option.Locked == true
+                            local selected = multi and sel[value] or sel == value
+                            local optionHeight = getOptionHeight(option)
+                            local optionButton = C("TextButton", {
                                 Size = UDim2.new(1, 0, 0, optionHeight),
-                                BackgroundColor3 = isSel and T.ElHov or T.Bg3,
-                                BackgroundTransparency = locked and 0.55 or (isSel and 0.1 or 0.3),
+                                BackgroundColor3 = selected and T.ElHov or T.Bg3,
+                                BackgroundTransparency = locked and 0.55 or (selected and 0.08 or 0.3),
                                 Text = "",
                                 AutoButtonColor = false,
                                 Parent = optionsFrame
                             })
-                            Cn(ob, 5)
-                            if isSel then
-                                B(ob, {BackgroundColor3 = "ElHov"})
-                            else
-                                B(ob, {BackgroundColor3 = "Bg3"})
-                            end
+                            Cn(optionButton, 5)
+                            B(optionButton, {BackgroundColor3 = selected and "ElHov" or "Bg3"})
                             local offset = 8
                             if icon and icon ~= "" then
-                                local ico = C("ImageLabel", {
+                                local iconImg = C("ImageLabel", {
                                     Size = UDim2.new(0, 14, 0, 14),
-                                    Position = UDim2.new(0, 7, 0, desc and 6 or 5),
+                                    Position = UDim2.new(0, 7, 0, description and 6 or 5),
                                     BackgroundTransparency = 1,
-                                    ImageColor3 = isSel and T.Txt or T.Txt2,
-                                    Parent = ob
+                                    ImageColor3 = locked and T.Txt3 or (selected and T.Txt or T.Txt2),
+                                    Parent = optionButton
                                 })
-                                ApplyIcon(ico, GetIcon(icon))
-                                B(ico, {ImageColor3 = isSel and "Txt" or "Txt2"})
+                                ApplyIcon(iconImg, GetIcon(icon))
+                                B(iconImg, {ImageColor3 = locked and "Txt3" or (selected and "Txt" or "Txt2")})
                                 offset = 27
                             end
-                            local title = C("TextLabel", {
+                            local titleLbl = C("TextLabel", {
                                 Size = UDim2.new(1, -(offset + 8), 0, 12),
-                                Position = UDim2.new(0, offset, 0, desc and 4 or 6),
+                                Position = UDim2.new(0, offset, 0, description and 4 or 6),
                                 BackgroundTransparency = 1,
                                 Text = title,
-                                TextColor3 = locked and T.Txt3 or (isSel and T.Txt or T.Txt2),
+                                TextColor3 = locked and T.Txt3 or (selected and T.Txt or T.Txt2),
                                 TextSize = 10,
                                 Font = Enum.Font.Gotham,
                                 TextXAlignment = Enum.TextXAlignment.Left,
                                 TextTruncate = Enum.TextTruncate.AtEnd,
-                                Parent = ob
+                                Parent = optionButton
                             })
-                            B(title, {TextColor3 = locked and "Txt3" or (isSel and "Txt" or "Txt2")})
-                            if desc then
+                            B(titleLbl, {TextColor3 = locked and "Txt3" or (selected and "Txt" or "Txt2")})
+                            if description then
                                 local descLbl = C("TextLabel", {
                                     Size = UDim2.new(1, -(offset + 8), 0, 10),
                                     Position = UDim2.new(0, offset, 0, 18),
                                     BackgroundTransparency = 1,
-                                    Text = desc,
+                                    Text = description,
                                     TextColor3 = T.Txt3,
                                     TextSize = 9,
                                     Font = Enum.Font.Gotham,
                                     TextXAlignment = Enum.TextXAlignment.Left,
                                     TextTruncate = Enum.TextTruncate.AtEnd,
-                                    Parent = ob
+                                    Parent = optionButton
                                 })
                                 B(descLbl, {TextColor3 = "Txt3"})
                             end
-                            ob.MouseEnter:Connect(function()
-                                if not locked then Tw(ob, {BackgroundTransparency = 0.05}, 0.08) end
+                            optionButton.MouseEnter:Connect(function()
+                                if not locked then Tw(optionButton, {BackgroundTransparency = 0.05}, 0.08) end
                             end)
-                            ob.MouseLeave:Connect(function()
-                                local s = multi and sel[value] or (sel == value)
-                                Tw(ob, {BackgroundTransparency = locked and 0.55 or (s and 0.1 or 0.3)}, 0.08)
+                            optionButton.MouseLeave:Connect(function()
+                                local isSelected = multi and sel[value] or sel == value
+                                Tw(optionButton, {BackgroundTransparency = locked and 0.55 or (isSelected and 0.08 or 0.3)}, 0.08)
                             end)
-                            ob.MouseButton1Click:Connect(function()
+                            optionButton.MouseButton1Click:Connect(function()
                                 if locked then return end
                                 if multi then
                                     sel[value] = not sel[value]
@@ -3209,18 +3140,18 @@ function Wraith:CreateWindow(o)
                                 end
                                 dropLbl.Text = getDisp()
                                 if type(option) == "table" and type(option.Callback) == "function" then
-                                    pcall(option.Callback, option)
+                                    pcall(option.Callback, option, value)
                                 end
                                 refresh()
                                 cb(multi and sel or value, option)
-                                if not multi then
-                                    isOpen = false
-                                    Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2)
-                                    Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2)
-                                    arrowLbl.Text = "v"
-                                end
+                                if not multi then closeDropdown() end
                             end)
                         end
+                    end
+                    if isOpen then
+                        local height = getOptionsHeight()
+                        Tw(container, {Size = UDim2.new(1, 0, 0, ht + height + 4)}, 0.2)
+                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, height)}, 0.2)
                     end
                 end
                 refresh()
@@ -3228,36 +3159,24 @@ function Wraith:CreateWindow(o)
                 dropBtn.MouseButton1Click:Connect(function()
                     isOpen = not isOpen
                     if isOpen then
-                        local oh = 0
-                        for _, option in ipairs(vals) do
-                            if type(option) == "table" and option.Type == "Divider" then
-                                oh = oh + 3
-                            elseif type(option) == "table" and (option.Description or option.Desc) then
-                                oh = oh + 34
-                            else
-                                oh = oh + 26
-                            end
-                        end
-                        Tw(container, {Size = UDim2.new(1, 0, 0, ht + oh + 4)}, 0.2)
-                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, oh)}, 0.2)
+                        local height = getOptionsHeight()
+                        Tw(container, {Size = UDim2.new(1, 0, 0, ht + height + 4)}, 0.2)
+                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, height)}, 0.2)
                         arrowLbl.Text = "^"
                     else
-                        Tw(container, {Size = UDim2.new(1, 0, 0, ht)}, 0.2)
-                        Tw(optionsFrame, {Size = UDim2.new(1, -28, 0, 0)}, 0.2)
-                        arrowLbl.Text = "v"
+                        closeDropdown()
                     end
                 end)
                 function el:Set(v)
                     if multi then
                         if type(v) == "table" then
                             local mapped = {}
-                            local sequential = #v > 0
-                            if sequential then
+                            if #v > 0 then
                                 for _, item in ipairs(v) do mapped[item] = true end
-                                sel = mapped
                             else
-                                sel = v
+                                for key, state in pairs(v) do mapped[key] = state == true end
                             end
+                            sel = mapped
                         end
                     else
                         sel = v
@@ -3267,9 +3186,17 @@ function Wraith:CreateWindow(o)
                     refresh()
                     cb(sel)
                 end
-                function el:SetValues(nv) vals = nv; dropLbl.Text = getDisp(); refresh() end
-                function el:Refresh(nv) self:SetValues(nv) end
-                function el:Select(v) self:Set(v) end
+                function el:SetValues(nv)
+                    vals = nv or {}
+                    dropLbl.Text = getDisp()
+                    refresh()
+                end
+                function el:Refresh(nv)
+                    self:SetValues(nv)
+                end
+                function el:Select(v)
+                    self:Set(v)
+                end
                 regSearch(container, p.Title or "Dropdown", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -3407,8 +3334,7 @@ function Wraith:CreateWindow(o)
 
             function E:AddInput(a, b)
                 local p = resolveArgs(a, b)
-                local isTextarea = p.Type == "Textarea" or p.MultiLine == true or p.Textarea == true
-                local h = isTextarea and ((p.Description or "") ~= "" and 118 or 100) or ((p.Description or "") ~= "" and 68 or 50)
+                local h = (p.Description or "") ~= "" and 68 or 50
                 local flag = p.Flag or p.Title or "In"
                 local cb = p.Callback or function() end
                 local container = makeContainer(targetParent, h)
@@ -3424,9 +3350,8 @@ function Wraith:CreateWindow(o)
                     Parent = container
                 })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local descLbl
                 if (p.Description or "") ~= "" then
-                    descLbl = C("TextLabel", {
+                    local descLbl = C("TextLabel", {
                         Size = UDim2.new(1, -28, 0, 12),
                         Position = UDim2.new(0, 14, 0, 22),
                         BackgroundTransparency = 1,
@@ -3441,7 +3366,7 @@ function Wraith:CreateWindow(o)
                 end
                 local iY = (p.Description or "") ~= "" and 40 or 26
                 local inputBox = C("TextBox", {
-                    Size = UDim2.new(1, -28, 0, isTextarea and 70 or 20),
+                    Size = UDim2.new(1, -28, 0, 20),
                     Position = UDim2.new(0, 14, 0, iY),
                     BackgroundColor3 = T.Bg3,
                     Text = p.Default or "",
@@ -3451,9 +3376,6 @@ function Wraith:CreateWindow(o)
                     TextSize = 10,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
-                    MultiLine = isTextarea,
-                    TextWrapped = isTextarea,
-                    TextYAlignment = isTextarea and Enum.TextYAlignment.Top or Enum.TextYAlignment.Center,
                     Parent = container
                 })
                 Cn(inputBox, 5)
@@ -3461,7 +3383,7 @@ function Wraith:CreateWindow(o)
                 local ibs = St(inputBox, T.Border, 1, 0.5)
                 B(inputBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
                 B(ibs, {Color = "Border"})
-                local el = attachElementMethods({Type = "Input", Value = p.Default or "", Flag = flag, Save = p.Save ~= false}, container, titleLbl, descLbl)
+                local el = {Type = "Input", Value = p.Default or "", Flag = flag, Save = p.Save ~= false}
                 inputBox.FocusLost:Connect(function()
                     local v = inputBox.Text
                     if p.Numeric then
@@ -3900,26 +3822,16 @@ function Wraith:CreateWindow(o)
                 return el
             end
 
-            function E:AddSpace(a, b)
-                local p = resolveArgs(a, b)
-                local h = p.Height or p.Size or 8
-                local f = C("Frame", {
-                    Size = UDim2.new(1, 0, 0, h),
-                    BackgroundTransparency = 1,
-                    Parent = targetParent
-                })
-                return attachElementMethods({Type = "Space"}, f)
-            end
-
             function E:AddProgressBar(a, b)
                 local p = resolveArgs(a, b)
                 local mn = p.Min or 0
                 local mx = p.Max or 100
-                local cur = p.Default or p.Value or mn
+                local cur = p.Default ~= nil and p.Default or (p.Value or mn)
+                local flag = p.Flag or p.Title or "Progress"
                 local h = (p.Description or "") ~= "" and 58 or 44
                 local container = makeContainer(targetParent, h)
                 local titleLbl = C("TextLabel", {
-                    Size = UDim2.new(1, -84, 0, 14),
+                    Size = UDim2.new(1, -90, 0, 14),
                     Position = UDim2.new(0, 14, 0, (p.Description or "") ~= "" and 7 or 8),
                     BackgroundTransparency = 1,
                     Text = p.Title or "Progress",
@@ -3930,9 +3842,8 @@ function Wraith:CreateWindow(o)
                     Parent = container
                 })
                 B(titleLbl, {TextColor3 = "Txt"})
-                local descLbl
                 if (p.Description or "") ~= "" then
-                    descLbl = C("TextLabel", {
+                    local descLbl = C("TextLabel", {
                         Size = UDim2.new(1, -28, 0, 11),
                         Position = UDim2.new(0, 14, 0, 23),
                         BackgroundTransparency = 1,
@@ -3946,8 +3857,8 @@ function Wraith:CreateWindow(o)
                     B(descLbl, {TextColor3 = "Txt3"})
                 end
                 local valueLbl = C("TextLabel", {
-                    Size = UDim2.new(0, 64, 0, 14),
-                    Position = UDim2.new(1, -78, 0, (p.Description or "") ~= "" and 7 or 8),
+                    Size = UDim2.new(0, 70, 0, 14),
+                    Position = UDim2.new(1, -84, 0, (p.Description or "") ~= "" and 7 or 8),
                     BackgroundTransparency = 1,
                     Text = "",
                     TextColor3 = T.Txt2,
@@ -3973,8 +3884,10 @@ function Wraith:CreateWindow(o)
                     Parent = bar
                 })
                 Cn(fill, 4)
-                B(fill, {BackgroundColor3 = "Acc"})
-                local el = attachElementMethods({Type = "ProgressBar", Value = cur, Min = mn, Max = mx}, container, titleLbl, descLbl)
+                if not p.Color then
+                    B(fill, {BackgroundColor3 = "Acc"})
+                end
+                local el = {Type = "ProgressBar", Value = cur, Min = mn, Max = mx, Flag = flag, Save = p.Save ~= false}
                 local function update(v)
                     cur = math.clamp(tonumber(v) or cur, mn, mx)
                     el.Value = cur
@@ -3990,77 +3903,17 @@ function Wraith:CreateWindow(o)
                     el.Max = mx
                     update(cur)
                 end
-                function el:SetMin(newMin) self:SetRange(newMin, mx) end
-                function el:SetMax(newMax) self:SetRange(mn, newMax) end
+                function el:SetMin(newMin)
+                    self:SetRange(newMin, mx)
+                end
+                function el:SetMax(newMax)
+                    self:SetRange(mn, newMax)
+                end
                 update(cur)
                 regSearch(container, p.Title or "Progress", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
+                WraithFlags[flag] = el
                 return el
-            end
-
-            function E:AddGroup(a, b)
-                local p = resolveArgs(a, b)
-                local frame = C("Frame", {
-                    Size = UDim2.new(1, 0, 0, 0),
-                    BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Parent = targetParent
-                })
-                C("UIListLayout", {
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    Padding = UDim.new(0, p.Padding or 6),
-                    Parent = frame
-                })
-                local api = createElements(frame)
-                api.Type = "Group"
-                api.Frame = frame
-                function api:Destroy()
-                    if frame and frame.Parent then frame:Destroy() end
-                end
-                return api
-            end
-
-            function E:AddVStack(a, b)
-                return self:AddGroup(a, b)
-            end
-
-            function E:AddHStack(a, b)
-                local p = resolveArgs(a, b)
-                local frame = C("Frame", {
-                    Size = UDim2.new(1, 0, 0, 0),
-                    BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Parent = targetParent
-                })
-                C("UIListLayout", {
-                    FillDirection = Enum.FillDirection.Horizontal,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    Padding = UDim.new(0, p.Padding or 6),
-                    Parent = frame
-                })
-                local api = {Type = "HStack", Frame = frame}
-                function api:AddColumn(width)
-                    local column = C("Frame", {
-                        Size = width or UDim2.new(0.5, -3, 0, 0),
-                        BackgroundTransparency = 1,
-                        AutomaticSize = Enum.AutomaticSize.Y,
-                        Parent = frame
-                    })
-                    C("UIListLayout", {
-                        SortOrder = Enum.SortOrder.LayoutOrder,
-                        Padding = UDim.new(0, p.InnerPadding or 6),
-                        Parent = column
-                    })
-                    return createElements(column)
-                end
-                function api:Destroy()
-                    if frame and frame.Parent then frame:Destroy() end
-                end
-                local firstColumn = api:AddColumn(p.ColumnWidth or UDim2.new(1, 0, 0, 0))
-                for key, value in pairs(firstColumn) do
-                    if api[key] == nil then api[key] = value end
-                end
-                return api
             end
 
             function E:AddSeparator()
@@ -4140,6 +3993,8 @@ function Wraith:CreateWindow(o)
                 return el
             end
 
+            E.ProgressBar = E.AddProgressBar
+
             return E
         end
 
@@ -4207,84 +4062,6 @@ function Wraith:CreateWindow(o)
     function W:GetUIScale()
         return uiScale.Scale
     end
-    function W:CreateTopbarButton(name, icon, callback, layoutOrder)
-        controlsWidth = controlsWidth + 31
-        controlsFrame.Size = UDim2.new(0, controlsWidth, 0, 26)
-        controlsFrame.Position = UDim2.new(1, -(controlsWidth + 12), 0, 11)
-        local btn = C("TextButton", {
-            Size = UDim2.new(0, 26, 0, 26),
-            BackgroundColor3 = T.El,
-            BackgroundTransparency = 0.15,
-            Text = "",
-            AutoButtonColor = false,
-            LayoutOrder = layoutOrder or 0,
-            ZIndex = 5,
-            Parent = controlsFrame
-        })
-        Cn(btn, 7)
-        B(btn, {BackgroundColor3 = "El"})
-        if icon and icon ~= "" then
-            local img = C("ImageLabel", {
-                Size = UDim2.new(0, 14, 0, 14),
-                Position = UDim2.new(0.5, -7, 0.5, -7),
-                BackgroundTransparency = 1,
-                ImageColor3 = T.Txt2,
-                ZIndex = 6,
-                Parent = btn
-            })
-            ApplyIcon(img, GetIcon(icon))
-            B(img, {ImageColor3 = "Txt2"})
-        else
-            local label = C("TextLabel", {
-                Size = UDim2.new(1, 0, 1, 0),
-                BackgroundTransparency = 1,
-                Text = tostring(name or ""),
-                TextColor3 = T.Txt2,
-                TextSize = 12,
-                Font = Enum.Font.GothamBold,
-                ZIndex = 6,
-                Parent = btn
-            })
-            B(label, {TextColor3 = "Txt2"})
-        end
-        btn.MouseEnter:Connect(function() Tw(btn, {BackgroundTransparency = 0}, 0.1) end)
-        btn.MouseLeave:Connect(function() Tw(btn, {BackgroundTransparency = 0.15}, 0.1) end)
-        btn.MouseButton1Click:Connect(function()
-            if callback then callback() end
-        end)
-        return btn
-    end
-    function W:Tag(options)
-        options = options or {}
-        local tag = C("Frame", {
-            Size = UDim2.new(0, 0, 0, 20),
-            AutomaticSize = Enum.AutomaticSize.X,
-            Position = UDim2.new(0, 260 + (#self.Tags * 72), 0, 14),
-            BackgroundColor3 = options.Color or T.El,
-            BackgroundTransparency = 0.1,
-            ZIndex = 5,
-            Parent = topBar
-        })
-        Cn(tag, 6)
-        local stroke = St(tag, options.BorderColor or T.Border, 1, options.Border == false and 1 or 0.35)
-        B(tag, {BackgroundColor3 = "El"})
-        B(stroke, {Color = "Border"})
-        local label = C("TextLabel", {
-            Size = UDim2.new(0, 0, 1, 0),
-            AutomaticSize = Enum.AutomaticSize.X,
-            BackgroundTransparency = 1,
-            Text = tostring(options.Title or options.Text or "Tag"),
-            TextColor3 = T.Txt2,
-            TextSize = 10,
-            Font = Enum.Font.GothamBold,
-            ZIndex = 6,
-            Parent = tag
-        })
-        Pd(tag, 0, 0, 8, 8)
-        B(label, {TextColor3 = "Txt2"})
-        table.insert(self.Tags, tag)
-        return tag
-    end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
         main.Size = W.CurrentSize
@@ -4312,7 +4089,5 @@ end)
 LoadCustomThemes()
 Wraith:SetTheme(LoadThemePref())
 LoadIcons("Lucide")
-
---wraith
 
 return Wraith
