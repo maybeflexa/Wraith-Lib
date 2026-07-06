@@ -26,25 +26,10 @@ local AnimPresets = {
         Direction = Enum.EasingDirection.Out,
         Duration = 0.25
     },
-    Bounce = {
-        Style = Enum.EasingStyle.Bounce,
-        Direction = Enum.EasingDirection.Out,
-        Duration = 0.5
-    },
-    Elastic = {
-        Style = Enum.EasingStyle.Elastic,
-        Direction = Enum.EasingDirection.Out,
-        Duration = 0.6
-    },
     Smooth = {
         Style = Enum.EasingStyle.Sine,
         Direction = Enum.EasingDirection.InOut,
         Duration = 0.4
-    },
-    Snappy = {
-        Style = Enum.EasingStyle.Back,
-        Direction = Enum.EasingDirection.Out,
-        Duration = 0.3
     },
     Fade = {
         Style = Enum.EasingStyle.Linear,
@@ -254,7 +239,7 @@ local function B(inst, map)
     table.insert(AllBinds, {I = inst, M = map})
 end
 
-local function Apply()
+local function Apply(instant)
     for i = #AllBinds, 1, -1 do
         local b = AllBinds[i]
         if not b.I or not b.I.Parent then
@@ -263,10 +248,12 @@ local function Apply()
             for prop, key in pairs(b.M) do
                 if T[key] ~= nil then
                     pcall(function()
-                        if typeof(T[key]) == "Color3" then
-                            Tw(b.I, {[prop] = T[key]}, 0.3)
-                        elseif typeof(T[key]) == "number" then
-                            Tw(b.I, {[prop] = T[key]}, 0.3)
+                        if typeof(T[key]) == "Color3" or typeof(T[key]) == "number" then
+                            if instant then
+                                b.I[prop] = T[key]
+                            else
+                                Tw(b.I, {[prop] = T[key]}, 0.3)
+                            end
                         end
                     end)
                 end
@@ -739,7 +726,7 @@ function Wraith:SetTheme(name)
     if Themes[name] then
         T = Themes[name]
         CurrentThemeName = name
-        Apply()
+        Apply(true)
         SaveThemePref(name)
     end
 end
@@ -1125,8 +1112,6 @@ local function ColorDialog(currentColor, callback)
         ZIndex = 203,
         Parent = topBar
     })
-    Drag(pickerFrame, topBar)
-
     local contentArea = C("Frame", {
         Size = UDim2.new(1, -24, 1, -50),
         Position = UDim2.new(0, 12, 0, 44),
@@ -1741,7 +1726,7 @@ function Wraith:OpenThemeEditor()
         local theme = buildTheme()
         Themes["_preview_"] = theme
         T = theme
-        Apply()
+        Apply(true)
     end)
 
     saveEditorBtn.MouseButton1Click:Connect(function()
@@ -1815,11 +1800,6 @@ function Wraith:CreateWindow(o)
         Parent = gui
     })
     Cn(main, 14)
-    local uiScale = C("UIScale", {
-        Scale = o.UIScale or 1,
-        Parent = main
-    })
-    W.UIScale = uiScale
     local mainStroke = St(main, T.Border, 1, 0.2)
     B(main, {BackgroundColor3 = "Bg", BackgroundTransparency = "BgTr"})
     B(mainStroke, {Color = "Border"})
@@ -3888,6 +3868,9 @@ function Wraith:CreateWindow(o)
                     B(fill, {BackgroundColor3 = "Acc"})
                 end
                 local el = {Type = "ProgressBar", Value = cur, Min = mn, Max = mx, Flag = flag, Save = p.Save ~= false}
+                local running = false
+                local getter = p.Getter
+                local interval = p.UpdateInterval or 1
                 local function update(v)
                     cur = math.clamp(tonumber(v) or cur, mn, mx)
                     el.Value = cur
@@ -3895,7 +3878,34 @@ function Wraith:CreateWindow(o)
                     valueLbl.Text = tostring(math.floor(alpha * 100 + 0.5)) .. "%"
                     Tw(fill, {Size = UDim2.new(alpha, 0, 1, 0)}, 0.18)
                 end
+                local function run()
+                    if running then return end
+                    if type(getter) ~= "function" then return end
+                    running = true
+                    task.spawn(function()
+                        while running and container.Parent do
+                            local ok, value = pcall(getter)
+                            if ok then update(value) end
+                            task.wait(interval)
+                        end
+                        running = false
+                    end)
+                end
                 function el:Set(v) update(v) end
+                function el:Refresh()
+                    if type(getter) == "function" then
+                        local ok, value = pcall(getter)
+                        if ok then update(value) end
+                    end
+                end
+                function el:Start(newGetter, newInterval)
+                    if type(newGetter) == "function" then getter = newGetter end
+                    if tonumber(newInterval) then interval = tonumber(newInterval) end
+                    run()
+                end
+                function el:Stop()
+                    running = false
+                end
                 function el:SetRange(newMin, newMax)
                     mn = tonumber(newMin) or mn
                     mx = tonumber(newMax) or mx
@@ -3910,6 +3920,7 @@ function Wraith:CreateWindow(o)
                     self:SetRange(mn, newMax)
                 end
                 update(cur)
+                if type(getter) == "function" then run() end
                 regSearch(container, p.Title or "Progress", p.Description)
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -4054,13 +4065,6 @@ function Wraith:CreateWindow(o)
     function W:Destroy()
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
-    end
-    function W:SetUIScale(scale)
-        local value = tonumber(scale) or 1
-        uiScale.Scale = math.clamp(value, 0.5, 2)
-    end
-    function W:GetUIScale()
-        return uiScale.Scale
     end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
