@@ -1,984 +1,813 @@
-
----
-
-# Wraith LibUi — Documentation
-
-Complete guide for Wraith LibUi. Every element explained with what it does, parameters, methods, and copy-paste examples.
-
----
+# Wraith Library UI Documentation
 
 ## Installation
 
-Load the library and addons:
-
 ```lua
 local Wraith = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Src/Wraith.luau"
 ))()
 
 local SaveManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Addons/SaveManager.lua"
 ))()
 
 local InterfaceManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Addons/InterfaceManager.lua"
 ))()
 ```
 
----
-
 ## Window
-
-The main UI container. Create one window per script.
 
 ```lua
 local Window = Wraith:CreateWindow({
-    Title = "My Hub",
-    SubTitle = "v1.0.0",
-    Size = UDim2.new(0, 630, 0, 370),
+    Title = "Wraith v1.1.0",
+    SubTitle = "by maybeflexa",
+    Size = UDim2.new(0, 650, 0, 390),
     MinimizeKey = Enum.KeyCode.LeftControl,
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280)
+    MinSize = Vector2.new(470, 300),
+    UIScale = 1,
+    OpenButton = {
+        Enabled = true,
+        Title = "W",
+        Draggable = true,
+        OnlyMobile = false
+    }
 })
 ```
 
-**Parameters:**
-- `Title` — Window header text
-- `SubTitle` — Small text under title (centers title if empty)
-- `Size` — Initial window dimensions
-- `MinimizeKey` — Key to toggle UI visibility
-- `TabWidth` — Sidebar width in pixels
-- `Resizable` — Allow user to drag bottom-right corner to resize
-- `Searchable` — Show search bar in sidebar to filter elements
-- `MinSize` — Minimum size when resizing
+| Option | Type | Description |
+| --- | --- | --- |
+| `Title` | string | Window title |
+| `SubTitle` | string | Window subtitle |
+| `Size` | UDim2 | Window size |
+| `MinimizeKey` | Enum.KeyCode | Toggle visibility key |
+| `TabWidth` | number | Sidebar width |
+| `Resizable` | boolean | Enables resize handle |
+| `Searchable` | boolean | Enables sidebar search |
+| `MinSize` | Vector2 | Minimum resize size |
+| `UIScale` | number | Initial UI scale |
+| `OpenButton` | table | Floating button configuration |
 
----
-
-## Tabs
-
-Tabs are pages in the sidebar. Each tab has its own scrollable content area.
+## OpenButton
 
 ```lua
-local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "house" }),
-    Combat = Window:AddTab({ Title = "Combat", Icon = "swords" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+OpenButton = {
+    Enabled = true,
+    Title = "W",
+    Draggable = true,
+    OnlyMobile = false,
+    Size = UDim2.new(0, 46, 0, 46),
+    Position = UDim2.new(0, 16, 0.5, -23),
+    Color = Color3.fromRGB(20, 20, 23),
+    Transparency = 0.05,
+    TextSize = 22,
+    TextScaled = false
 }
 ```
 
-**Parameters:**
-- `Title` — Tab name shown in sidebar
-- `Icon` — Lucide icon name (optional)
+## Tabs
 
-**Popular icons:** `house`, `swords`, `eye`, `settings`, `user`, `shield`, `zap`, `heart`, `star`, `target`, `lock`, `bell`, `search`, `code`, `terminal`, `database`, `cloud`, `sun`, `moon`, `sparkles`
+```lua
+local Tabs = {
+    Main = Window:AddTab({Title = "Main", Icon = "house"}),
+    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+```
 
-Full list: https://lucide.dev/icons
+## Window Methods
 
----
+```lua
+Window:SelectTab(Tabs.Main)
+Window:Show()
+Window:Hide()
+Window:Minimize()
+Window:Destroy()
+Window:Resize(650, 390)
+Window:SetUIScale(0.9)
+local scale = Window:GetUIScale()
+```
+
+## Window Tags
+
+```lua
+Window:Tag({
+    Title = "v1.1.0"
+})
+```
+
+## Topbar Buttons
+
+```lua
+Window:CreateTopbarButton("Theme", "settings", function()
+    Wraith:SetTheme("Dark")
+end)
+```
+
+## Notifications
+
+```lua
+Wraith:Notify({
+    Title = "Wraith",
+    Content = "Notification content",
+    SubContent = "Extra content",
+    Duration = 5
+})
+```
+
+## Dialogs
+
+```lua
+Wraith:Dialog({
+    Title = "Dialog",
+    Content = "Dialog content",
+    Buttons = {
+        {
+            Title = "Cancel",
+            Callback = function() end
+        },
+        {
+            Title = "Confirm",
+            Callback = function() end
+        }
+    }
+})
+```
 
 ## API Syntax
 
-Every element supports two styles. Use whichever you prefer:
-
-**Fluent-style** (flag as first parameter, recommended for Fluent users):
 ```lua
-local Toggle = Tabs.Main:AddToggle("MyFlag", {
-    Title = "My Toggle",
-    Default = false,
-    Callback = function(v) print(v) end
+Tabs.Main:AddToggle("FlagName", {
+    Title = "Toggle"
 })
 ```
 
-**Table-style** (flag inside options table):
 ```lua
-local Toggle = Tabs.Main:AddToggle({
-    Title = "My Toggle",
-    Flag = "MyFlag",
-    Default = false,
-    Callback = function(v) print(v) end
+Tabs.Main:AddToggle({
+    Flag = "FlagName",
+    Title = "Toggle"
 })
 ```
 
-Both work identically.
-
----
-
-## Elements
-
-### Paragraph
-
-**What it does:** Displays a title and a body of text. Use it for descriptions, info, or instructions.
+## Paragraph
 
 ```lua
-local Info = Tabs.Main:AddParagraph("Welcome", {
-    Content = "This is a welcome message with description text.",
-    Tooltip = "Hover info"
+local Paragraph = Tabs.Main:AddParagraph({
+    Title = "Paragraph",
+    Content = "Content text"
 })
 
--- Update later:
-Info:Set({ Content = "Updated text" })
-Info:SetTitle("New Title")
-Info:SetDesc("New description")
+Paragraph:Set({
+    Title = "New title",
+    Content = "New content"
+})
+
+Paragraph:SetTitle("New title")
+Paragraph:SetDesc("New content")
+Paragraph:Destroy()
 ```
 
----
-
-### Button
-
-**What it does:** Clickable button that runs a function when pressed.
+## Button
 
 ```lua
-Tabs.Main:AddButton("RejoinBtn", {
-    Title = "Rejoin Server",
-    Description = "Teleports you back to this server",
-    Tooltip = "Click to rejoin",
+local Button = Tabs.Main:AddButton({
+    Title = "Button",
+    Description = "Button description",
     Callback = function()
-        game:GetService("TeleportService"):Teleport(game.PlaceId)
+        print("clicked")
     end
 })
+
+Button:Highlight()
+Button:SetTitle("New title")
+Button:SetDesc("New description")
+Button:Destroy()
 ```
 
----
-
-### Toggle
-
-**What it does:** On/off switch. Best for enabling/disabling features.
+## Toggle
 
 ```lua
-local AutoFarm = Tabs.Main:AddToggle("AutoFarm", {
+local Toggle = Tabs.Main:AddToggle("AutoFarm", {
     Title = "Auto Farm",
-    Description = "Automatically farms resources",
+    Description = "Toggle description",
     Default = false,
     Callback = function(value)
-        print("AutoFarm is now:", value)
+        print(value)
     end
 })
 
--- Get current state:
-print(AutoFarm.Value)  -- true or false
-
--- Set state programmatically:
-AutoFarm:Set(true)
+Toggle:Set(true)
 ```
 
----
-
-### Checkbox
-
-**What it does:** Same as toggle but with a checkmark style. Use for boolean options in lists.
+## Checkbox
 
 ```lua
-local LogActions = Tabs.Main:AddCheckbox("LogActions", {
-    Title = "Log to Console",
-    Description = "Print all actions to console",
+local Checkbox = Tabs.Main:AddCheckbox("LogActions", {
+    Title = "Log Actions",
     Default = true,
     Callback = function(value)
-        print("Logging:", value)
+        print(value)
     end
 })
 
-LogActions:Set(false)
+Checkbox:Set(false)
 ```
 
----
-
-### Slider
-
-**What it does:** Draggable bar for selecting a number in a range. Click the value text to type manually.
+## Slider
 
 ```lua
-local WalkSpeed = Tabs.Main:AddSlider("WalkSpeed", {
-    Title = "Walk Speed",
-    Description = "Character movement speed",
+local Slider = Tabs.Main:AddSlider("WalkSpeed", {
+    Title = "WalkSpeed",
     Min = 16,
-    Max = 200,
+    Max = 100,
     Default = 16,
-    Rounding = 1,           -- step size
-    Suffix = " studs/s",   -- text after value
+    Rounding = 1,
+    Suffix = " studs",
     Callback = function(value)
-        pcall(function()
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-        end)
+        print(value)
     end
 })
 
-WalkSpeed:Set(100)
+Slider:Set(50)
 ```
 
----
-
-### Dropdown
-
-**What it does:** Click to open a list, pick one option.
+## ProgressBar
 
 ```lua
-local GameMode = Tabs.Main:AddDropdown("GameMode", {
-    Title = "Game Mode",
-    Description = "Select difficulty",
-    Values = {"Easy", "Medium", "Hard", "Extreme"},
-    Default = "Easy",
-    Callback = function(value)
-        print("Selected:", value)
-    end
-})
-
-GameMode:Set("Hard")
-
--- Replace all options:
-GameMode:SetValues({"A", "B", "C"})
-```
-
----
-
-### MultiDropdown
-
-**What it does:** Like dropdown but you can select multiple options at once. Returns a table.
-
-```lua
-local Targets = Tabs.Main:AddMultiDropdown("Targets", {
-    Title = "Target Types",
-    Description = "Pick which entities to target",
-    Values = {"Players", "NPCs", "Bosses", "Animals"},
-    Default = {"NPCs", "Bosses"},
-    Callback = function(values)
-        for name, enabled in pairs(values) do
-            if enabled then
-                print("Targeting:", name)
-            end
-        end
-    end
-})
-
-Targets:Set({ Players = true, NPCs = true })
-```
-
----
-
-### Colorpicker
-
-**What it does:** Opens a modal HSV color picker. User selects color and hits Apply.
-
-```lua
-local ESPColor = Tabs.Main:AddColorpicker("ESPColor", {
-    Title = "ESP Color",
-    Default = Color3.fromRGB(255, 0, 0),
-    Callback = function(color)
-        print("Hex:", "#" .. color:ToHex():upper())
-    end
-})
-
-ESPColor:Set(Color3.fromRGB(0, 255, 0))
-ESPColor:Set("#00FF00")  -- hex string works
-```
-
----
-
-### Keybind
-
-**What it does:** Bind a keyboard key. Callback fires when the bound key is pressed. Press Escape to unbind.
-
-```lua
-local ToggleKey = Tabs.Main:AddKeybind("ToggleKey", {
-    Title = "Toggle Aimbot",
-    Default = Enum.KeyCode.E,
-    Callback = function()
-        print("Aimbot toggled!")
-    end,
-    ChangedCallback = function(key)
-        print("Key changed to:", key and key.Name or "None")
-    end
-})
-
-ToggleKey:Set(Enum.KeyCode.F)
-ToggleKey:Set("F")  -- string works
-```
-
----
-
-### Input
-
-**What it does:** Single-line text input field.
-
-```lua
-local Username = Tabs.Main:AddInput("Username", {
-    Title = "Target Player",
-    Description = "Enter player username",
-    Default = "",
-    Placeholder = "Type username...",
-    Numeric = false,         -- set true to only allow numbers
-    Callback = function(value)
-        print("Target:", value)
-    end
-})
-
-Username:Set("RandomGuy123")
-```
-
----
-
-### MultiInput
-
-**What it does:** Multiple text inputs in a single row. Perfect for coordinates, RGB values, etc.
-
-```lua
-local Coords = Tabs.Main:AddMultiInput("Coords", {
-    Title = "Teleport Position",
-    Description = "Enter X, Y, Z",
-    Fields = {
-        { Name = "X", Default = "0", Placeholder = "X", Numeric = true },
-        { Name = "Y", Default = "0", Placeholder = "Y", Numeric = true },
-        { Name = "Z", Default = "0", Placeholder = "Z", Numeric = true }
-    },
-    Callback = function(values)
-        print("X:", values.X, "Y:", values.Y, "Z:", values.Z)
-    end
-})
-
-Coords:Set({ X = "100", Y = "50", Z = "200" })
-```
-
----
-
-### MultiSlider
-
-**What it does:** Multiple sliders stacked in one element. Great for adjusting related stats together.
-
-```lua
-local Stats = Tabs.Main:AddMultiSlider("Stats", {
-    Title = "Player Stats",
-    Description = "Adjust HP, MP, and STR",
-    Fields = {
-        { Name = "HP",  Min = 0, Max = 1000, Default = 100, Suffix = "" },
-        { Name = "MP",  Min = 0, Max = 500,  Default = 50,  Suffix = "" },
-        { Name = "STR", Min = 1, Max = 100,  Default = 10,  Suffix = "" }
-    },
-    Callback = function(values)
-        print("HP:", values.HP, "MP:", values.MP, "STR:", values.STR)
-    end
-})
-
-Stats:Set({ HP = 500, MP = 250 })
-```
-
----
-
-### NumberSpinner
-
-**What it does:** Number input with + and - buttons. Click buttons or type to change value.
-
-```lua
-local Amount = Tabs.Main:AddNumberSpinner("Amount", {
-    Title = "Buy Amount",
+local Progress = Tabs.Main:AddProgressBar({
+    Title = "Progress",
+    Description = "Progress description",
     Min = 0,
     Max = 100,
-    Default = 10,
-    Step = 5,           -- increment per button click
+    Default = 25
+})
+
+Progress:Set(80)
+Progress:SetRange(0, 200)
+Progress:SetMin(0)
+Progress:SetMax(100)
+```
+
+Alias:
+
+```lua
+local Progress = Tabs.Main:ProgressBar({
+    Title = "Progress"
+})
+```
+
+## Dropdown
+
+```lua
+local Dropdown = Tabs.Main:AddDropdown("Mode", {
+    Title = "Mode",
+    Values = {"Easy", "Normal", "Hard"},
+    Default = "Normal",
     Callback = function(value)
-        print("Amount:", value)
+        print(value)
     end
 })
 
-Amount:Set(50)
+Dropdown:Set("Hard")
+Dropdown:SetValues({"A", "B", "C"})
+Dropdown:Refresh({"One", "Two", "Three"})
+Dropdown:Select("Two")
 ```
 
----
-
-### DateTime
-
-**What it does:** Live clock or date display. Auto-updates every second.
+## Advanced Dropdown
 
 ```lua
--- Live clock:
+local Dropdown = Tabs.Main:AddDropdown("FileAction", {
+    Title = "File Action",
+    Values = {
+        {
+            Title = "New File",
+            Description = "Create a new file",
+            Icon = "file-plus",
+            Value = "new",
+            Callback = function()
+                print("new")
+            end
+        },
+        {
+            Title = "Copy Link",
+            Description = "Copy the file link",
+            Icon = "copy",
+            Value = "copy"
+        },
+        {
+            Type = "Divider"
+        },
+        {
+            Title = "Delete File",
+            Description = "Locked item",
+            Icon = "trash",
+            Value = "delete",
+            Locked = true
+        }
+    },
+    Default = "copy",
+    Callback = function(value, option)
+        print(value, option and option.Title)
+    end
+})
+```
+
+## MultiDropdown
+
+```lua
+local MultiDropdown = Tabs.Main:AddMultiDropdown("Targets", {
+    Title = "Targets",
+    Values = {"Player", "NPC", "Boss"},
+    Default = {"Player"},
+    Callback = function(values)
+        print(values)
+    end
+})
+
+MultiDropdown:Set({"Player", "Boss"})
+```
+
+## Colorpicker
+
+```lua
+local Colorpicker = Tabs.Main:AddColorpicker("ESPColor", {
+    Title = "ESP Color",
+    Default = Color3.fromRGB(255, 255, 255),
+    Callback = function(color)
+        print(color)
+    end
+})
+
+Colorpicker:Set(Color3.fromRGB(255, 0, 0))
+```
+
+## Keybind
+
+```lua
+local Keybind = Tabs.Main:AddKeybind("MenuKey", {
+    Title = "Menu Key",
+    Default = Enum.KeyCode.RightShift,
+    Callback = function(key)
+        print(key)
+    end,
+    ChangedCallback = function(key)
+        print(key)
+    end
+})
+
+Keybind:Set(Enum.KeyCode.LeftAlt)
+```
+
+## Input
+
+```lua
+local Input = Tabs.Main:AddInput("Username", {
+    Title = "Username",
+    Placeholder = "Enter username",
+    Default = "",
+    Callback = function(value)
+        print(value)
+    end
+})
+
+Input:Set("maybeflexa")
+```
+
+## Textarea
+
+```lua
+local Textarea = Tabs.Main:AddInput("Notes", {
+    Title = "Notes",
+    Type = "Textarea",
+    Placeholder = "Enter notes",
+    Default = "Line one\nLine two",
+    Callback = function(value)
+        print(value)
+    end
+})
+```
+
+Alternative:
+
+```lua
+Tabs.Main:AddInput("Notes", {
+    Title = "Notes",
+    MultiLine = true
+})
+```
+
+## MultiInput
+
+```lua
+local MultiInput = Tabs.Main:AddMultiInput("Coords", {
+    Title = "Coordinates",
+    Fields = {
+        {Name = "X", Placeholder = "0"},
+        {Name = "Y", Placeholder = "0"},
+        {Name = "Z", Placeholder = "0"}
+    },
+    Callback = function(values)
+        print(values)
+    end
+})
+
+MultiInput:Set({
+    X = "10",
+    Y = "20",
+    Z = "30"
+})
+```
+
+## MultiSlider
+
+```lua
+local MultiSlider = Tabs.Main:AddMultiSlider("Stats", {
+    Title = "Stats",
+    Fields = {
+        {Name = "Speed", Min = 0, Max = 100, Default = 50},
+        {Name = "Power", Min = 0, Max = 100, Default = 25}
+    },
+    Callback = function(values)
+        print(values)
+    end
+})
+
+MultiSlider:Set({
+    Speed = 75,
+    Power = 60
+})
+```
+
+## NumberSpinner
+
+```lua
+local Spinner = Tabs.Main:AddNumberSpinner("Amount", {
+    Title = "Amount",
+    Min = 0,
+    Max = 10,
+    Default = 3,
+    Step = 1,
+    Callback = function(value)
+        print(value)
+    end
+})
+
+Spinner:Set(5)
+```
+
+## DateTime
+
+```lua
 Tabs.Main:AddDateTime({
-    Title = "Current Time",
+    Title = "Clock",
     Format = "%H:%M:%S"
 })
-
--- Date:
-Tabs.Main:AddDateTime({
-    Title = "Today's Date",
-    Format = "%d/%m/%Y"
-})
-
--- Full datetime:
-Tabs.Main:AddDateTime({
-    Title = "Full",
-    Format = "%Y-%m-%d %H:%M:%S"
-})
 ```
 
-**Format codes:**
-- `%H` hour (24h)
-- `%M` minute
-- `%S` second
-- `%d` day
-- `%m` month
-- `%Y` year
-
----
-
-### StatusBar
-
-**What it does:** Auto-updating display that calls a function repeatedly and shows the result. Perfect for FPS, ping, player count, etc.
+## StatusBar
 
 ```lua
--- FPS counter:
-Tabs.Main:AddStatusBar({
-    Title = "FPS",
-    UpdateInterval = 0.5,
+local Status = Tabs.Main:AddStatusBar({
+    Title = "Status",
     Getter = function()
-        return math.floor(1 / game:GetService("RunService").Heartbeat:Wait())
-    end
+        return "Online"
+    end,
+    UpdateInterval = 1
 })
 
--- Player count:
-Tabs.Main:AddStatusBar({
-    Title = "Players",
-    UpdateInterval = 5,
-    Getter = function()
-        return #game.Players:GetPlayers()
-    end
-})
-
--- Ping:
-Tabs.Main:AddStatusBar({
-    Title = "Ping",
-    UpdateInterval = 2,
-    Getter = function()
-        return math.floor(
-            game.Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-        ) .. " ms"
-    end
-})
+Status:Set("Offline")
 ```
 
----
-
-### Separator
-
-**What it does:** Simple horizontal line. Use to visually separate elements.
+## Separator
 
 ```lua
 Tabs.Main:AddSeparator()
 ```
 
----
-
-### Divider
-
-**What it does:** Horizontal line with a label in the middle. Use to start a new section.
+## Divider
 
 ```lua
-Tabs.Main:AddDivider({ Text = "Combat Settings" })
-Tabs.Main:AddDivider({ Text = "Visuals" })
-Tabs.Main:AddDivider({ Text = "Misc" })
+Tabs.Main:AddDivider({
+    Text = "Section"
+})
 ```
 
----
-
-### Label
-
-**What it does:** Simple text label without background. Good for version info, notes, credits.
+## Label
 
 ```lua
-local Version = Tabs.Main:AddLabel({ Text = "v1.0.0" })
+local Label = Tabs.Main:AddLabel({
+    Text = "Label text"
+})
 
--- Update:
-Version:Set("v2.0.0")
+Label:Set("New label")
 ```
 
----
-
-### Section
-
-**What it does:** Group multiple elements under a titled section. All element methods are available inside.
+## Space
 
 ```lua
-local CombatSection = Tabs.Main:AddSection("Combat Options")
+Tabs.Main:AddSpace({
+    Height = 8
+})
+```
 
-CombatSection:AddToggle("KillAura", {
-    Title = "Kill Aura",
-    Default = false,
+Alias:
+
+```lua
+Tabs.Main:Space({
+    Height = 8
+})
+```
+
+## Section
+
+```lua
+local Section = Tabs.Main:AddSection("Combat")
+
+Section:AddToggle("KillAura", {
+    Title = "Kill Aura"
+})
+```
+
+## Group
+
+```lua
+local Group = Tabs.Main:AddGroup({
+    Padding = 6
+})
+
+Group:AddParagraph({
+    Title = "Group",
+    Content = "Grouped content"
+})
+
+Group:AddButton({
+    Title = "Grouped Button",
     Callback = function() end
 })
 
-CombatSection:AddSlider("Range", {
-    Title = "Range",
-    Min = 5,
-    Max = 50,
-    Default = 15,
-    Callback = function() end
-})
+Group:Destroy()
 ```
 
----
-
-## Notifications
-
-**What it does:** Pop-up message in the bottom-right corner. Max 5 visible at once.
+Alias:
 
 ```lua
-Wraith:Notify({
-    Title = "Success",
-    Content = "Operation completed!",
-    SubContent = "Additional info",
-    Duration = 5
+local Group = Tabs.Main:Group({
+    Padding = 6
 })
 ```
 
----
-
-## Dialogs
-
-**What it does:** Modal confirmation popup. Blocks UI behind it until user clicks a button.
+## VStack
 
 ```lua
-Wraith:Dialog({
-    Title = "Confirm",
-    Content = "Are you sure you want to proceed?",
-    Buttons = {
-        { Title = "Cancel", Callback = function() end },
-        { Title = "Confirm", Callback = function()
-            print("Confirmed!")
-        end }
-    }
+local VStack = Tabs.Main:AddVStack({
+    Padding = 6
+})
+
+VStack:AddButton({
+    Title = "Button"
 })
 ```
 
-The **last button** is highlighted as the primary action (accent color).
+Alias:
 
----
+```lua
+local VStack = Tabs.Main:VStack({
+    Padding = 6
+})
+```
+
+## HStack
+
+```lua
+local Row = Tabs.Main:AddHStack({
+    Padding = 6
+})
+
+local Left = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
+local Right = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
+
+Left:AddButton({
+    Title = "Left"
+})
+
+Right:AddButton({
+    Title = "Right"
+})
+```
+
+Alias:
+
+```lua
+local Row = Tabs.Main:HStack({
+    Padding = 6
+})
+```
 
 ## Theme System
 
-**Built-in themes:** `AMOLED`, `Dark`, `Darker`, `Midnight`, `Charcoal`, `Light`, `Obsidian`
-
 ```lua
--- Change theme:
-Wraith:SetTheme("Midnight")
-
--- Add custom theme:
-Wraith:AddTheme("Ocean", {
-    Bg = Color3.fromRGB(8, 12, 20),
-    Bg2 = Color3.fromRGB(14, 20, 32),
-    Bg3 = Color3.fromRGB(22, 30, 44),
-    El = Color3.fromRGB(18, 25, 38),
-    ElHov = Color3.fromRGB(30, 40, 55),
-    Border = Color3.fromRGB(40, 52, 68),
-    Txt = Color3.fromRGB(220, 230, 245),
-    Txt2 = Color3.fromRGB(140, 160, 185),
-    Txt3 = Color3.fromRGB(90, 110, 135),
-    Acc = Color3.fromRGB(100, 160, 220),
-    AccD = Color3.fromRGB(70, 120, 180),
-    TOn = Color3.fromRGB(110, 170, 230),
-    TOff = Color3.fromRGB(35, 45, 60),
-    Slider = Color3.fromRGB(90, 150, 210),
-    BgTr = 0.1,
-    ElTr = 0.38,
-    SbTr = 0.18
-})
-
--- Get all theme names:
+Wraith:SetTheme("Dark")
 local themes = Wraith:GetThemes()
+local current = Wraith:GetCurrentTheme()
 ```
 
-Theme preference auto-saves and loads on next run.
+```lua
+Wraith:OnThemeChange(function(name, theme)
+    print(name, theme)
+end)
+```
 
----
+```lua
+local transparency = Wraith:GetTransparency()
+print(transparency.Background)
+print(transparency.Element)
+print(transparency.Sidebar)
+```
+
+## AddTheme
+
+```lua
+Wraith:AddTheme("Ocean", {
+    Bg = Color3.fromRGB(8, 12, 18),
+    Bg2 = Color3.fromRGB(12, 18, 26),
+    Bg3 = Color3.fromRGB(18, 26, 36),
+    El = Color3.fromRGB(16, 24, 34),
+    ElHov = Color3.fromRGB(22, 34, 48),
+    Border = Color3.fromRGB(40, 60, 80),
+    Txt = Color3.fromRGB(235, 245, 255),
+    Txt2 = Color3.fromRGB(150, 175, 195),
+    Txt3 = Color3.fromRGB(90, 115, 135),
+    Acc = Color3.fromRGB(80, 170, 255),
+    AccD = Color3.fromRGB(45, 120, 200),
+    TOn = Color3.fromRGB(80, 170, 255),
+    TOff = Color3.fromRGB(35, 50, 65),
+    Slider = Color3.fromRGB(80, 170, 255),
+    BgTr = 0.1,
+    ElTr = 0.35,
+    SbTr = 0.18
+})
+```
 
 ## Theme Editor
-
-**What it does:** Visual editor to design your own theme. Pick colors with color picker, preview live, save when ready.
 
 ```lua
 Wraith:OpenThemeEditor()
 ```
 
----
+## Gradient Helper
+
+```lua
+local gradient = Wraith:Gradient({
+    {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
+    {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
+})
+```
+
+## ApplyGradient
+
+```lua
+local frame = Instance.new("Frame")
+local gradient = Wraith:Gradient({
+    {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
+    {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
+})
+
+Wraith:ApplyGradient(frame, gradient, 0)
+```
+
+Theme key usage:
+
+```lua
+Wraith:AddTheme("GradientTheme", {
+    AccentGradient = Wraith:Gradient({
+        {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
+        {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
+    })
+})
+
+Wraith:ApplyGradient(frame, "AccentGradient", 0)
+```
+
+## Font System
+
+```lua
+Wraith:SetFont(Enum.Font.Gotham)
+```
+
+## Localization
+
+```lua
+Wraith:Localization({
+    en = {
+        Welcome = "Welcome"
+    },
+    de = {
+        Welcome = "Willkommen"
+    }
+})
+
+Wraith:SetLanguage("de")
+print(Wraith:Translate("Welcome"))
+```
+
+## Icon System
+
+```lua
+Wraith.LoadIcons("Lucide")
+local icon = Wraith.GetIcon("settings")
+```
+
+```lua
+Wraith:AddIconPack("custom", {
+    star = "rbxassetid://6031068426"
+})
+
+Window:CreateTopbarButton("Star", "custom:star", function() end)
+```
 
 ## Animation System
 
-**What it does:** Change how UI elements animate (transitions, hovers, etc.)
-
 ```lua
-Wraith:SetAnimation("Bounce")
+Wraith:SetAnimation("Smooth")
+local animations = Wraith:GetAnimations()
 ```
 
-**Available presets:**
-- `Default` — Standard smooth (Quart, 0.25s)
-- `Bounce` — Bouncy pop (0.5s)
-- `Elastic` — Springy overshoot (0.6s)
-- `Smooth` — Gentle ease (Sine, 0.4s)
-- `Snappy` — Quick with slight overshoot (Back, 0.3s)
-- `Fade` — Linear fade (0.35s)
+Built-in presets:
 
----
+| Name |
+| --- |
+| `Default` |
+| `Bounce` |
+| `Elastic` |
+| `Smooth` |
+| `Snappy` |
+| `Fade` |
 
-## Tooltip System
-
-**What it does:** Show a small hint text when user hovers over an element. Add `Tooltip` parameter to any element.
+## SaveManager Addon
 
 ```lua
-Tabs.Main:AddButton("Btn", {
-    Title = "Mysterious Button",
-    Tooltip = "This button does something mysterious",
+SaveManager:SetLibrary(Wraith)
+SaveManager:SetFolder("WraithExample/specific-game")
+SaveManager:IgnoreThemeSettings()
+SaveManager:BuildConfigSection(Tabs.Settings)
+SaveManager:LoadAutoloadConfig()
+```
+
+## InterfaceManager Addon
+
+```lua
+InterfaceManager:SetLibrary(Wraith)
+InterfaceManager:SetFolder("WraithExample")
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+```
+
+## ConfigManager Bridge
+
+```lua
+local Config = Window.ConfigManager:CreateConfig("default")
+
+Config:Save()
+Config:Load()
+Config:SetAutoLoad(true)
+Config:Delete()
+```
+
+```lua
+local configs = Window.ConfigManager:AllConfigs()
+local config = Window.ConfigManager:GetConfig("default")
+local autoload = Window.ConfigManager:GetAutoLoadConfigs()
+```
+
+## Core SaveManager
+
+```lua
+Wraith.SaveManager:Save("default")
+Wraith.SaveManager:Load("default")
+Wraith.SaveManager:Delete("default")
+local configs = Wraith.SaveManager:GetConfigs()
+```
+
+## Flags
+
+```lua
+local toggle = Wraith.Flags.AutoFarm
+
+toggle:Set(true)
+```
+
+## Tooltip
+
+```lua
+Tabs.Main:AddButton({
+    Title = "Button",
+    Tooltip = "Tooltip text",
     Callback = function() end
 })
 ```
 
----
-
-## Window Methods
-
-```lua
-Window:Show()              -- show window with animation
-Window:Hide()              -- hide window (reopen with keybind)
-Window:Minimize()          -- minimize (floating button on mobile)
-Window:Destroy()           -- destroy entirely
-Window:Resize(800, 500)    -- programmatic resize
-```
-
----
-
-## Flags System
-
-Every element with a `Flag` is stored globally and can be accessed from anywhere:
-
-```lua
--- Get value:
-local isOn = Wraith.Flags["AutoFarm"].Value
-
--- Set value:
-Wraith.Flags["WalkSpeed"]:Set(100)
-
--- Check in a loop:
-if Wraith.Flags["AutoFarm"].Value then
-    -- do something
-end
-```
-
----
-
-## Addons
-
-### SaveManager
-
-**What it does:** Save/load all UI flag values to JSON files. Supports autoload (loads saved config on script start).
-
-```lua
-SaveManager:SetLibrary(Wraith)
-SaveManager:IgnoreThemeSettings()  -- don't save theme in configs
-SaveManager:SetFolder("Wraith/MyHub")  -- folder path
-
--- Build the full config UI in a tab:
-SaveManager:BuildConfigSection(Tabs.Settings)
-
--- Load autoload config at script start:
-SaveManager:LoadAutoloadConfig()
-```
-
-**Manual methods:**
-```lua
-SaveManager:Save("myconfig")
-SaveManager:Load("myconfig")
-SaveManager:Delete("myconfig")
-
-local configs = SaveManager:RefreshConfigList()
-SaveManager:SetAutoloadConfig("myconfig")
-SaveManager:DeleteAutoLoadConfig()
-```
-
----
-
-### InterfaceManager
-
-**What it does:** Save/load theme and animation preferences. Builds a settings UI section.
-
-```lua
-InterfaceManager:SetLibrary(Wraith)
-InterfaceManager:SetFolder("Wraith/MyHub")
-
--- Build theme/animation settings UI:
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-```
-
-This auto-adds:
-- Theme dropdown (saves on change)
-- Animation dropdown (saves on change)
-- Theme Editor button
-- Menu keybind selector
-
----
-
 ## Full Example
-```lua
-local Wraith = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Src/Wraith.luau"
-))()
 
-local SaveManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/SaveManager.lua"
-))()
-
-local InterfaceManager = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Addons/InterfaceManager.lua"
-))()
-
-local Window = Wraith:CreateWindow({
-    Title = "Wraith " .. "v1.0.0",
-    SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 630, 0, 370),
-    MinimizeKey = Enum.KeyCode.LeftControl,
-    TabWidth = 175,
-    Resizable = true,
-    Searchable = true,
-    MinSize = Vector2.new(450, 280)
-})
-
-local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
-}
-
-Wraith:Notify({
-    Title = "Notification",
-    Content = "This is a notification",
-    SubContent = "SubContent",
-    Duration = 5
-})
-
-Tabs.Main:AddParagraph({
-    Title = "Paragraph",
-    Content = "This is a paragraph.\nSecond line!"
-})
-
-Tabs.Main:AddButton({
-    Title = "Button",
-    Description = "Very important button",
-    Callback = function()
-        Wraith:Dialog({
-            Title = "Title",
-            Content = "This is a dialog",
-            Buttons = {
-                {
-                    Title = "Cancel",
-                    Callback = function()
-                        print("Cancelled the dialog.")
-                    end
-                },
-                {
-                    Title = "Confirm",
-                    Callback = function()
-                        print("Confirmed the dialog.")
-                    end
-                }
-            }
-        })
-    end
-})
-
-local Toggle = Tabs.Main:AddToggle("MyToggle", {
-    Title = "Toggle",
-    Default = false,
-    Callback = function(Value)
-        print("Toggle changed:", Value)
-    end
-})
-
-local Checkbox = Tabs.Main:AddCheckbox("MyCheckbox", {
-    Title = "Checkbox",
-    Description = "This is a checkbox",
-    Default = true,
-    Callback = function(Value)
-        print("Checkbox changed:", Value)
-    end
-})
-
-local Slider = Tabs.Main:AddSlider("Slider", {
-    Title = "Slider",
-    Description = "This is a slider",
-    Default = 2,
-    Min = 0,
-    Max = 5,
-    Rounding = 1,
-    Callback = function(Value)
-        print("Slider was changed:", Value)
-    end
-})
-
-local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-    Title = "Dropdown",
-    Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
-    Default = "one",
-    Callback = function(Value)
-        print("Dropdown changed:", Value)
-    end
-})
-
-local MultiDropdown = Tabs.Main:AddMultiDropdown("MultiDropdown", {
-    Title = "Multi Dropdown",
-    Description = "You can select multiple values.",
-    Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
-    Default = {"seven", "twelve"},
-    Callback = function(Value)
-        local Values = {}
-        for Val, State in next, Value do
-            if State then
-                table.insert(Values, Val)
-            end
-        end
-        print("MultiDropdown changed:", table.concat(Values, ", "))
-    end
-})
-
-local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
-    Title = "Colorpicker",
-    Default = Color3.fromRGB(96, 205, 255),
-    Callback = function(Value)
-        print("Colorpicker changed:", Value)
-    end
-})
-
-local Keybind = Tabs.Main:AddKeybind("Keybind", {
-    Title = "Keybind",
-    Default = Enum.KeyCode.LeftControl,
-    Callback = function(Value)
-        print("Keybind pressed!")
-    end,
-    ChangedCallback = function(New)
-        print("Keybind changed:", New and New.Name or "None")
-    end
-})
-
-local Input = Tabs.Main:AddInput("Input", {
-    Title = "Input",
-    Default = "Default",
-    Placeholder = "Placeholder",
-    Numeric = false,
-    Callback = function(Value)
-        print("Input changed:", Value)
-    end
-})
-
-Tabs.Main:AddDivider({ Text = "Number Spinner" })
-
-local Spinner = Tabs.Main:AddNumberSpinner("Spinner", {
-    Title = "Number Spinner",
-    Description = "Click + or - to change value",
-    Min = 0,
-    Max = 100,
-    Default = 10,
-    Step = 5,
-    Callback = function(Value)
-        print("Spinner changed:", Value)
-    end
-})
-
-Tabs.Main:AddDivider({ Text = "Multi Input" })
-
-local MultiInput = Tabs.Main:AddMultiInput("MultiInput", {
-    Title = "Multi Input",
-    Description = "Multiple inputs in one row.",
-    Fields = {
-        { Name = "X", Default = "0", Placeholder = "X", Numeric = true },
-        { Name = "Y", Default = "0", Placeholder = "Y", Numeric = true },
-        { Name = "Z", Default = "0", Placeholder = "Z", Numeric = true }
-    },
-    Callback = function(Values)
-        print("MultiInput changed:", Values.X, Values.Y, Values.Z)
-    end
-})
-
-Tabs.Main:AddDivider({ Text = "Multi Slider" })
-
-local MultiSlider = Tabs.Main:AddMultiSlider("MultiSlider", {
-    Title = "Multi Slider",
-    Description = "Multiple sliders in one element.",
-    Fields = {
-        { Name = "A", Min = 0, Max = 100, Default = 50, Suffix = "" },
-        { Name = "B", Min = 0, Max = 100, Default = 25, Suffix = "" },
-        { Name = "C", Min = 0, Max = 100, Default = 75, Suffix = "" }
-    },
-    Callback = function(Values)
-        print("MultiSlider changed:", Values.A, Values.B, Values.C)
-    end
-})
-
-Tabs.Main:AddDivider({ Text = "Info Elements" })
-
-Tabs.Main:AddDateTime({
-    Title = "Current Time",
-    Format = "%H:%M:%S"
-})
-
-Tabs.Main:AddDateTime({
-    Title = "Current Date",
-    Format = "%d/%m/%Y"
-})
-
-Tabs.Main:AddStatusBar({
-    Title = "FPS",
-    UpdateInterval = 0.5,
-    Getter = function()
-        return math.floor(1 / game:GetService("RunService").Heartbeat:Wait())
-    end
-})
-
-Tabs.Main:AddStatusBar({
-    Title = "Players",
-    UpdateInterval = 5,
-    Getter = function()
-        return #game.Players:GetPlayers()
-    end
-})
-
-Tabs.Main:AddDivider({ Text = "Layout Elements" })
-
-Tabs.Main:AddSeparator()
-
-Tabs.Main:AddLabel({ Text = "This is a label." })
-
-local Section = Tabs.Main:AddSection("Section")
-
-Section:AddToggle("SectionToggle", {
-    Title = "Toggle inside section",
-    Default = false,
-    Callback = function(Value)
-        print("Section toggle:", Value)
-    end
-})
-
-Section:AddSlider("SectionSlider", {
-    Title = "Slider inside section",
-    Min = 0,
-    Max = 10,
-    Default = 5,
-    Rounding = 1,
-    Callback = function(Value)
-        print("Section slider:", Value)
-    end
-})
-
-SaveManager:SetLibrary(Wraith)
-InterfaceManager:SetLibrary(Wraith)
-
-SaveManager:IgnoreThemeSettings()
-
-SaveManager:SetIgnoreIndexes({})
-
-InterfaceManager:SetFolder("WraithExample")
-SaveManager:SetFolder("WraithExample/specific-game")
-
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-SaveManager:BuildConfigSection(Tabs.Settings)
-
-Wraith:Notify({
-    Title = "Wraith",
-    Content = "The script has been loaded.",
-    Duration = 8
-})
-
-SaveManager:LoadAutoloadConfig()
-```
+Use `Example.luau` for the complete updated example.
