@@ -24,7 +24,7 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 ## Features
 
 - Dark monochrome design
-- 7 built-in themes
+- 10 built-in themes
 - Custom theme support
 - Theme editor
 - Current theme getter
@@ -32,8 +32,12 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 - Smooth animations
 - Lucide icons
 - Searchable sidebar
+- Element category search filter
 - Resizable window
+- Optional window background image
+- Collapsible tab groups
 - Advanced dropdown
+- Dropdown search
 - ProgressBar element
 - SaveManager addon
 - InterfaceManager addon
@@ -44,7 +48,11 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 
 ## Themes
 
-`AMOLED` `Dark` `Darker` `Midnight` `Charcoal` `Light` `Obsidian`
+`AMOLED` `Dark` `Darker` `Midnight` `Charcoal` `Light` `Obsidian` `Mocha` `Nord` `Rose`
+
+## Animations
+
+`Default` `Smooth` `Fade`
 
 ## Elements
 
@@ -89,17 +97,30 @@ local InterfaceManager = loadstring(game:HttpGet(
 local Window = Wraith:CreateWindow({
     Title = "Wraith v1.0.0",
     SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 630, 0, 370),
+    Size = UDim2.new(0, 650, 0, 390),
     MinimizeKey = Enum.KeyCode.LeftControl,
-    TabWidth = 175,
+    TabWidth = 185,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280)
+    MinSize = Vector2.new(470, 300),
+    BackgroundImage = "",
+    BackgroundImageTransparency = 0.75
+})
+
+local MainGroup = Window:AddTabGroup({
+    Title = "Main",
+    Opened = true
+})
+
+local UtilityGroup = Window:AddTabGroup({
+    Title = "Utilities",
+    Opened = true
 })
 
 local Tabs = {
-    Main = Window:AddTab({Title = "Main", Icon = "house"}),
-    Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
+    Main = MainGroup:AddTab({Title = "Main", Icon = "house"}),
+    Elements = MainGroup:AddTab({Title = "Elements", Icon = "sliders-horizontal"}),
+    Settings = UtilityGroup:AddTab({Title = "Settings", Icon = "settings"})
 }
 
 Tabs.Main:AddParagraph({
@@ -145,6 +166,7 @@ SaveManager:LoadAutoloadConfig()
 ```lua
 Tabs.Main:AddDropdown("Actions", {
     Title = "Actions",
+    Searchable = true,
     Values = {
         {
             Title = "New File",
@@ -168,6 +190,36 @@ Tabs.Main:AddDropdown("Actions", {
         print(value, option and option.Title)
     end
 })
+```
+
+## ProgressBar Getter
+
+```lua
+local Progress = Tabs.Main:AddProgressBar("Progress", {
+    Title = "Progress",
+    Min = 0,
+    Max = 100,
+    Default = 0,
+    Getter = function()
+        return math.random(0, 100)
+    end,
+    UpdateInterval = 1
+})
+
+Progress:Set(80)
+Progress:Refresh()
+Progress:Stop()
+Progress:Start(function()
+    return 50
+end, 0.5)
+```
+
+## Background Image
+
+```lua
+Window:SetBackgroundImage("rbxassetid://6031302932", 0.82)
+Window:SetBackgroundImageTransparency(0.9)
+Window:SetBackgroundImage(nil)
 ```
 
 ## Theme State
