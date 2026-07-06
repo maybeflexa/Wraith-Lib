@@ -94,12 +94,6 @@ local Tabs = {
 }
 ```
 
-## Search Filter
-
-The sidebar search can filter by element category.
-
-Use the category button under the search box to switch between `All`, `Button`, `Toggle`, `Slider`, `Dropdown`, `Input` and `ProgressBar`.
-
 ## Window Methods
 
 Use these after creating the window.
@@ -525,7 +519,7 @@ Section:AddToggle("KillAura", {
 
 ## Themes
 
-Wraith includes AMOLED, Dark, Darker, Midnight, Charcoal, Light, Obsidian, Mocha, Nord and Rose.
+Wraith includes AMOLED, Dark, Darker, Midnight, Charcoal, Light, Obsidian, Mocha, Nord, Rose, Evergreen and Solar.
 
 ```lua
 Wraith:SetTheme("Mocha")
