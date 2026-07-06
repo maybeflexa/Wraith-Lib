@@ -1,5 +1,77 @@
 local HttpService = game:GetService("HttpService")
 
+local FileSystem = {}
+do
+    function FileSystem.IsFolder(path)
+        local fn = isfolder
+        if type(fn) ~= "function" then
+            return false
+        end
+        local success, result = pcall(fn, path)
+        return success and result == true
+    end
+
+    function FileSystem.IsFile(path)
+        local fn = isfile
+        if type(fn) ~= "function" then
+            return false
+        end
+        local success, result = pcall(fn, path)
+        return success and result == true
+    end
+
+    function FileSystem.MakeFolder(path)
+        local fn = makefolder
+        if type(fn) ~= "function" then
+            return false
+        end
+        local success = pcall(fn, path)
+        return success
+    end
+
+    function FileSystem.ReadFile(path)
+        local fn = readfile
+        if type(fn) ~= "function" then
+            return nil
+        end
+        local success, result = pcall(fn, path)
+        if success then
+            return result
+        end
+        return nil
+    end
+
+    function FileSystem.WriteFile(path, content)
+        local fn = writefile
+        if type(fn) ~= "function" then
+            return false
+        end
+        local success = pcall(fn, path, content)
+        return success
+    end
+
+    function FileSystem.DeleteFile(path)
+        local fn = delfile
+        if type(fn) ~= "function" then
+            return false
+        end
+        local success = pcall(fn, path)
+        return success
+    end
+
+    function FileSystem.ListFiles(path)
+        local fn = listfiles
+        if type(fn) ~= "function" then
+            return {}
+        end
+        local success, result = pcall(fn, path)
+        if success and type(result) == "table" then
+            return result
+        end
+        return {}
+    end
+end
+
 local SaveManager = {} do
     SaveManager.Folder = "WraithSettings"
     SaveManager.Ignore = {}
@@ -132,14 +204,14 @@ local SaveManager = {} do
             self.Folder .. "/settings"
         }
         for _, path in ipairs(paths) do
-            if not isfolder(path) then
-                makefolder(path)
+            if not FileSystem.IsFolder(path) then
+                FileSystem.MakeFolder(path)
             end
         end
     end
 
     function SaveManager:CheckFolderTree()
-        if isfolder(self.Folder) then return end
+        if FileSystem.IsFolder(self.Folder) then return end
         self:BuildFolderTree()
         task.wait(0.1)
     end
@@ -163,7 +235,9 @@ local SaveManager = {} do
             return false, "failed to encode data"
         end
 
-        writefile(fullPath, encoded)
+        if not FileSystem.WriteFile(fullPath, encoded) then
+            return false, "file system is not available"
+        end
         return true
     end
 
@@ -172,11 +246,16 @@ local SaveManager = {} do
             return false, "no config file is selected"
         end
         local file = self.Folder .. "/settings/" .. name .. ".json"
-        if not isfile(file) then
+        if not FileSystem.IsFile(file) then
             return false, "invalid file"
         end
 
-        local success, decoded = pcall(HttpService.JSONDecode, HttpService, readfile(file))
+        local content = FileSystem.ReadFile(file)
+        if type(content) ~= "string" then
+            return false, "failed to read file"
+        end
+
+        local success, decoded = pcall(HttpService.JSONDecode, HttpService, content)
         if not success then
             return false, "decode error"
         end
@@ -197,9 +276,11 @@ local SaveManager = {} do
             return false, "no config file is selected"
         end
         local file = self.Folder .. "/settings/" .. name .. ".json"
-        if isfile(file) then
-            delfile(file)
-            return true
+        if FileSystem.IsFile(file) then
+            if FileSystem.DeleteFile(file) then
+                return true
+            end
+            return false, "failed to delete file"
         end
         return false, "file does not exist"
     end
@@ -213,7 +294,7 @@ local SaveManager = {} do
     end
 
     function SaveManager:RefreshConfigList()
-        local list = listfiles(self.Folder .. "/settings")
+        local list = FileSystem.ListFiles(self.Folder .. "/settings")
         local out = {}
         for i = 1, #list do
             local file = list[i]
@@ -234,25 +315,25 @@ local SaveManager = {} do
     end
 
     function SaveManager:SetAutoloadConfig(name)
-        writefile(self.Folder .. "/settings/autoload.txt", name)
+        FileSystem.WriteFile(self.Folder .. "/settings/autoload.txt", name)
     end
 
     function SaveManager:DeleteAutoLoadConfig()
-        if isfile(self.Folder .. "/settings/autoload.txt") then
-            delfile(self.Folder .. "/settings/autoload.txt")
+        if FileSystem.IsFile(self.Folder .. "/settings/autoload.txt") then
+            FileSystem.DeleteFile(self.Folder .. "/settings/autoload.txt")
         end
     end
 
     function SaveManager:GetAutoloadConfig()
-        if isfile(self.Folder .. "/settings/autoload.txt") then
-            return readfile(self.Folder .. "/settings/autoload.txt")
+        if FileSystem.IsFile(self.Folder .. "/settings/autoload.txt") then
+            return FileSystem.ReadFile(self.Folder .. "/settings/autoload.txt")
         end
         return nil
     end
 
     function SaveManager:LoadAutoloadConfig()
-        if isfile(self.Folder .. "/settings/autoload.txt") then
-            local name = readfile(self.Folder .. "/settings/autoload.txt")
+        if FileSystem.IsFile(self.Folder .. "/settings/autoload.txt") then
+            local name = FileSystem.ReadFile(self.Folder .. "/settings/autoload.txt")
             local success, err = self:Load(name)
             if not success then
                 return self.Library:Notify({
