@@ -18,8 +18,7 @@ local Window = Wraith:CreateWindow({
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280),
-    UIScale = 1
+    MinSize = Vector2.new(450, 280)
 })
 
 local Tabs = {
@@ -89,12 +88,17 @@ local Slider = Tabs.Elements:AddSlider("ExampleSlider", {
     end
 })
 
+local startTime = os.clock()
 local Progress = Tabs.Elements:AddProgressBar("ExampleProgress", {
     Title = "ProgressBar",
-    Description = "Progress display",
+    Description = "Auto updates from Getter",
     Min = 0,
     Max = 100,
-    Default = 35
+    Default = 35,
+    UpdateInterval = 0.25,
+    Getter = function()
+        return (os.clock() - startTime) % 100
+    end
 })
 
 Tabs.Elements:AddButton({
@@ -198,21 +202,6 @@ SaveManager:SetFolder("WraithExample/specific-game")
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
-
-Tabs.Settings:AddDivider({
-    Text = "Window"
-})
-
-Tabs.Settings:AddDropdown("UIScale", {
-    Title = "UI Scale",
-    Description = "Changes the window scale",
-    Values = {"0.8", "0.9", "1", "1.1", "1.2"},
-    Default = "1",
-    Save = false,
-    Callback = function(value)
-        Window:SetUIScale(tonumber(value))
-    end
-})
 
 Tabs.Settings:AddDivider({
     Text = "ConfigManager"
