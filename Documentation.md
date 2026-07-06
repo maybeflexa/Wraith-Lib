@@ -2,7 +2,7 @@
 
 ## Installation
 
-Load the library and optional addons before creating the UI.
+Load the library first, then load the addons if you want the ready-made settings and config panels.
 
 ```lua
 local Wraith = loadstring(game:HttpGet(
@@ -20,25 +20,19 @@ local InterfaceManager = loadstring(game:HttpGet(
 
 ## Window
 
-Creates the main container for tabs, elements and window controls.
+Creates the main UI window.
 
 ```lua
 local Window = Wraith:CreateWindow({
-    Title = "Wraith v1.1.0",
+    Title = "Wraith v1.0.0",
     SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 650, 0, 390),
+    Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(470, 300),
-    UIScale = 1,
-    OpenButton = {
-        Enabled = true,
-        Title = "W",
-        Draggable = true,
-        OnlyMobile = false
-    }
+    MinSize = Vector2.new(450, 280),
+    UIScale = 1
 })
 ```
 
@@ -53,30 +47,10 @@ local Window = Wraith:CreateWindow({
 | `Searchable` | boolean | Enables sidebar search |
 | `MinSize` | Vector2 | Minimum resize size |
 | `UIScale` | number | Initial UI scale |
-| `OpenButton` | table | Floating button configuration |
-
-## OpenButton
-
-Shows a floating button that can bring the window back after it is hidden or minimized.
-
-```lua
-OpenButton = {
-    Enabled = true,
-    Title = "W",
-    Draggable = true,
-    OnlyMobile = false,
-    Size = UDim2.new(0, 46, 0, 46),
-    Position = UDim2.new(0, 16, 0.5, -23),
-    Color = Color3.fromRGB(20, 20, 23),
-    Transparency = 0.05,
-    TextSize = 22,
-    TextScaled = false
-}
-```
 
 ## Tabs
 
-Tabs split your UI into separate pages.
+Tabs split the window into pages.
 
 ```lua
 local Tabs = {
@@ -87,7 +61,7 @@ local Tabs = {
 
 ## Window Methods
 
-Common actions for controlling the window after it has been created.
+Use these after creating the window.
 
 ```lua
 Window:SelectTab(Tabs.Main)
@@ -95,34 +69,21 @@ Window:Show()
 Window:Hide()
 Window:Minimize()
 Window:Destroy()
-Window:Resize(650, 390)
+Window:Resize(630, 370)
+```
+
+## UI Scale
+
+Scales the whole window without changing every element manually.
+
+```lua
 Window:SetUIScale(0.9)
 local scale = Window:GetUIScale()
 ```
 
-## Window Tags
-
-Small labels in the topbar, useful for versions, states or badges.
-
-```lua
-Window:Tag({
-    Title = "v1.1.0"
-})
-```
-
-## Topbar Buttons
-
-Adds custom buttons next to the default window controls.
-
-```lua
-Window:CreateTopbarButton("Theme", "settings", function()
-    Wraith:SetTheme("Dark")
-end)
-```
-
 ## Notifications
 
-Shows short messages on screen without blocking the UI.
+Small messages that appear without stopping the script.
 
 ```lua
 Wraith:Notify({
@@ -135,7 +96,7 @@ Wraith:Notify({
 
 ## Dialogs
 
-Shows a modal prompt with custom action buttons.
+A prompt with custom buttons.
 
 ```lua
 Wraith:Dialog({
@@ -156,7 +117,7 @@ Wraith:Dialog({
 
 ## API Syntax
 
-Most elements support both flag-first and table-only syntax.
+Elements support flag-first syntax and table syntax.
 
 ```lua
 Tabs.Main:AddToggle("FlagName", {
@@ -173,7 +134,7 @@ Tabs.Main:AddToggle({
 
 ## Paragraph
 
-Displays a title and longer text content.
+A simple text block.
 
 ```lua
 local Paragraph = Tabs.Main:AddParagraph({
@@ -188,7 +149,6 @@ Paragraph:Set({
 
 Paragraph:SetTitle("New title")
 Paragraph:SetDesc("New content")
-Paragraph:Destroy()
 ```
 
 ## Button
@@ -196,23 +156,18 @@ Paragraph:Destroy()
 Runs a callback when clicked.
 
 ```lua
-local Button = Tabs.Main:AddButton({
+Tabs.Main:AddButton({
     Title = "Button",
     Description = "Button description",
     Callback = function()
         print("clicked")
     end
 })
-
-Button:Highlight()
-Button:SetTitle("New title")
-Button:SetDesc("New description")
-Button:Destroy()
 ```
 
 ## Toggle
 
-Stores a true or false value with a switch control.
+A true or false switch.
 
 ```lua
 local Toggle = Tabs.Main:AddToggle("AutoFarm", {
@@ -229,7 +184,7 @@ Toggle:Set(true)
 
 ## Checkbox
 
-Stores a true or false value with a checkbox style.
+A true or false checkbox.
 
 ```lua
 local Checkbox = Tabs.Main:AddCheckbox("LogActions", {
@@ -245,7 +200,7 @@ Checkbox:Set(false)
 
 ## Slider
 
-Lets the user pick a number from a range.
+Pick a number from a range.
 
 ```lua
 local Slider = Tabs.Main:AddSlider("WalkSpeed", {
@@ -265,10 +220,10 @@ Slider:Set(50)
 
 ## ProgressBar
 
-Displays progress without user dragging.
+Shows progress as a read-only bar.
 
 ```lua
-local Progress = Tabs.Main:AddProgressBar({
+local Progress = Tabs.Main:AddProgressBar("Progress", {
     Title = "Progress",
     Description = "Progress description",
     Min = 0,
@@ -292,7 +247,7 @@ local Progress = Tabs.Main:ProgressBar({
 
 ## Dropdown
 
-Lets the user pick one value from a list.
+Pick one value from a list.
 
 ```lua
 local Dropdown = Tabs.Main:AddDropdown("Mode", {
@@ -312,7 +267,7 @@ Dropdown:Select("Two")
 
 ## Advanced Dropdown
 
-Dropdown items can have icons, descriptions, dividers, locked states and item callbacks.
+Dropdown rows can include icons, descriptions, dividers, locked states and per-item callbacks.
 
 ```lua
 local Dropdown = Tabs.Main:AddDropdown("FileAction", {
@@ -323,8 +278,8 @@ local Dropdown = Tabs.Main:AddDropdown("FileAction", {
             Description = "Create a new file",
             Icon = "file-plus",
             Value = "new",
-            Callback = function()
-                print("new")
+            Callback = function(option, value)
+                print(value)
             end
         },
         {
@@ -353,7 +308,7 @@ local Dropdown = Tabs.Main:AddDropdown("FileAction", {
 
 ## MultiDropdown
 
-Lets the user pick multiple values from one list.
+Pick multiple values from one list.
 
 ```lua
 local MultiDropdown = Tabs.Main:AddMultiDropdown("Targets", {
@@ -370,7 +325,7 @@ MultiDropdown:Set({"Player", "Boss"})
 
 ## Colorpicker
 
-Lets the user pick a Color3 value.
+Pick a `Color3` value.
 
 ```lua
 local Colorpicker = Tabs.Main:AddColorpicker("ESPColor", {
@@ -386,7 +341,7 @@ Colorpicker:Set(Color3.fromRGB(255, 0, 0))
 
 ## Keybind
 
-Lets the user choose a keyboard key and listen for it.
+Pick a key and listen for it.
 
 ```lua
 local Keybind = Tabs.Main:AddKeybind("MenuKey", {
@@ -420,34 +375,9 @@ local Input = Tabs.Main:AddInput("Username", {
 Input:Set("maybeflexa")
 ```
 
-## Textarea
-
-Multi-line text input for longer text.
-
-```lua
-local Textarea = Tabs.Main:AddInput("Notes", {
-    Title = "Notes",
-    Type = "Textarea",
-    Placeholder = "Enter notes",
-    Default = "Line one\nLine two",
-    Callback = function(value)
-        print(value)
-    end
-})
-```
-
-Alternative:
-
-```lua
-Tabs.Main:AddInput("Notes", {
-    Title = "Notes",
-    MultiLine = true
-})
-```
-
 ## MultiInput
 
-Groups multiple text fields into one element.
+Multiple text boxes in one element.
 
 ```lua
 local MultiInput = Tabs.Main:AddMultiInput("Coords", {
@@ -461,17 +391,11 @@ local MultiInput = Tabs.Main:AddMultiInput("Coords", {
         print(values)
     end
 })
-
-MultiInput:Set({
-    X = "10",
-    Y = "20",
-    Z = "30"
-})
 ```
 
 ## MultiSlider
 
-Groups multiple sliders into one element.
+Multiple sliders in one element.
 
 ```lua
 local MultiSlider = Tabs.Main:AddMultiSlider("Stats", {
@@ -484,16 +408,11 @@ local MultiSlider = Tabs.Main:AddMultiSlider("Stats", {
         print(values)
     end
 })
-
-MultiSlider:Set({
-    Speed = 75,
-    Power = 60
-})
 ```
 
 ## NumberSpinner
 
-Small number input controlled with plus and minus buttons.
+Number input with plus and minus buttons.
 
 ```lua
 local Spinner = Tabs.Main:AddNumberSpinner("Amount", {
@@ -506,13 +425,11 @@ local Spinner = Tabs.Main:AddNumberSpinner("Amount", {
         print(value)
     end
 })
-
-Spinner:Set(5)
 ```
 
 ## DateTime
 
-Displays live time or date text.
+Displays live date or time text.
 
 ```lua
 Tabs.Main:AddDateTime({
@@ -547,7 +464,7 @@ Tabs.Main:AddSeparator()
 
 ## Divider
 
-A labeled line used to split sections.
+A labeled line for splitting content.
 
 ```lua
 Tabs.Main:AddDivider({
@@ -567,27 +484,9 @@ local Label = Tabs.Main:AddLabel({
 Label:Set("New label")
 ```
 
-## Space
-
-Adds empty vertical space between elements.
-
-```lua
-Tabs.Main:AddSpace({
-    Height = 8
-})
-```
-
-Alias:
-
-```lua
-Tabs.Main:Space({
-    Height = 8
-})
-```
-
 ## Section
 
-Creates a titled area with its own elements.
+A titled container with its own elements.
 
 ```lua
 local Section = Tabs.Main:AddSection("Combat")
@@ -597,228 +496,40 @@ Section:AddToggle("KillAura", {
 })
 ```
 
-## Group
+## Theme State
 
-Creates a clean container for multiple elements.
-
-```lua
-local Group = Tabs.Main:AddGroup({
-    Padding = 6
-})
-
-Group:AddParagraph({
-    Title = "Group",
-    Content = "Grouped content"
-})
-
-Group:AddButton({
-    Title = "Grouped Button",
-    Callback = function() end
-})
-
-Group:Destroy()
-```
-
-Alias:
+Read the active theme and current transparency values.
 
 ```lua
-local Group = Tabs.Main:Group({
-    Padding = 6
-})
-```
-
-## VStack
-
-A vertical layout helper for stacked elements.
-
-```lua
-local VStack = Tabs.Main:AddVStack({
-    Padding = 6
-})
-
-VStack:AddButton({
-    Title = "Button"
-})
-```
-
-Alias:
-
-```lua
-local VStack = Tabs.Main:VStack({
-    Padding = 6
-})
-```
-
-## HStack
-
-A horizontal layout helper with columns.
-
-```lua
-local Row = Tabs.Main:AddHStack({
-    Padding = 6
-})
-
-local Left = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
-local Right = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
-
-Left:AddButton({
-    Title = "Left"
-})
-
-Right:AddButton({
-    Title = "Right"
-})
-```
-
-Alias:
-
-```lua
-local Row = Tabs.Main:HStack({
-    Padding = 6
-})
-```
-
-## Theme System
-
-Controls colors, theme changes and theme-related helpers.
-
-```lua
-Wraith:SetTheme("Dark")
-local themes = Wraith:GetThemes()
-local current = Wraith:GetCurrentTheme()
-```
-
-```lua
-Wraith:OnThemeChange(function(name, theme)
-    print(name, theme)
-end)
-```
-
-```lua
+local currentTheme = Wraith:GetCurrentTheme()
 local transparency = Wraith:GetTransparency()
+
+print(currentTheme)
 print(transparency.Background)
 print(transparency.Element)
 print(transparency.Sidebar)
 ```
 
-## AddTheme
+## Theme System
 
-Registers a custom theme that can be selected later.
+Set themes and list available themes.
 
 ```lua
-Wraith:AddTheme("Ocean", {
-    Bg = Color3.fromRGB(8, 12, 18),
-    Bg2 = Color3.fromRGB(12, 18, 26),
-    Bg3 = Color3.fromRGB(18, 26, 36),
-    El = Color3.fromRGB(16, 24, 34),
-    ElHov = Color3.fromRGB(22, 34, 48),
-    Border = Color3.fromRGB(40, 60, 80),
-    Txt = Color3.fromRGB(235, 245, 255),
-    Txt2 = Color3.fromRGB(150, 175, 195),
-    Txt3 = Color3.fromRGB(90, 115, 135),
-    Acc = Color3.fromRGB(80, 170, 255),
-    AccD = Color3.fromRGB(45, 120, 200),
-    TOn = Color3.fromRGB(80, 170, 255),
-    TOff = Color3.fromRGB(35, 50, 65),
-    Slider = Color3.fromRGB(80, 170, 255),
-    BgTr = 0.1,
-    ElTr = 0.35,
-    SbTr = 0.18
-})
+Wraith:SetTheme("Dark")
+local themes = Wraith:GetThemes()
 ```
 
 ## Theme Editor
 
-Opens the built-in editor for creating or editing themes.
+Opens the built-in theme editor.
 
 ```lua
 Wraith:OpenThemeEditor()
 ```
 
-## Gradient Helper
-
-Builds a ColorSequence from simple color stops.
-
-```lua
-local gradient = Wraith:Gradient({
-    {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
-    {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
-})
-```
-
-## ApplyGradient
-
-Applies a UIGradient to an instance.
-
-```lua
-local frame = Instance.new("Frame")
-local gradient = Wraith:Gradient({
-    {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
-    {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
-})
-
-Wraith:ApplyGradient(frame, gradient, 0)
-```
-
-Theme key usage:
-
-```lua
-Wraith:AddTheme("GradientTheme", {
-    AccentGradient = Wraith:Gradient({
-        {Time = 0, Color = Color3.fromRGB(255, 0, 0)},
-        {Time = 1, Color = Color3.fromRGB(0, 0, 255)}
-    })
-})
-
-Wraith:ApplyGradient(frame, "AccentGradient", 0)
-```
-
-## Font System
-
-Changes the font used by Wraith text objects.
-
-```lua
-Wraith:SetFont(Enum.Font.Gotham)
-```
-
-## Localization
-
-Stores translated strings and returns the active language value.
-
-```lua
-Wraith:Localization({
-    en = {
-        Welcome = "Welcome"
-    },
-    de = {
-        Welcome = "Willkommen"
-    }
-})
-
-Wraith:SetLanguage("de")
-print(Wraith:Translate("Welcome"))
-```
-
-## Icon System
-
-Loads icons and custom icon packs for buttons, tabs and dropdown items.
-
-```lua
-Wraith.LoadIcons("Lucide")
-local icon = Wraith.GetIcon("settings")
-```
-
-```lua
-Wraith:AddIconPack("custom", {
-    star = "rbxassetid://6031068426"
-})
-
-Window:CreateTopbarButton("Star", "custom:star", function() end)
-```
-
 ## Animation System
 
-Changes the animation preset used by UI transitions.
+Changes the animation preset used by transitions.
 
 ```lua
 Wraith:SetAnimation("Smooth")
@@ -838,7 +549,7 @@ Built-in presets:
 
 ## SaveManager Addon
 
-Adds a ready-made config panel for saving and loading element flags.
+Adds a ready-made config section.
 
 ```lua
 SaveManager:SetLibrary(Wraith)
@@ -850,7 +561,7 @@ SaveManager:LoadAutoloadConfig()
 
 ## InterfaceManager Addon
 
-Adds a ready-made interface panel for themes, animations and menu keybinds.
+Adds a ready-made interface section for theme, animation and menu keybind.
 
 ```lua
 InterfaceManager:SetLibrary(Wraith)
@@ -860,7 +571,7 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 
 ## ConfigManager Bridge
 
-A small wrapper around the core save system for simpler config calls.
+A direct config wrapper on the window. It uses Wraith flags and works alongside the addon.
 
 ```lua
 local Config = Window.ConfigManager:CreateConfig("default")
@@ -874,12 +585,13 @@ Config:Delete()
 ```lua
 local configs = Window.ConfigManager:AllConfigs()
 local config = Window.ConfigManager:GetConfig("default")
-local autoload = Window.ConfigManager:GetAutoLoadConfigs()
+local autoload = Window.ConfigManager:GetAutoLoadConfig()
+Window.ConfigManager:LoadAutoLoadConfig()
 ```
 
 ## Core SaveManager
 
-Direct access to the internal save system.
+Direct access to the internal save manager.
 
 ```lua
 Wraith.SaveManager:Save("default")
@@ -890,7 +602,7 @@ local configs = Wraith.SaveManager:GetConfigs()
 
 ## Flags
 
-Holds saved elements by flag name so they can be changed from code.
+Elements with flags are stored here.
 
 ```lua
 local toggle = Wraith.Flags.AutoFarm
@@ -900,7 +612,7 @@ toggle:Set(true)
 
 ## Tooltip
 
-Shows a small hint when the user hovers an element.
+Shows a small hint while hovering an element.
 
 ```lua
 Tabs.Main:AddButton({
@@ -911,7 +623,5 @@ Tabs.Main:AddButton({
 ```
 
 ## Full Example
-
-The complete example lives in the repository example file.
 
 Use `Example.luau` for the complete updated example.
