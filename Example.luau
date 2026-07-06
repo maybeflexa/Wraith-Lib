@@ -2,14 +2,20 @@ local Wraith = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Src/Wraith.luau"
 ))()
 
+local SaveManager = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Addons/SaveManager.lua"
+))()
 
---example lang
+local InterfaceManager = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Addons/InterfaceManager.lua"
+))()
+
 Wraith:Localization({
     en = {
         Welcome = "Welcome to Wraith"
     },
-    tr = {
-        Welcome = "Wraith'e hoş geldin"
+    de = {
+        Welcome = "Willkommen bei Wraith"
     }
 })
 
@@ -89,7 +95,8 @@ Tabs.Main:AddParagraph({
     Content = "This is a paragraph.\nSecond line."
 })
 
-local HighlightButton = Tabs.Main:AddButton({
+local HighlightButton
+HighlightButton = Tabs.Main:AddButton({
     Title = "Highlight Button",
     Description = "Runs Button:Highlight",
     Callback = function()
@@ -355,63 +362,26 @@ Tabs.Layout:AddButton({
     end
 })
 
-local ConfigName = "default"
+SaveManager:SetLibrary(Wraith)
+InterfaceManager:SetLibrary(Wraith)
 
-Tabs.Settings:AddInput("ConfigName", {
-    Title = "Config Name",
-    Default = ConfigName,
-    Callback = function(value)
-        ConfigName = value
-    end
-})
+SaveManager:IgnoreThemeSettings()
 
-Tabs.Settings:AddButton({
-    Title = "Save Config",
-    Callback = function()
-        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
-        Window.CurrentConfig:Save()
-        Wraith:Notify({
-            Title = "Config",
-            Content = "Saved " .. ConfigName,
-            Duration = 3
-        })
-    end
-})
+InterfaceManager:SetFolder("WraithExample")
+SaveManager:SetFolder("WraithExample/specific-game")
 
-Tabs.Settings:AddButton({
-    Title = "Load Config",
-    Callback = function()
-        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
-        Window.CurrentConfig:Load()
-        Wraith:Notify({
-            Title = "Config",
-            Content = "Loaded " .. ConfigName,
-            Duration = 3
-        })
-    end
-})
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
 
-Tabs.Settings:AddButton({
-    Title = "Set Autoload",
-    Callback = function()
-        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
-        Window.CurrentConfig:SetAutoLoad(true)
-    end
-})
-
-Tabs.Settings:AddDropdown("ThemeDropdown", {
-    Title = "Theme",
-    Values = Wraith:GetThemes(),
-    Default = Wraith:GetCurrentTheme(),
-    Callback = function(value)
-        Wraith:SetTheme(value)
-    end
+Tabs.Settings:AddDivider({
+    Text = "Extra Settings"
 })
 
 Tabs.Settings:AddDropdown("ScaleDropdown", {
     Title = "UI Scale",
     Values = {"0.8", "0.9", "1", "1.1", "1.2"},
     Default = "1",
+    Save = false,
     Callback = function(value)
         Window:SetUIScale(tonumber(value))
     end
@@ -419,6 +389,7 @@ Tabs.Settings:AddDropdown("ScaleDropdown", {
 
 Tabs.Settings:AddButton({
     Title = "Destroy Example",
+    Save = false,
     Callback = function()
         Window:Destroy()
     end
@@ -428,3 +399,5 @@ Toggle:Set(false)
 Checkbox:Set(true)
 Slider:Set(50)
 Progress:Set(35)
+
+SaveManager:LoadAutoloadConfig()
