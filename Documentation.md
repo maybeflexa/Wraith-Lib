@@ -26,12 +26,14 @@ Creates the main UI window.
 local Window = Wraith:CreateWindow({
     Title = "Wraith v1.0.0",
     SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 630, 0, 370),
+    Size = UDim2.new(0, 650, 0, 390),
     MinimizeKey = Enum.KeyCode.LeftControl,
-    TabWidth = 175,
+    TabWidth = 185,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280)
+    MinSize = Vector2.new(470, 300),
+    BackgroundImage = "",
+    BackgroundImageTransparency = 0.75
 })
 ```
 
@@ -43,8 +45,43 @@ local Window = Wraith:CreateWindow({
 | `MinimizeKey` | Enum.KeyCode | Toggle visibility key |
 | `TabWidth` | number | Sidebar width |
 | `Resizable` | boolean | Enables resize handle |
-| `Searchable` | boolean | Enables sidebar search |
+| `Searchable` | boolean | Enables sidebar search and category filter |
 | `MinSize` | Vector2 | Minimum resize size |
+| `BackgroundImage` | string | Optional image behind the window content |
+| `BackgroundImageTransparency` | number | Background image transparency |
+| `BackgroundImageScaleType` | Enum.ScaleType | Background image scale type |
+
+## Background Image
+
+Adds an optional image behind the window.
+
+```lua
+Window:SetBackgroundImage("rbxassetid://6031302932", 0.82)
+Window:SetBackgroundImageTransparency(0.9)
+Window:SetBackgroundImage(nil)
+```
+
+## Tab Groups
+
+Groups tabs in the sidebar and lets the user collapse them.
+
+```lua
+local MainGroup = Window:AddTabGroup({
+    Title = "Main",
+    Opened = true
+})
+
+local UtilityGroup = Window:AddTabGroup({
+    Title = "Utilities",
+    Opened = false
+})
+
+local Tabs = {
+    Main = MainGroup:AddTab({Title = "Main", Icon = "house"}),
+    Elements = MainGroup:AddTab({Title = "Elements", Icon = "sliders-horizontal"}),
+    Settings = UtilityGroup:AddTab({Title = "Settings", Icon = "settings"})
+}
+```
 
 ## Tabs
 
@@ -57,6 +94,12 @@ local Tabs = {
 }
 ```
 
+## Search Filter
+
+The sidebar search can filter by element category.
+
+Use the category button under the search box to switch between `All`, `Button`, `Toggle`, `Slider`, `Dropdown`, `Input` and `ProgressBar`.
+
 ## Window Methods
 
 Use these after creating the window.
@@ -67,7 +110,7 @@ Window:Show()
 Window:Hide()
 Window:Minimize()
 Window:Destroy()
-Window:Resize(630, 370)
+Window:Resize(650, 390)
 ```
 
 ## Notifications
@@ -92,14 +135,8 @@ Wraith:Dialog({
     Title = "Dialog",
     Content = "Dialog content",
     Buttons = {
-        {
-            Title = "Cancel",
-            Callback = function() end
-        },
-        {
-            Title = "Confirm",
-            Callback = function() end
-        }
+        {Title = "Cancel", Callback = function() end},
+        {Title = "Confirm", Callback = function() end}
     }
 })
 ```
@@ -131,11 +168,7 @@ local Paragraph = Tabs.Main:AddParagraph({
     Content = "Content text"
 })
 
-Paragraph:Set({
-    Title = "New title",
-    Content = "New content"
-})
-
+Paragraph:Set({Title = "New title", Content = "New content"})
 Paragraph:SetTitle("New title")
 Paragraph:SetDesc("New content")
 ```
@@ -161,7 +194,6 @@ A true or false switch.
 ```lua
 local Toggle = Tabs.Main:AddToggle("AutoFarm", {
     Title = "Auto Farm",
-    Description = "Toggle description",
     Default = false,
     Callback = function(value)
         print(value)
@@ -189,7 +221,7 @@ Checkbox:Set(false)
 
 ## Slider
 
-Pick a number from a range.
+Pick a number from a range. The value box can be edited directly.
 
 ```lua
 local Slider = Tabs.Main:AddSlider("WalkSpeed", {
@@ -198,7 +230,7 @@ local Slider = Tabs.Main:AddSlider("WalkSpeed", {
     Max = 100,
     Default = 16,
     Rounding = 1,
-    Suffix = " studs",
+    Suffix = "%",
     Callback = function(value)
         print(value)
     end
@@ -209,12 +241,11 @@ Slider:Set(50)
 
 ## ProgressBar
 
-Shows progress as a read-only bar.
+Shows progress as a read-only bar. It can be set manually or updated by a getter.
 
 ```lua
 local Progress = Tabs.Main:AddProgressBar("Progress", {
     Title = "Progress",
-    Description = "Progress description",
     Min = 0,
     Max = 100,
     Default = 25,
@@ -233,14 +264,6 @@ end, 0.5)
 Progress:SetRange(0, 200)
 Progress:SetMin(0)
 Progress:SetMax(100)
-```
-
-Alias:
-
-```lua
-local Progress = Tabs.Main:ProgressBar({
-    Title = "Progress"
-})
 ```
 
 ## Dropdown
@@ -265,11 +288,12 @@ Dropdown:Select("Two")
 
 ## Advanced Dropdown
 
-Dropdown rows can include icons, descriptions, dividers, locked states and per-item callbacks.
+Dropdown rows can include search, icons, descriptions, dividers, locked states and per-item callbacks.
 
 ```lua
 local Dropdown = Tabs.Main:AddDropdown("FileAction", {
     Title = "File Action",
+    Searchable = true,
     Values = {
         {
             Title = "New File",
@@ -306,11 +330,12 @@ local Dropdown = Tabs.Main:AddDropdown("FileAction", {
 
 ## MultiDropdown
 
-Pick multiple values from one list.
+Pick multiple values from one list. Search is supported here too.
 
 ```lua
 local MultiDropdown = Tabs.Main:AddMultiDropdown("Targets", {
     Title = "Targets",
+    Searchable = true,
     Values = {"Player", "NPC", "Boss"},
     Default = {"Player"},
     Callback = function(values)
@@ -323,7 +348,7 @@ MultiDropdown:Set({"Player", "Boss"})
 
 ## Colorpicker
 
-Pick a `Color3` value.
+Pick a `Color3` value. The picker window stays fixed in place.
 
 ```lua
 local Colorpicker = Tabs.Main:AddColorpicker("ESPColor", {
@@ -389,23 +414,27 @@ local MultiInput = Tabs.Main:AddMultiInput("Coords", {
         print(values)
     end
 })
+
+MultiInput:Set({X = "10", Y = "20", Z = "30"})
 ```
 
 ## MultiSlider
 
-Multiple sliders in one element.
+Multiple sliders in one element. The value boxes can be edited directly.
 
 ```lua
 local MultiSlider = Tabs.Main:AddMultiSlider("Stats", {
     Title = "Stats",
     Fields = {
-        {Name = "Speed", Min = 0, Max = 100, Default = 50},
-        {Name = "Power", Min = 0, Max = 100, Default = 25}
+        {Name = "Speed", Min = 0, Max = 100, Default = 50, Suffix = "%"},
+        {Name = "Power", Min = 0, Max = 100, Default = 25, Suffix = "%"}
     },
     Callback = function(values)
         print(values)
     end
 })
+
+MultiSlider:Set({Speed = 75, Power = 60})
 ```
 
 ## NumberSpinner
@@ -494,6 +523,15 @@ Section:AddToggle("KillAura", {
 })
 ```
 
+## Themes
+
+Wraith includes AMOLED, Dark, Darker, Midnight, Charcoal, Light, Obsidian, Mocha, Nord and Rose.
+
+```lua
+Wraith:SetTheme("Mocha")
+local themes = Wraith:GetThemes()
+```
+
 ## Theme State
 
 Read the active theme and current transparency values.
@@ -506,15 +544,6 @@ print(currentTheme)
 print(transparency.Background)
 print(transparency.Element)
 print(transparency.Sidebar)
-```
-
-## Theme System
-
-Set themes and list available themes.
-
-```lua
-Wraith:SetTheme("Dark")
-local themes = Wraith:GetThemes()
 ```
 
 ## Theme Editor
@@ -550,7 +579,7 @@ Adds a ready-made config section.
 SaveManager:SetLibrary(Wraith)
 SaveManager:SetFolder("WraithExample/specific-game")
 SaveManager:IgnoreThemeSettings()
-SaveManager:BuildConfigSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Configs)
 SaveManager:LoadAutoloadConfig()
 ```
 
@@ -566,7 +595,7 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 
 ## ConfigManager Bridge
 
-A direct config wrapper on the window. It uses Wraith flags and works alongside the addon.
+A direct config wrapper on the window. It works alongside the addon.
 
 ```lua
 local Config = Window.ConfigManager:CreateConfig("default")
