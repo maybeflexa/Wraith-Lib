@@ -1,6 +1,6 @@
 <div align="center">
-    
-<img width="885" height="260" alt="227218" src="https://github.com/user-attachments/assets/63352011-135e-4500-8932-7f963ab8b678" />
+
+<img width="885" height="260" alt="Wraith" src="https://github.com/user-attachments/assets/63352011-135e-4500-8932-7f963ab8b678" />
 
 # Wraith Library UI
 
@@ -33,7 +33,6 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 - Lucide icons
 - Searchable sidebar
 - Resizable window
-- UI scale support
 - Advanced dropdown
 - ProgressBar element
 - SaveManager addon
@@ -95,8 +94,7 @@ local Window = Wraith:CreateWindow({
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280),
-    UIScale = 1
+    MinSize = Vector2.new(450, 280)
 })
 
 local Tabs = {
@@ -170,13 +168,6 @@ Tabs.Main:AddDropdown("Actions", {
         print(value, option and option.Title)
     end
 })
-```
-
-## UI Scale
-
-```lua
-Window:SetUIScale(0.9)
-local scale = Window:GetUIScale()
 ```
 
 ## Theme State
