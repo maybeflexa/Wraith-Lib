@@ -31,8 +31,7 @@ local Window = Wraith:CreateWindow({
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(450, 280),
-    UIScale = 1
+    MinSize = Vector2.new(450, 280)
 })
 ```
 
@@ -46,7 +45,6 @@ local Window = Wraith:CreateWindow({
 | `Resizable` | boolean | Enables resize handle |
 | `Searchable` | boolean | Enables sidebar search |
 | `MinSize` | Vector2 | Minimum resize size |
-| `UIScale` | number | Initial UI scale |
 
 ## Tabs
 
@@ -70,15 +68,6 @@ Window:Hide()
 Window:Minimize()
 Window:Destroy()
 Window:Resize(630, 370)
-```
-
-## UI Scale
-
-Scales the whole window without changing every element manually.
-
-```lua
-Window:SetUIScale(0.9)
-local scale = Window:GetUIScale()
 ```
 
 ## Notifications
@@ -228,10 +217,19 @@ local Progress = Tabs.Main:AddProgressBar("Progress", {
     Description = "Progress description",
     Min = 0,
     Max = 100,
-    Default = 25
+    Default = 25,
+    Getter = function()
+        return math.random(0, 100)
+    end,
+    UpdateInterval = 1
 })
 
 Progress:Set(80)
+Progress:Refresh()
+Progress:Stop()
+Progress:Start(function()
+    return 50
+end, 0.5)
 Progress:SetRange(0, 200)
 Progress:SetMin(0)
 Progress:SetMax(100)
@@ -541,10 +539,7 @@ Built-in presets:
 | Name |
 | --- |
 | `Default` |
-| `Bounce` |
-| `Elastic` |
 | `Smooth` |
-| `Snappy` |
 | `Fade` |
 
 ## SaveManager Addon
