@@ -10,102 +10,38 @@ local InterfaceManager = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/main/Wraith/Addons/InterfaceManager.lua"
 ))()
 
-Wraith:Localization({
-    en = {
-        Welcome = "Welcome to Wraith"
-    },
-    de = {
-        Welcome = "Willkommen bei Wraith"
-    }
-})
-
-Wraith:SetLanguage("en")
-Wraith:SetFont(Enum.Font.Gotham)
-
-Wraith:AddIconPack("custom", {
-    star = "rbxassetid://6031068426"
-})
-
-Wraith:OnThemeChange(function(name)
-    print("Theme changed:", name)
-end)
-
 local Window = Wraith:CreateWindow({
-    Title = "Wraith v1.1.0",
+    Title = "Wraith v1.0.0",
     SubTitle = "by maybeflexa",
-    Size = UDim2.new(0, 650, 0, 390),
+    Size = UDim2.new(0, 630, 0, 370),
     MinimizeKey = Enum.KeyCode.LeftControl,
     TabWidth = 175,
     Resizable = true,
     Searchable = true,
-    MinSize = Vector2.new(470, 300),
-    UIScale = 1,
-    OpenButton = {
-        Enabled = true,
-        Title = "W",
-        Draggable = true,
-        OnlyMobile = false
-    }
+    MinSize = Vector2.new(450, 280),
+    UIScale = 1
 })
-
-Window:Tag({
-    Title = "Example"
-})
-
-Window:Tag({
-    Title = Wraith:GetCurrentTheme()
-})
-
-Window:CreateTopbarButton("Theme", "settings", function()
-    local themes = Wraith:GetThemes()
-    local current = Wraith:GetCurrentTheme()
-    local nextTheme = themes[1]
-
-    for index, theme in ipairs(themes) do
-        if theme == current then
-            nextTheme = themes[index + 1] or themes[1]
-            break
-        end
-    end
-
-    Wraith:SetTheme(nextTheme)
-end)
-
-Window:CreateTopbarButton("Scale", nil, function()
-    local scale = Window:GetUIScale()
-    Window:SetUIScale(scale >= 1 and 0.9 or 1)
-end)
 
 local Tabs = {
     Main = Window:AddTab({Title = "Main", Icon = "house"}),
-    Elements = Window:AddTab({Title = "Elements", Icon = "boxes"}),
-    Layout = Window:AddTab({Title = "Layout", Icon = "panel-top"}),
+    Elements = Window:AddTab({Title = "Elements", Icon = "sliders-horizontal"}),
     Settings = Window:AddTab({Title = "Settings", Icon = "settings"})
 }
 
 Wraith:Notify({
     Title = "Wraith",
-    Content = Wraith:Translate("Welcome"),
-    SubContent = "Updated example loaded",
+    Content = "The script has been loaded.",
+    SubContent = "Current theme: " .. Wraith:GetCurrentTheme(),
     Duration = 5
 })
 
 Tabs.Main:AddParagraph({
-    Title = "Paragraph",
-    Content = "This is a paragraph.\nSecond line."
-})
-
-local HighlightButton
-HighlightButton = Tabs.Main:AddButton({
-    Title = "Highlight Button",
-    Description = "Runs Button:Highlight",
-    Callback = function()
-        HighlightButton:Highlight()
-    end
+    Title = "Theme Info",
+    Content = "Current theme: " .. Wraith:GetCurrentTheme() .. "\nBackground transparency: " .. tostring(Wraith:GetTransparency().Background)
 })
 
 Tabs.Main:AddButton({
-    Title = "Dialog Button",
+    Title = "Dialog",
     Description = "Shows a dialog",
     Callback = function()
         Wraith:Dialog({
@@ -140,15 +76,6 @@ local Toggle = Tabs.Elements:AddToggle("ExampleToggle", {
     end
 })
 
-local Checkbox = Tabs.Elements:AddCheckbox("ExampleCheckbox", {
-    Title = "Checkbox",
-    Description = "Checkbox example",
-    Default = true,
-    Callback = function(value)
-        print("Checkbox:", value)
-    end
-})
-
 local Slider = Tabs.Elements:AddSlider("ExampleSlider", {
     Title = "Slider",
     Description = "Slider example",
@@ -162,9 +89,9 @@ local Slider = Tabs.Elements:AddSlider("ExampleSlider", {
     end
 })
 
-local Progress = Tabs.Elements:AddProgressBar({
+local Progress = Tabs.Elements:AddProgressBar("ExampleProgress", {
     Title = "ProgressBar",
-    Description = "Progress example",
+    Description = "Progress display",
     Min = 0,
     Max = 100,
     Default = 35
@@ -233,6 +160,15 @@ Tabs.Elements:AddMultiDropdown("MultiDropdown", {
     end
 })
 
+Tabs.Elements:AddInput("Input", {
+    Title = "Input",
+    Default = "Hello",
+    Placeholder = "Type something...",
+    Callback = function(value)
+        print("Input:", value)
+    end
+})
+
 Tabs.Elements:AddColorpicker("Colorpicker", {
     Title = "Colorpicker",
     Default = Color3.fromRGB(255, 255, 255),
@@ -252,116 +188,6 @@ Tabs.Elements:AddKeybind("Keybind", {
     end
 })
 
-Tabs.Elements:AddInput("Input", {
-    Title = "Input",
-    Placeholder = "Type something...",
-    Default = "Hello",
-    Callback = function(value)
-        print("Input:", value)
-    end
-})
-
-Tabs.Elements:AddInput("Textarea", {
-    Title = "Textarea",
-    Type = "Textarea",
-    Placeholder = "Type multiple lines...",
-    Default = "Line one\nLine two",
-    Callback = function(value)
-        print("Textarea:", value)
-    end
-})
-
-Tabs.Elements:AddNumberSpinner("Spinner", {
-    Title = "Number Spinner",
-    Min = 0,
-    Max = 10,
-    Default = 3,
-    Step = 1,
-    Callback = function(value)
-        print("Spinner:", value)
-    end
-})
-
-Tabs.Elements:AddDateTime({
-    Title = "Date Time",
-    Format = "%H:%M:%S"
-})
-
-Tabs.Elements:AddStatusBar({
-    Title = "Status Bar",
-    Getter = function()
-        return "Online"
-    end,
-    UpdateInterval = 1
-})
-
-local Group = Tabs.Layout:AddGroup({
-    Padding = 6
-})
-
-Group:AddParagraph({
-    Title = "Group",
-    Content = "Elements inside AddGroup."
-})
-
-Group:AddButton({
-    Title = "Grouped Button",
-    Callback = function()
-        print("Grouped button")
-    end
-})
-
-Tabs.Layout:AddSpace({
-    Height = 8
-})
-
-local Row = Tabs.Layout:AddHStack({
-    Padding = 6
-})
-
-local LeftColumn = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
-local RightColumn = Row:AddColumn(UDim2.new(0.5, -3, 0, 0))
-
-LeftColumn:AddButton({
-    Title = "Left Column",
-    Callback = function()
-        print("Left")
-    end
-})
-
-RightColumn:AddButton({
-    Title = "Right Column",
-    Callback = function()
-        print("Right")
-    end
-})
-
-local VStack = Tabs.Layout:AddVStack({
-    Padding = 6
-})
-
-VStack:AddParagraph({
-    Title = "VStack",
-    Content = "Vertical stack alias for group."
-})
-
-Tabs.Layout:AddSeparator()
-
-Tabs.Layout:AddDivider({
-    Text = "Labels"
-})
-
-local Label = Tabs.Layout:AddLabel({
-    Text = "This is a label."
-})
-
-Tabs.Layout:AddButton({
-    Title = "Update Label",
-    Callback = function()
-        Label:Set("Label updated")
-    end
-})
-
 SaveManager:SetLibrary(Wraith)
 InterfaceManager:SetLibrary(Wraith)
 
@@ -374,11 +200,12 @@ InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 Tabs.Settings:AddDivider({
-    Text = "Extra Settings"
+    Text = "Window"
 })
 
-Tabs.Settings:AddDropdown("ScaleDropdown", {
+Tabs.Settings:AddDropdown("UIScale", {
     Title = "UI Scale",
+    Description = "Changes the window scale",
     Values = {"0.8", "0.9", "1", "1.1", "1.2"},
     Default = "1",
     Save = false,
@@ -387,17 +214,61 @@ Tabs.Settings:AddDropdown("ScaleDropdown", {
     end
 })
 
-Tabs.Settings:AddButton({
-    Title = "Destroy Example",
+Tabs.Settings:AddDivider({
+    Text = "ConfigManager"
+})
+
+local ConfigName = "default"
+
+Tabs.Settings:AddInput("ConfigManagerName", {
+    Title = "Config Name",
+    Default = ConfigName,
     Save = false,
+    Callback = function(value)
+        ConfigName = value
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "ConfigManager Save",
+    Description = "Saves current flags",
     Callback = function()
-        Window:Destroy()
+        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
+        Window.CurrentConfig:Save()
+        Wraith:Notify({
+            Title = "ConfigManager",
+            Content = "Saved " .. ConfigName,
+            Duration = 3
+        })
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "ConfigManager Load",
+    Description = "Loads selected config",
+    Callback = function()
+        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
+        Window.CurrentConfig:Load()
+        Wraith:Notify({
+            Title = "ConfigManager",
+            Content = "Loaded " .. ConfigName,
+            Duration = 3
+        })
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "Set ConfigManager Autoload",
+    Description = "Sets selected config as autoload",
+    Callback = function()
+        Window.CurrentConfig = Window.ConfigManager:CreateConfig(ConfigName)
+        Window.CurrentConfig:SetAutoLoad(true)
     end
 })
 
 Toggle:Set(false)
-Checkbox:Set(true)
 Slider:Set(50)
 Progress:Set(35)
 
 SaveManager:LoadAutoloadConfig()
+Window.ConfigManager:LoadAutoLoadConfig()
