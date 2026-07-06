@@ -32,7 +32,6 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 - Smooth animations
 - Lucide icons
 - Searchable sidebar
-- Element category search filter
 - Resizable window
 - Optional window background image
 - Collapsible tab groups
@@ -48,7 +47,7 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 
 ## Themes
 
-`AMOLED` `Dark` `Darker` `Midnight` `Charcoal` `Light` `Obsidian` `Mocha` `Nord` `Rose`
+`AMOLED` `Dark` `Darker` `Midnight` `Charcoal` `Light` `Obsidian` `Mocha` `Nord` `Rose` `Evergreen` `Solar`
 
 ## Animations
 
