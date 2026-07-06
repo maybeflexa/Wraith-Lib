@@ -41,197 +41,234 @@ local CurrentAnim = AnimPresets.Default
 
 local Themes = {
     ["AMOLED"] = {
-        Bg = Color3.fromRGB(0, 0, 0),
-        Bg2 = Color3.fromRGB(8, 8, 8),
-        Bg3 = Color3.fromRGB(18, 18, 18),
-        El = Color3.fromRGB(13, 13, 13),
-        ElHov = Color3.fromRGB(22, 22, 22),
-        Border = Color3.fromRGB(34, 34, 34),
-        Txt = Color3.fromRGB(255, 255, 255),
-        Txt2 = Color3.fromRGB(160, 160, 160),
-        Txt3 = Color3.fromRGB(95, 95, 95),
-        Acc = Color3.fromRGB(212, 212, 212),
-        AccD = Color3.fromRGB(160, 160, 160),
-        TOn = Color3.fromRGB(220, 220, 220),
-        TOff = Color3.fromRGB(40, 40, 40),
-        Slider = Color3.fromRGB(200, 200, 200),
-        BgTr = 0.1,
-        ElTr = 0.4,
-        SbTr = 0.18
+        Bg = Color3.fromRGB(3, 3, 5),
+        Bg2 = Color3.fromRGB(8, 8, 12),
+        Bg3 = Color3.fromRGB(15, 15, 22),
+        El = Color3.fromRGB(12, 12, 18),
+        ElHov = Color3.fromRGB(23, 23, 31),
+        Border = Color3.fromRGB(34, 34, 46),
+        Txt = Color3.fromRGB(246, 246, 250),
+        Txt2 = Color3.fromRGB(165, 166, 178),
+        Txt3 = Color3.fromRGB(95, 97, 112),
+        Acc = Color3.fromRGB(205, 210, 224),
+        AccD = Color3.fromRGB(150, 155, 170),
+        TOn = Color3.fromRGB(216, 220, 232),
+        TOff = Color3.fromRGB(38, 38, 50),
+        Slider = Color3.fromRGB(205, 210, 224),
+        BgTr = 0.08,
+        ElTr = 0.34,
+        SbTr = 0.14
     },
     ["Dark"] = {
-        Bg = Color3.fromRGB(14, 14, 16),
-        Bg2 = Color3.fromRGB(20, 20, 23),
-        Bg3 = Color3.fromRGB(28, 28, 32),
-        El = Color3.fromRGB(24, 24, 28),
-        ElHov = Color3.fromRGB(36, 36, 40),
-        Border = Color3.fromRGB(46, 46, 50),
-        Txt = Color3.fromRGB(244, 244, 244),
-        Txt2 = Color3.fromRGB(154, 154, 160),
-        Txt3 = Color3.fromRGB(100, 100, 108),
-        Acc = Color3.fromRGB(200, 200, 208),
-        AccD = Color3.fromRGB(148, 148, 154),
-        TOn = Color3.fromRGB(210, 210, 216),
-        TOff = Color3.fromRGB(50, 50, 54),
-        Slider = Color3.fromRGB(190, 190, 198),
-        BgTr = 0.12,
-        ElTr = 0.38,
-        SbTr = 0.2
+        Bg = Color3.fromRGB(12, 13, 18),
+        Bg2 = Color3.fromRGB(18, 19, 27),
+        Bg3 = Color3.fromRGB(26, 28, 38),
+        El = Color3.fromRGB(22, 24, 33),
+        ElHov = Color3.fromRGB(34, 37, 49),
+        Border = Color3.fromRGB(46, 50, 65),
+        Txt = Color3.fromRGB(244, 246, 252),
+        Txt2 = Color3.fromRGB(158, 166, 184),
+        Txt3 = Color3.fromRGB(98, 107, 126),
+        Acc = Color3.fromRGB(132, 166, 255),
+        AccD = Color3.fromRGB(91, 118, 202),
+        TOn = Color3.fromRGB(132, 166, 255),
+        TOff = Color3.fromRGB(48, 52, 66),
+        Slider = Color3.fromRGB(132, 166, 255),
+        BgTr = 0.1,
+        ElTr = 0.35,
+        SbTr = 0.18
     },
     ["Darker"] = {
-        Bg = Color3.fromRGB(6, 6, 8),
-        Bg2 = Color3.fromRGB(12, 12, 14),
-        Bg3 = Color3.fromRGB(20, 20, 22),
-        El = Color3.fromRGB(16, 16, 18),
-        ElHov = Color3.fromRGB(28, 28, 30),
-        Border = Color3.fromRGB(38, 38, 42),
-        Txt = Color3.fromRGB(238, 238, 238),
-        Txt2 = Color3.fromRGB(142, 142, 148),
-        Txt3 = Color3.fromRGB(90, 90, 96),
-        Acc = Color3.fromRGB(192, 192, 198),
-        AccD = Color3.fromRGB(138, 138, 144),
-        TOn = Color3.fromRGB(202, 202, 208),
-        TOff = Color3.fromRGB(44, 44, 48),
-        Slider = Color3.fromRGB(182, 182, 190),
-        BgTr = 0.08,
-        ElTr = 0.36,
-        SbTr = 0.15
+        Bg = Color3.fromRGB(8, 9, 12),
+        Bg2 = Color3.fromRGB(13, 14, 19),
+        Bg3 = Color3.fromRGB(20, 21, 28),
+        El = Color3.fromRGB(17, 18, 24),
+        ElHov = Color3.fromRGB(28, 29, 38),
+        Border = Color3.fromRGB(39, 41, 54),
+        Txt = Color3.fromRGB(238, 240, 246),
+        Txt2 = Color3.fromRGB(148, 153, 168),
+        Txt3 = Color3.fromRGB(89, 94, 108),
+        Acc = Color3.fromRGB(120, 146, 205),
+        AccD = Color3.fromRGB(82, 103, 158),
+        TOn = Color3.fromRGB(120, 146, 205),
+        TOff = Color3.fromRGB(39, 42, 53),
+        Slider = Color3.fromRGB(120, 146, 205),
+        BgTr = 0.07,
+        ElTr = 0.32,
+        SbTr = 0.13
     },
     ["Midnight"] = {
-        Bg = Color3.fromRGB(4, 4, 12),
-        Bg2 = Color3.fromRGB(10, 10, 20),
-        Bg3 = Color3.fromRGB(18, 18, 30),
-        El = Color3.fromRGB(14, 14, 24),
-        ElHov = Color3.fromRGB(26, 26, 38),
-        Border = Color3.fromRGB(40, 40, 54),
-        Txt = Color3.fromRGB(232, 232, 242),
-        Txt2 = Color3.fromRGB(144, 144, 164),
-        Txt3 = Color3.fromRGB(94, 94, 114),
-        Acc = Color3.fromRGB(180, 180, 208),
-        AccD = Color3.fromRGB(130, 130, 158),
-        TOn = Color3.fromRGB(190, 190, 218),
-        TOff = Color3.fromRGB(42, 42, 54),
-        Slider = Color3.fromRGB(170, 170, 198),
+        Bg = Color3.fromRGB(7, 10, 24),
+        Bg2 = Color3.fromRGB(12, 16, 34),
+        Bg3 = Color3.fromRGB(19, 24, 48),
+        El = Color3.fromRGB(16, 21, 42),
+        ElHov = Color3.fromRGB(27, 34, 62),
+        Border = Color3.fromRGB(40, 50, 82),
+        Txt = Color3.fromRGB(236, 242, 255),
+        Txt2 = Color3.fromRGB(154, 171, 205),
+        Txt3 = Color3.fromRGB(92, 111, 150),
+        Acc = Color3.fromRGB(105, 145, 255),
+        AccD = Color3.fromRGB(70, 102, 205),
+        TOn = Color3.fromRGB(105, 145, 255),
+        TOff = Color3.fromRGB(35, 43, 70),
+        Slider = Color3.fromRGB(105, 145, 255),
         BgTr = 0.1,
-        ElTr = 0.38,
-        SbTr = 0.18
+        ElTr = 0.35,
+        SbTr = 0.17
     },
     ["Charcoal"] = {
-        Bg = Color3.fromRGB(20, 20, 20),
-        Bg2 = Color3.fromRGB(28, 28, 28),
-        Bg3 = Color3.fromRGB(38, 38, 38),
-        El = Color3.fromRGB(32, 32, 32),
-        ElHov = Color3.fromRGB(46, 46, 46),
-        Border = Color3.fromRGB(56, 56, 56),
-        Txt = Color3.fromRGB(248, 248, 248),
-        Txt2 = Color3.fromRGB(162, 162, 162),
-        Txt3 = Color3.fromRGB(108, 108, 108),
-        Acc = Color3.fromRGB(212, 212, 212),
-        AccD = Color3.fromRGB(152, 152, 152),
-        TOn = Color3.fromRGB(222, 222, 222),
-        TOff = Color3.fromRGB(58, 58, 58),
-        Slider = Color3.fromRGB(198, 198, 198),
-        BgTr = 0.12,
-        ElTr = 0.4,
-        SbTr = 0.22
+        Bg = Color3.fromRGB(17, 17, 18),
+        Bg2 = Color3.fromRGB(24, 24, 26),
+        Bg3 = Color3.fromRGB(33, 33, 36),
+        El = Color3.fromRGB(29, 29, 32),
+        ElHov = Color3.fromRGB(43, 43, 47),
+        Border = Color3.fromRGB(58, 58, 64),
+        Txt = Color3.fromRGB(245, 245, 245),
+        Txt2 = Color3.fromRGB(168, 168, 174),
+        Txt3 = Color3.fromRGB(106, 106, 114),
+        Acc = Color3.fromRGB(184, 184, 192),
+        AccD = Color3.fromRGB(136, 136, 145),
+        TOn = Color3.fromRGB(196, 196, 204),
+        TOff = Color3.fromRGB(56, 56, 62),
+        Slider = Color3.fromRGB(184, 184, 192),
+        BgTr = 0.1,
+        ElTr = 0.36,
+        SbTr = 0.18
     },
     ["Light"] = {
-        Bg = Color3.fromRGB(244, 244, 247),
-        Bg2 = Color3.fromRGB(232, 232, 236),
-        Bg3 = Color3.fromRGB(218, 218, 224),
-        El = Color3.fromRGB(225, 225, 230),
-        ElHov = Color3.fromRGB(210, 210, 216),
-        Border = Color3.fromRGB(192, 192, 198),
-        Txt = Color3.fromRGB(15, 15, 18),
-        Txt2 = Color3.fromRGB(68, 68, 76),
-        Txt3 = Color3.fromRGB(110, 110, 118),
-        Acc = Color3.fromRGB(40, 40, 48),
-        AccD = Color3.fromRGB(80, 80, 88),
-        TOn = Color3.fromRGB(28, 28, 34),
-        TOff = Color3.fromRGB(188, 188, 194),
-        Slider = Color3.fromRGB(48, 48, 56),
-        BgTr = 0.08,
-        ElTr = 0.3,
-        SbTr = 0.12
+        Bg = Color3.fromRGB(238, 240, 246),
+        Bg2 = Color3.fromRGB(229, 232, 240),
+        Bg3 = Color3.fromRGB(218, 222, 232),
+        El = Color3.fromRGB(246, 247, 251),
+        ElHov = Color3.fromRGB(232, 235, 244),
+        Border = Color3.fromRGB(198, 204, 218),
+        Txt = Color3.fromRGB(26, 30, 42),
+        Txt2 = Color3.fromRGB(74, 82, 100),
+        Txt3 = Color3.fromRGB(120, 130, 150),
+        Acc = Color3.fromRGB(80, 112, 200),
+        AccD = Color3.fromRGB(50, 78, 160),
+        TOn = Color3.fromRGB(80, 112, 200),
+        TOff = Color3.fromRGB(204, 210, 224),
+        Slider = Color3.fromRGB(80, 112, 200),
+        BgTr = 0.05,
+        ElTr = 0.16,
+        SbTr = 0.08
     },
     ["Obsidian"] = {
-        Bg = Color3.fromRGB(2, 2, 4),
-        Bg2 = Color3.fromRGB(6, 6, 10),
-        Bg3 = Color3.fromRGB(14, 14, 18),
-        El = Color3.fromRGB(10, 10, 14),
-        ElHov = Color3.fromRGB(22, 22, 26),
-        Border = Color3.fromRGB(32, 32, 38),
-        Txt = Color3.fromRGB(228, 228, 232),
-        Txt2 = Color3.fromRGB(138, 138, 148),
-        Txt3 = Color3.fromRGB(88, 88, 98),
-        Acc = Color3.fromRGB(172, 172, 185),
-        AccD = Color3.fromRGB(122, 122, 135),
-        TOn = Color3.fromRGB(182, 182, 195),
-        TOff = Color3.fromRGB(38, 38, 44),
-        Slider = Color3.fromRGB(162, 162, 175),
+        Bg = Color3.fromRGB(5, 5, 9),
+        Bg2 = Color3.fromRGB(10, 10, 17),
+        Bg3 = Color3.fromRGB(17, 17, 27),
+        El = Color3.fromRGB(14, 14, 23),
+        ElHov = Color3.fromRGB(26, 26, 38),
+        Border = Color3.fromRGB(39, 39, 55),
+        Txt = Color3.fromRGB(235, 236, 245),
+        Txt2 = Color3.fromRGB(148, 150, 166),
+        Txt3 = Color3.fromRGB(89, 91, 108),
+        Acc = Color3.fromRGB(168, 132, 255),
+        AccD = Color3.fromRGB(118, 88, 200),
+        TOn = Color3.fromRGB(168, 132, 255),
+        TOff = Color3.fromRGB(43, 42, 57),
+        Slider = Color3.fromRGB(168, 132, 255),
         BgTr = 0.06,
-        ElTr = 0.34,
-        SbTr = 0.12
+        ElTr = 0.32,
+        SbTr = 0.13
     },
     ["Mocha"] = {
-        Bg = Color3.fromRGB(25, 20, 18),
+        Bg = Color3.fromRGB(24, 19, 17),
         Bg2 = Color3.fromRGB(34, 27, 24),
-        Bg3 = Color3.fromRGB(45, 36, 31),
-        El = Color3.fromRGB(39, 31, 28),
-        ElHov = Color3.fromRGB(55, 43, 37),
-        Border = Color3.fromRGB(73, 56, 48),
-        Txt = Color3.fromRGB(245, 236, 226),
-        Txt2 = Color3.fromRGB(184, 165, 151),
-        Txt3 = Color3.fromRGB(123, 103, 91),
-        Acc = Color3.fromRGB(215, 158, 111),
-        AccD = Color3.fromRGB(169, 113, 76),
-        TOn = Color3.fromRGB(215, 158, 111),
+        Bg3 = Color3.fromRGB(46, 36, 31),
+        El = Color3.fromRGB(40, 31, 27),
+        ElHov = Color3.fromRGB(58, 44, 37),
+        Border = Color3.fromRGB(76, 58, 49),
+        Txt = Color3.fromRGB(248, 238, 226),
+        Txt2 = Color3.fromRGB(190, 166, 148),
+        Txt3 = Color3.fromRGB(128, 104, 89),
+        Acc = Color3.fromRGB(222, 154, 102),
+        AccD = Color3.fromRGB(172, 105, 65),
+        TOn = Color3.fromRGB(222, 154, 102),
         TOff = Color3.fromRGB(65, 49, 42),
-        Slider = Color3.fromRGB(215, 158, 111),
+        Slider = Color3.fromRGB(222, 154, 102),
+        BgTr = 0.09,
+        ElTr = 0.34,
+        SbTr = 0.17
+    },
+    ["Nord"] = {
+        Bg = Color3.fromRGB(18, 23, 32),
+        Bg2 = Color3.fromRGB(26, 32, 43),
+        Bg3 = Color3.fromRGB(36, 44, 57),
+        El = Color3.fromRGB(31, 38, 50),
+        ElHov = Color3.fromRGB(45, 55, 70),
+        Border = Color3.fromRGB(61, 74, 92),
+        Txt = Color3.fromRGB(236, 242, 248),
+        Txt2 = Color3.fromRGB(166, 183, 199),
+        Txt3 = Color3.fromRGB(108, 126, 145),
+        Acc = Color3.fromRGB(130, 190, 210),
+        AccD = Color3.fromRGB(88, 142, 165),
+        TOn = Color3.fromRGB(130, 190, 210),
+        TOff = Color3.fromRGB(52, 63, 78),
+        Slider = Color3.fromRGB(130, 190, 210),
         BgTr = 0.1,
         ElTr = 0.34,
         SbTr = 0.18
-    },
-    ["Nord"] = {
-        Bg = Color3.fromRGB(20, 25, 34),
-        Bg2 = Color3.fromRGB(28, 34, 45),
-        Bg3 = Color3.fromRGB(38, 46, 59),
-        El = Color3.fromRGB(33, 40, 52),
-        ElHov = Color3.fromRGB(47, 56, 70),
-        Border = Color3.fromRGB(63, 75, 91),
-        Txt = Color3.fromRGB(236, 241, 248),
-        Txt2 = Color3.fromRGB(169, 183, 199),
-        Txt3 = Color3.fromRGB(111, 127, 145),
-        Acc = Color3.fromRGB(136, 192, 208),
-        AccD = Color3.fromRGB(94, 145, 163),
-        TOn = Color3.fromRGB(136, 192, 208),
-        TOff = Color3.fromRGB(54, 63, 77),
-        Slider = Color3.fromRGB(136, 192, 208),
-        BgTr = 0.11,
-        ElTr = 0.35,
-        SbTr = 0.2
     },
     ["Rose"] = {
         Bg = Color3.fromRGB(28, 20, 27),
-        Bg2 = Color3.fromRGB(38, 28, 37),
-        Bg3 = Color3.fromRGB(50, 38, 49),
-        El = Color3.fromRGB(44, 33, 43),
-        ElHov = Color3.fromRGB(61, 45, 59),
-        Border = Color3.fromRGB(82, 61, 77),
-        Txt = Color3.fromRGB(249, 234, 243),
-        Txt2 = Color3.fromRGB(196, 161, 181),
-        Txt3 = Color3.fromRGB(132, 98, 117),
-        Acc = Color3.fromRGB(235, 142, 181),
-        AccD = Color3.fromRGB(188, 92, 135),
-        TOn = Color3.fromRGB(235, 142, 181),
-        TOff = Color3.fromRGB(67, 48, 62),
-        Slider = Color3.fromRGB(235, 142, 181),
+        Bg2 = Color3.fromRGB(39, 28, 37),
+        Bg3 = Color3.fromRGB(52, 38, 49),
+        El = Color3.fromRGB(45, 33, 43),
+        ElHov = Color3.fromRGB(63, 45, 60),
+        Border = Color3.fromRGB(84, 61, 78),
+        Txt = Color3.fromRGB(250, 235, 244),
+        Txt2 = Color3.fromRGB(200, 162, 182),
+        Txt3 = Color3.fromRGB(136, 99, 118),
+        Acc = Color3.fromRGB(238, 138, 182),
+        AccD = Color3.fromRGB(190, 88, 137),
+        TOn = Color3.fromRGB(238, 138, 182),
+        TOff = Color3.fromRGB(68, 49, 63),
+        Slider = Color3.fromRGB(238, 138, 182),
+        BgTr = 0.09,
+        ElTr = 0.34,
+        SbTr = 0.17
+    },
+    ["Evergreen"] = {
+        Bg = Color3.fromRGB(13, 22, 18),
+        Bg2 = Color3.fromRGB(20, 32, 27),
+        Bg3 = Color3.fromRGB(28, 44, 37),
+        El = Color3.fromRGB(24, 38, 32),
+        ElHov = Color3.fromRGB(35, 55, 46),
+        Border = Color3.fromRGB(50, 73, 62),
+        Txt = Color3.fromRGB(232, 245, 238),
+        Txt2 = Color3.fromRGB(154, 190, 171),
+        Txt3 = Color3.fromRGB(94, 125, 109),
+        Acc = Color3.fromRGB(95, 190, 137),
+        AccD = Color3.fromRGB(60, 140, 96),
+        TOn = Color3.fromRGB(95, 190, 137),
+        TOff = Color3.fromRGB(42, 62, 52),
+        Slider = Color3.fromRGB(95, 190, 137),
+        BgTr = 0.1,
+        ElTr = 0.35,
+        SbTr = 0.18
+    },
+    ["Solar"] = {
+        Bg = Color3.fromRGB(29, 24, 16),
+        Bg2 = Color3.fromRGB(40, 32, 20),
+        Bg3 = Color3.fromRGB(53, 42, 27),
+        El = Color3.fromRGB(47, 37, 24),
+        ElHov = Color3.fromRGB(66, 51, 32),
+        Border = Color3.fromRGB(88, 68, 42),
+        Txt = Color3.fromRGB(250, 240, 218),
+        Txt2 = Color3.fromRGB(202, 174, 125),
+        Txt3 = Color3.fromRGB(137, 110, 73),
+        Acc = Color3.fromRGB(245, 184, 78),
+        AccD = Color3.fromRGB(190, 128, 42),
+        TOn = Color3.fromRGB(245, 184, 78),
+        TOff = Color3.fromRGB(70, 54, 35),
+        Slider = Color3.fromRGB(245, 184, 78),
         BgTr = 0.1,
         ElTr = 0.35,
         SbTr = 0.18
     }
 }
-
 local T = Themes["AMOLED"]
 local CurrentThemeName = "AMOLED"
 
@@ -2266,17 +2303,7 @@ function Wraith:CreateWindow(o)
     })
     B(sbDiv, {BackgroundColor3 = "Border"})
 
-    local searchHeight = searchable and 64 or 0
-    local searchCategory = "All"
-    local searchCategories = {
-        "All",
-        "Button",
-        "Toggle",
-        "Slider",
-        "Dropdown",
-        "Input",
-        "ProgressBar"
-    }
+    local searchHeight = searchable and 36 or 0
     if searchable then
         local searchBox = C("TextBox", {
             Size = UDim2.new(1, -12, 0, 28),
@@ -2297,46 +2324,24 @@ function Wraith:CreateWindow(o)
         B(searchBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
         B(sStroke, {Color = "Border"})
 
-        local categoryBtn = C("TextButton", {
-            Size = UDim2.new(1, -12, 0, 22),
-            Position = UDim2.new(0, 6, 0, 36),
-            BackgroundColor3 = T.Bg3,
-            BackgroundTransparency = 0.25,
-            Text = "Category: All",
-            TextColor3 = T.Txt2,
-            TextSize = 10,
-            Font = Enum.Font.GothamSemibold,
-            AutoButtonColor = false,
-            Parent = sideBar
-        })
-        Cn(categoryBtn, 6)
-        local categoryStroke = St(categoryBtn, T.Border, 1, 0.55)
-        B(categoryBtn, {BackgroundColor3 = "Bg3", TextColor3 = "Txt2"})
-        B(categoryStroke, {Color = "Border"})
-
-        local function applySearch()
+        searchBox:GetPropertyChangedSignal("Text"):Connect(function()
             local query = searchBox.Text:lower()
             for _, el in ipairs(SearchableElements) do
                 if el.Frame and el.Frame.Parent then
-                    local categoryMatch = searchCategory == "All" or el.Type == searchCategory
-                    local textMatch = query == ""
-                    if not textMatch and el.Title and el.Title:lower():find(query, 1, true) then
-                        textMatch = true
+                    if query == "" then
+                        el.Frame.Visible = true
+                    else
+                        local visible = false
+                        if el.Title and el.Title:lower():find(query, 1, true) then
+                            visible = true
+                        end
+                        if not visible and el.Description and el.Description:lower():find(query, 1, true) then
+                            visible = true
+                        end
+                        el.Frame.Visible = visible
                     end
-                    if not textMatch and el.Description and el.Description:lower():find(query, 1, true) then
-                        textMatch = true
-                    end
-                    el.Frame.Visible = categoryMatch and textMatch
                 end
             end
-        end
-
-        searchBox:GetPropertyChangedSignal("Text"):Connect(applySearch)
-        categoryBtn.MouseButton1Click:Connect(function()
-            local index = table.find(searchCategories, searchCategory) or 1
-            searchCategory = searchCategories[index + 1] or searchCategories[1]
-            categoryBtn.Text = "Category: " .. searchCategory
-            applySearch()
         end)
     end
 
@@ -4271,29 +4276,59 @@ function Wraith:CreateWindow(o)
             Parent = content
         })
         local group = {Frame = groupFrame, Content = content, Tabs = {}, Opened = opened}
-        local function update()
-            content.Visible = group.Opened
+        local function setTabVisual(tab, visible, instant)
+            if not tab or not tab.Btn then return end
+            if visible then
+                tab.Btn.Visible = true
+                if instant then
+                    tab.Btn.Size = UDim2.new(1, 0, 0, 34)
+                    tab.Btn.BackgroundTransparency = tab._sel and T.ElTr * 0.5 or 1
+                else
+                    tab.Btn.Size = UDim2.new(1, 0, 0, 0)
+                    Tw(tab.Btn, {Size = UDim2.new(1, 0, 0, 34), BackgroundTransparency = tab._sel and T.ElTr * 0.5 or 1}, 0.2, Enum.EasingStyle.Quart)
+                end
+            else
+                if instant then
+                    tab.Btn.Size = UDim2.new(1, 0, 0, 0)
+                    tab.Btn.Visible = false
+                else
+                    Tw(tab.Btn, {Size = UDim2.new(1, 0, 0, 0), BackgroundTransparency = 1}, 0.18, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+                    task.delay(0.2, function()
+                        if tab.Btn and tab.Btn.Parent and not group.Opened then
+                            tab.Btn.Visible = false
+                        end
+                    end)
+                end
+            end
+        end
+        local function update(instant)
+            content.Visible = true
             arrow.Text = group.Opened and "v" or ">"
+            Tw(header, {BackgroundTransparency = group.Opened and 0.45 or 0.72}, instant and 0 or 0.15)
+            for _, tab in ipairs(group.Tabs) do
+                setTabVisual(tab, group.Opened, instant)
+            end
         end
         function group:AddTab(tabOpts)
             tabOpts = tabOpts or {}
             tabOpts.Parent = content
             local tab = W:AddTab(tabOpts)
             table.insert(self.Tabs, tab)
+            setTabVisual(tab, self.Opened, true)
             return tab
         end
         function group:SetOpen(value)
             self.Opened = value == true
-            update()
+            update(false)
         end
         function group:Toggle()
             self.Opened = not self.Opened
-            update()
+            update(false)
         end
         header.MouseButton1Click:Connect(function()
             group:Toggle()
         end)
-        update()
+        update(true)
         return group
     end
 
