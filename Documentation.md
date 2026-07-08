@@ -56,8 +56,10 @@ local Window = Wraith:CreateWindow({
 Adds an optional image behind the window.
 
 ```lua
+Window:SetBackgroundImage("6031302932", 0.82)
 Window:SetBackgroundImage("rbxassetid://6031302932", 0.82)
 Window:SetBackgroundImageTransparency(0.9)
+Window:SetBackgroundImageScaleType(Enum.ScaleType.Crop)
 Window:SetBackgroundImage(nil)
 ```
 
@@ -519,10 +521,10 @@ Section:AddToggle("KillAura", {
 
 ## Themes
 
-Wraith includes AMOLED, Dark, Darker, Midnight, Charcoal, Light, Obsidian, Mocha, Nord, Rose, Evergreen and Solar.
+Wraith includes AMOLED, Aurora, Velvet and Pearl.
 
 ```lua
-Wraith:SetTheme("Mocha")
+Wraith:SetTheme("Aurora")
 local themes = Wraith:GetThemes()
 ```
 
