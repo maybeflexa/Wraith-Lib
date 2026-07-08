@@ -45,228 +45,76 @@ local Themes = {
         Bg2 = Color3.fromRGB(6, 6, 10),
         Bg3 = Color3.fromRGB(13, 13, 20),
         El = Color3.fromRGB(10, 10, 16),
-        ElHov = Color3.fromRGB(20, 20, 29),
-        Border = Color3.fromRGB(34, 34, 46),
+        ElHov = Color3.fromRGB(20, 20, 30),
+        Border = Color3.fromRGB(35, 35, 48),
         Txt = Color3.fromRGB(248, 248, 252),
-        Txt2 = Color3.fromRGB(165, 167, 180),
-        Txt3 = Color3.fromRGB(93, 96, 112),
+        Txt2 = Color3.fromRGB(164, 166, 180),
+        Txt3 = Color3.fromRGB(94, 97, 112),
         Acc = Color3.fromRGB(226, 228, 236),
-        AccD = Color3.fromRGB(160, 164, 181),
+        AccD = Color3.fromRGB(158, 162, 180),
         TOn = Color3.fromRGB(226, 228, 236),
-        TOff = Color3.fromRGB(36, 36, 48),
+        TOff = Color3.fromRGB(37, 37, 49),
         Slider = Color3.fromRGB(226, 228, 236),
         BgTr = 0.06,
         ElTr = 0.32,
         SbTr = 0.12
     },
-    ["Dark"] = {
-        Bg = Color3.fromRGB(10, 12, 18),
-        Bg2 = Color3.fromRGB(15, 18, 27),
-        Bg3 = Color3.fromRGB(23, 27, 39),
-        El = Color3.fromRGB(20, 23, 34),
-        ElHov = Color3.fromRGB(32, 37, 51),
-        Border = Color3.fromRGB(45, 52, 68),
-        Txt = Color3.fromRGB(244, 247, 255),
-        Txt2 = Color3.fromRGB(156, 167, 190),
-        Txt3 = Color3.fromRGB(94, 105, 128),
-        Acc = Color3.fromRGB(116, 151, 255),
-        AccD = Color3.fromRGB(76, 105, 202),
-        TOn = Color3.fromRGB(116, 151, 255),
-        TOff = Color3.fromRGB(44, 50, 67),
-        Slider = Color3.fromRGB(116, 151, 255),
+    ["Aurora"] = {
+        Bg = Color3.fromRGB(8, 14, 24),
+        Bg2 = Color3.fromRGB(13, 22, 36),
+        Bg3 = Color3.fromRGB(21, 34, 52),
+        El = Color3.fromRGB(18, 29, 44),
+        ElHov = Color3.fromRGB(30, 46, 66),
+        Border = Color3.fromRGB(44, 69, 92),
+        Txt = Color3.fromRGB(231, 248, 250),
+        Txt2 = Color3.fromRGB(153, 198, 204),
+        Txt3 = Color3.fromRGB(88, 135, 145),
+        Acc = Color3.fromRGB(79, 214, 188),
+        AccD = Color3.fromRGB(46, 157, 148),
+        TOn = Color3.fromRGB(79, 214, 188),
+        TOff = Color3.fromRGB(38, 65, 74),
+        Slider = Color3.fromRGB(79, 214, 188),
         BgTr = 0.09,
         ElTr = 0.34,
         SbTr = 0.16
     },
-    ["Darker"] = {
-        Bg = Color3.fromRGB(7, 8, 12),
-        Bg2 = Color3.fromRGB(11, 13, 19),
-        Bg3 = Color3.fromRGB(18, 20, 29),
-        El = Color3.fromRGB(15, 17, 25),
-        ElHov = Color3.fromRGB(26, 29, 40),
-        Border = Color3.fromRGB(38, 42, 57),
-        Txt = Color3.fromRGB(240, 243, 250),
-        Txt2 = Color3.fromRGB(146, 153, 172),
-        Txt3 = Color3.fromRGB(86, 93, 111),
-        Acc = Color3.fromRGB(132, 160, 230),
-        AccD = Color3.fromRGB(86, 110, 172),
-        TOn = Color3.fromRGB(132, 160, 230),
-        TOff = Color3.fromRGB(36, 40, 54),
-        Slider = Color3.fromRGB(132, 160, 230),
-        BgTr = 0.06,
-        ElTr = 0.3,
-        SbTr = 0.11
-    },
-    ["Midnight"] = {
-        Bg = Color3.fromRGB(7, 9, 25),
-        Bg2 = Color3.fromRGB(12, 15, 37),
-        Bg3 = Color3.fromRGB(19, 24, 54),
-        El = Color3.fromRGB(16, 20, 47),
-        ElHov = Color3.fromRGB(28, 35, 70),
-        Border = Color3.fromRGB(42, 52, 94),
-        Txt = Color3.fromRGB(237, 243, 255),
-        Txt2 = Color3.fromRGB(151, 169, 210),
-        Txt3 = Color3.fromRGB(88, 109, 154),
-        Acc = Color3.fromRGB(93, 139, 255),
-        AccD = Color3.fromRGB(57, 93, 207),
-        TOn = Color3.fromRGB(93, 139, 255),
-        TOff = Color3.fromRGB(34, 43, 78),
-        Slider = Color3.fromRGB(93, 139, 255),
-        BgTr = 0.09,
-        ElTr = 0.34,
+    ["Velvet"] = {
+        Bg = Color3.fromRGB(20, 13, 27),
+        Bg2 = Color3.fromRGB(31, 20, 40),
+        Bg3 = Color3.fromRGB(44, 30, 57),
+        El = Color3.fromRGB(38, 25, 50),
+        ElHov = Color3.fromRGB(58, 39, 74),
+        Border = Color3.fromRGB(82, 58, 103),
+        Txt = Color3.fromRGB(250, 236, 255),
+        Txt2 = Color3.fromRGB(202, 165, 217),
+        Txt3 = Color3.fromRGB(135, 101, 154),
+        Acc = Color3.fromRGB(214, 126, 255),
+        AccD = Color3.fromRGB(159, 79, 205),
+        TOn = Color3.fromRGB(214, 126, 255),
+        TOff = Color3.fromRGB(67, 49, 82),
+        Slider = Color3.fromRGB(214, 126, 255),
+        BgTr = 0.08,
+        ElTr = 0.33,
         SbTr = 0.16
     },
-    ["Charcoal"] = {
-        Bg = Color3.fromRGB(16, 16, 17),
-        Bg2 = Color3.fromRGB(23, 23, 25),
-        Bg3 = Color3.fromRGB(32, 32, 35),
-        El = Color3.fromRGB(28, 28, 31),
-        ElHov = Color3.fromRGB(43, 43, 47),
-        Border = Color3.fromRGB(58, 58, 65),
-        Txt = Color3.fromRGB(245, 245, 247),
-        Txt2 = Color3.fromRGB(168, 169, 176),
-        Txt3 = Color3.fromRGB(104, 106, 116),
-        Acc = Color3.fromRGB(194, 198, 209),
-        AccD = Color3.fromRGB(136, 141, 154),
-        TOn = Color3.fromRGB(194, 198, 209),
-        TOff = Color3.fromRGB(55, 56, 63),
-        Slider = Color3.fromRGB(194, 198, 209),
-        BgTr = 0.09,
-        ElTr = 0.34,
-        SbTr = 0.16
-    },
-    ["Light"] = {
-        Bg = Color3.fromRGB(239, 242, 249),
-        Bg2 = Color3.fromRGB(229, 233, 243),
-        Bg3 = Color3.fromRGB(217, 223, 236),
-        El = Color3.fromRGB(249, 250, 253),
-        ElHov = Color3.fromRGB(234, 238, 248),
-        Border = Color3.fromRGB(196, 205, 224),
-        Txt = Color3.fromRGB(23, 29, 43),
-        Txt2 = Color3.fromRGB(70, 82, 105),
-        Txt3 = Color3.fromRGB(118, 132, 160),
-        Acc = Color3.fromRGB(77, 109, 205),
-        AccD = Color3.fromRGB(46, 75, 162),
-        TOn = Color3.fromRGB(77, 109, 205),
-        TOff = Color3.fromRGB(203, 211, 229),
-        Slider = Color3.fromRGB(77, 109, 205),
+    ["Pearl"] = {
+        Bg = Color3.fromRGB(239, 242, 248),
+        Bg2 = Color3.fromRGB(228, 233, 242),
+        Bg3 = Color3.fromRGB(216, 224, 237),
+        El = Color3.fromRGB(248, 250, 253),
+        ElHov = Color3.fromRGB(232, 238, 248),
+        Border = Color3.fromRGB(194, 205, 225),
+        Txt = Color3.fromRGB(23, 30, 44),
+        Txt2 = Color3.fromRGB(70, 84, 108),
+        Txt3 = Color3.fromRGB(118, 135, 163),
+        Acc = Color3.fromRGB(74, 113, 215),
+        AccD = Color3.fromRGB(45, 78, 170),
+        TOn = Color3.fromRGB(74, 113, 215),
+        TOff = Color3.fromRGB(204, 213, 230),
+        Slider = Color3.fromRGB(74, 113, 215),
         BgTr = 0.04,
         ElTr = 0.13,
         SbTr = 0.07
-    },
-    ["Obsidian"] = {
-        Bg = Color3.fromRGB(6, 5, 10),
-        Bg2 = Color3.fromRGB(11, 10, 18),
-        Bg3 = Color3.fromRGB(18, 17, 29),
-        El = Color3.fromRGB(15, 14, 25),
-        ElHov = Color3.fromRGB(28, 26, 42),
-        Border = Color3.fromRGB(43, 39, 62),
-        Txt = Color3.fromRGB(239, 236, 248),
-        Txt2 = Color3.fromRGB(158, 150, 178),
-        Txt3 = Color3.fromRGB(100, 91, 121),
-        Acc = Color3.fromRGB(166, 126, 255),
-        AccD = Color3.fromRGB(113, 78, 201),
-        TOn = Color3.fromRGB(166, 126, 255),
-        TOff = Color3.fromRGB(45, 40, 62),
-        Slider = Color3.fromRGB(166, 126, 255),
-        BgTr = 0.06,
-        ElTr = 0.31,
-        SbTr = 0.12
-    },
-    ["Mocha"] = {
-        Bg = Color3.fromRGB(25, 19, 16),
-        Bg2 = Color3.fromRGB(36, 27, 23),
-        Bg3 = Color3.fromRGB(49, 37, 30),
-        El = Color3.fromRGB(42, 32, 27),
-        ElHov = Color3.fromRGB(62, 47, 38),
-        Border = Color3.fromRGB(83, 62, 50),
-        Txt = Color3.fromRGB(250, 239, 224),
-        Txt2 = Color3.fromRGB(196, 168, 145),
-        Txt3 = Color3.fromRGB(133, 107, 88),
-        Acc = Color3.fromRGB(232, 157, 94),
-        AccD = Color3.fromRGB(180, 103, 52),
-        TOn = Color3.fromRGB(232, 157, 94),
-        TOff = Color3.fromRGB(68, 50, 41),
-        Slider = Color3.fromRGB(232, 157, 94),
-        BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
-    },
-    ["Nord"] = {
-        Bg = Color3.fromRGB(18, 23, 32),
-        Bg2 = Color3.fromRGB(26, 32, 44),
-        Bg3 = Color3.fromRGB(36, 44, 59),
-        El = Color3.fromRGB(31, 38, 51),
-        ElHov = Color3.fromRGB(45, 56, 72),
-        Border = Color3.fromRGB(61, 76, 96),
-        Txt = Color3.fromRGB(236, 243, 249),
-        Txt2 = Color3.fromRGB(165, 184, 203),
-        Txt3 = Color3.fromRGB(107, 128, 151),
-        Acc = Color3.fromRGB(124, 191, 214),
-        AccD = Color3.fromRGB(83, 143, 168),
-        TOn = Color3.fromRGB(124, 191, 214),
-        TOff = Color3.fromRGB(52, 64, 80),
-        Slider = Color3.fromRGB(124, 191, 214),
-        BgTr = 0.09,
-        ElTr = 0.33,
-        SbTr = 0.17
-    },
-    ["Rose"] = {
-        Bg = Color3.fromRGB(29, 20, 27),
-        Bg2 = Color3.fromRGB(41, 28, 38),
-        Bg3 = Color3.fromRGB(54, 38, 51),
-        El = Color3.fromRGB(47, 33, 45),
-        ElHov = Color3.fromRGB(68, 46, 63),
-        Border = Color3.fromRGB(91, 61, 82),
-        Txt = Color3.fromRGB(252, 235, 245),
-        Txt2 = Color3.fromRGB(205, 162, 185),
-        Txt3 = Color3.fromRGB(141, 99, 122),
-        Acc = Color3.fromRGB(244, 135, 185),
-        AccD = Color3.fromRGB(193, 80, 138),
-        TOn = Color3.fromRGB(244, 135, 185),
-        TOff = Color3.fromRGB(72, 49, 65),
-        Slider = Color3.fromRGB(244, 135, 185),
-        BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
-    },
-    ["Evergreen"] = {
-        Bg = Color3.fromRGB(12, 22, 18),
-        Bg2 = Color3.fromRGB(19, 33, 27),
-        Bg3 = Color3.fromRGB(27, 46, 38),
-        El = Color3.fromRGB(23, 40, 33),
-        ElHov = Color3.fromRGB(35, 59, 48),
-        Border = Color3.fromRGB(49, 80, 65),
-        Txt = Color3.fromRGB(232, 247, 238),
-        Txt2 = Color3.fromRGB(153, 192, 170),
-        Txt3 = Color3.fromRGB(92, 127, 108),
-        Acc = Color3.fromRGB(92, 205, 140),
-        AccD = Color3.fromRGB(56, 151, 95),
-        TOn = Color3.fromRGB(92, 205, 140),
-        TOff = Color3.fromRGB(40, 65, 53),
-        Slider = Color3.fromRGB(92, 205, 140),
-        BgTr = 0.09,
-        ElTr = 0.34,
-        SbTr = 0.17
-    },
-    ["Solar"] = {
-        Bg = Color3.fromRGB(30, 24, 15),
-        Bg2 = Color3.fromRGB(43, 33, 19),
-        Bg3 = Color3.fromRGB(57, 43, 25),
-        El = Color3.fromRGB(50, 38, 22),
-        ElHov = Color3.fromRGB(72, 53, 30),
-        Border = Color3.fromRGB(95, 70, 40),
-        Txt = Color3.fromRGB(252, 241, 216),
-        Txt2 = Color3.fromRGB(207, 175, 123),
-        Txt3 = Color3.fromRGB(143, 112, 70),
-        Acc = Color3.fromRGB(252, 184, 63),
-        AccD = Color3.fromRGB(198, 126, 34),
-        TOn = Color3.fromRGB(252, 184, 63),
-        TOff = Color3.fromRGB(73, 54, 33),
-        Slider = Color3.fromRGB(252, 184, 63),
-        BgTr = 0.09,
-        ElTr = 0.34,
-        SbTr = 0.17
     }
 }
 local T = Themes["AMOLED"]
@@ -2158,58 +2006,56 @@ function Wraith:CreateWindow(o)
 
     if resizable then
         local resizeHandle = C("Frame", {
-            Size = UDim2.new(0, 18, 0, 18),
-            Position = UDim2.new(1, -18, 1, -18),
-            BackgroundTransparency = 1,
-            ZIndex = 10,
+            Size = UDim2.new(0, 28, 0, 28),
+            Position = UDim2.new(1, -28, 1, -28),
+            BackgroundColor3 = T.Bg3,
+            BackgroundTransparency = 0.72,
+            BorderSizePixel = 0,
+            ZIndex = 20,
             Parent = main
         })
+        Cn(resizeHandle, 8)
+        local resizeStroke = St(resizeHandle, T.Border, 1, 0.55)
+        B(resizeHandle, {BackgroundColor3 = "Bg3"})
+        B(resizeStroke, {Color = "Border"})
 
-        local resizeLine1 = C("Frame", {
-            Size = UDim2.new(0, 10, 0, 1),
-            Position = UDim2.new(1, -4, 1, -4),
-            AnchorPoint = Vector2.new(1, 1),
-            BackgroundColor3 = T.Txt3,
-            BackgroundTransparency = 0.3,
-            BorderSizePixel = 0,
-            Rotation = -45,
-            ZIndex = 11,
+        local gripFrame = C("Frame", {
+            Size = UDim2.new(1, 0, 1, 0),
+            BackgroundTransparency = 1,
+            ZIndex = 21,
             Parent = resizeHandle
         })
-        B(resizeLine1, {BackgroundColor3 = "Txt3"})
 
-        local resizeLine2 = C("Frame", {
-            Size = UDim2.new(0, 6, 0, 1),
-            Position = UDim2.new(1, -4, 1, -8),
-            AnchorPoint = Vector2.new(1, 1),
-            BackgroundColor3 = T.Txt3,
-            BackgroundTransparency = 0.3,
-            BorderSizePixel = 0,
-            Rotation = -45,
-            ZIndex = 11,
-            Parent = resizeHandle
-        })
-        B(resizeLine2, {BackgroundColor3 = "Txt3"})
-
-        local resizeLine3 = C("Frame", {
-            Size = UDim2.new(0, 6, 0, 1),
-            Position = UDim2.new(1, -8, 1, -4),
-            AnchorPoint = Vector2.new(1, 1),
-            BackgroundColor3 = T.Txt3,
-            BackgroundTransparency = 0.3,
-            BorderSizePixel = 0,
-            Rotation = -45,
-            ZIndex = 11,
-            Parent = resizeHandle
-        })
-        B(resizeLine3, {BackgroundColor3 = "Txt3"})
+        local gripLines = {}
+        local gripData = {
+            {Size = UDim2.new(0, 13, 0, 2), Position = UDim2.new(1, -7, 1, -7)},
+            {Size = UDim2.new(0, 9, 0, 2), Position = UDim2.new(1, -7, 1, -12)},
+            {Size = UDim2.new(0, 5, 0, 2), Position = UDim2.new(1, -7, 1, -17)}
+        }
+        for _, data in ipairs(gripData) do
+            local line = C("Frame", {
+                Size = data.Size,
+                Position = data.Position,
+                AnchorPoint = Vector2.new(1, 1),
+                BackgroundColor3 = T.Acc,
+                BackgroundTransparency = 0.35,
+                BorderSizePixel = 0,
+                Rotation = -45,
+                ZIndex = 22,
+                Parent = gripFrame
+            })
+            Cn(line, 2)
+            B(line, {BackgroundColor3 = "Acc"})
+            table.insert(gripLines, line)
+        end
 
         local resizeBtn = C("TextButton", {
-            Size = UDim2.new(1, 0, 1, 0),
+            Size = UDim2.new(1, 10, 1, 10),
+            Position = UDim2.new(0, -5, 0, -5),
             BackgroundTransparency = 1,
             Text = "",
             AutoButtonColor = false,
-            ZIndex = 12,
+            ZIndex = 25,
             Parent = resizeHandle
         })
 
@@ -2217,18 +2063,28 @@ function Wraith:CreateWindow(o)
         local startSize = nil
         local startPos = nil
 
+        local function setGrip(active)
+            Tw(resizeHandle, {BackgroundTransparency = active and 0.35 or 0.72}, 0.12)
+            Tw(resizeStroke, {Transparency = active and 0.25 or 0.55}, 0.12)
+            for _, line in ipairs(gripLines) do
+                Tw(line, {BackgroundTransparency = active and 0.02 or 0.35}, 0.12)
+            end
+        end
+
         resizeBtn.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1
                 or input.UserInputType == Enum.UserInputType.Touch then
                 resizing = true
                 startSize = main.AbsoluteSize
                 startPos = input.Position
+                setGrip(true)
             end
         end)
         resizeBtn.InputEnded:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1
                 or input.UserInputType == Enum.UserInputType.Touch then
                 resizing = false
+                setGrip(false)
             end
         end)
         UIS.InputChanged:Connect(function(input)
@@ -2245,14 +2101,10 @@ function Wraith:CreateWindow(o)
         end)
 
         resizeHandle.MouseEnter:Connect(function()
-            Tw(resizeLine1, {BackgroundTransparency = 0}, 0.12)
-            Tw(resizeLine2, {BackgroundTransparency = 0}, 0.12)
-            Tw(resizeLine3, {BackgroundTransparency = 0}, 0.12)
+            setGrip(true)
         end)
         resizeHandle.MouseLeave:Connect(function()
-            Tw(resizeLine1, {BackgroundTransparency = 0.3}, 0.12)
-            Tw(resizeLine2, {BackgroundTransparency = 0.3}, 0.12)
-            Tw(resizeLine3, {BackgroundTransparency = 0.3}, 0.12)
+            if not resizing then setGrip(false) end
         end)
     end
 
@@ -4342,11 +4194,19 @@ function Wraith:CreateWindow(o)
         if floatBtn then floatBtn:Destroy() end
     end
     function W:SetBackgroundImage(image, transparency)
+        if type(image) == "number" then
+            image = "rbxassetid://" .. tostring(image)
+        elseif type(image) == "string" and image ~= "" and not image:find("rbxassetid://", 1, true) and image:match("^%d+$") then
+            image = "rbxassetid://" .. image
+        end
         bgImage.Image = image or ""
         bgImage.ImageTransparency = image and (transparency or bgImage.ImageTransparency) or 1
     end
     function W:SetBackgroundImageTransparency(transparency)
         bgImage.ImageTransparency = math.clamp(tonumber(transparency) or bgImage.ImageTransparency, 0, 1)
+    end
+    function W:SetBackgroundImageScaleType(scaleType)
+        bgImage.ScaleType = scaleType or Enum.ScaleType.Crop
     end
     function W:Resize(w, h)
         W.CurrentSize = UDim2.new(0, w, 0, h)
