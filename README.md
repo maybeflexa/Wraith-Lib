@@ -24,7 +24,7 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 ## Features
 
 - Dark monochrome design
-- 10 built-in themes
+- 4 built-in themes
 - Custom theme support
 - Theme editor
 - Current theme getter
@@ -47,7 +47,7 @@ https://github.com/maybeflexa/Wraith-Lib/blob/main/Example.luau
 
 ## Themes
 
-`AMOLED` `Dark` `Darker` `Midnight` `Charcoal` `Light` `Obsidian` `Mocha` `Nord` `Rose` `Evergreen` `Solar`
+`AMOLED` `Aurora` `Velvet` `Pearl`
 
 ## Animations
 
@@ -216,8 +216,10 @@ end, 0.5)
 ## Background Image
 
 ```lua
+Window:SetBackgroundImage("6031302932", 0.82)
 Window:SetBackgroundImage("rbxassetid://6031302932", 0.82)
 Window:SetBackgroundImageTransparency(0.9)
+Window:SetBackgroundImageScaleType(Enum.ScaleType.Crop)
 Window:SetBackgroundImage(nil)
 ```
 
