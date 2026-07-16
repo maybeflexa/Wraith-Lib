@@ -15,6 +15,7 @@ local DDRefresh = {}
 local TabRefreshers = {}
 local SearchableElements = {}
 local ScreenGui
+local CurrentWindow
 
 local PlatformURLs = {
     ["Lucide"] = "https://raw.githubusercontent.com/maybeflexa/Wraith-Lib/refs/heads/main/Wraith/Icons/Lucide.lua"
@@ -683,6 +684,20 @@ function Wraith:GetTransparency()
         Element = T.ElTr,
         Sidebar = T.SbTr
     }
+end
+
+function Wraith:SetToggleKey(key)
+    if type(key) == "string" then key = Enum.KeyCode[key] end
+    if CurrentWindow and CurrentWindow.SetToggleKey then
+        CurrentWindow:SetToggleKey(key)
+    end
+end
+
+function Wraith:GetToggleKey()
+    if CurrentWindow and CurrentWindow.GetToggleKey then
+        return CurrentWindow:GetToggleKey()
+    end
+    return nil
 end
 
 function Wraith:SetAnimation(name)
@@ -1725,6 +1740,7 @@ function Wraith:CreateWindow(o)
         Min = false,
         Gui = gui,
         CurrentSize = windowSize,
+        MinimizeKey = minimizeKey,
         ConfigManager = Wraith.ConfigManager,
         CurrentConfig = Wraith.ConfigManager:CreateConfig("default")
     }
@@ -2223,7 +2239,7 @@ function Wraith:CreateWindow(o)
 
     UIS.InputBegan:Connect(function(input, gp)
         if gp then return end
-        if input.KeyCode == minimizeKey then
+        if input.KeyCode == W.MinimizeKey then
             if W.Vis then
                 hideWindow()
             else
@@ -3367,6 +3383,13 @@ function Wraith:CreateWindow(o)
                 B(inputBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
                 B(ibs, {Color = "Border"})
                 local el = {Type = "Input", Value = p.Default or "", Flag = flag, Save = p.Save ~= false}
+                inputBox:GetPropertyChangedSignal("Text"):Connect(function()
+                    if p.Numeric then
+                        el.Value = tonumber(inputBox.Text) or inputBox.Text
+                    else
+                        el.Value = inputBox.Text
+                    end
+                end)
                 inputBox.FocusLost:Connect(function()
                     local v = inputBox.Text
                     if p.Numeric then
@@ -4186,12 +4209,22 @@ function Wraith:CreateWindow(o)
 
     W.MainFrame = main
     W.FloatButton = floatBtn
+    CurrentWindow = W
     function W:Show() showWindow() end
     function W:Hide() hideWindow() end
     function W:Minimize() minimizeWindow() end
     function W:Destroy()
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
+    end
+    function W:SetToggleKey(key)
+        if type(key) == "string" then key = Enum.KeyCode[key] end
+        if typeof(key) == "EnumItem" then
+            W.MinimizeKey = key
+        end
+    end
+    function W:GetToggleKey()
+        return W.MinimizeKey
     end
     function W:SetBackgroundImage(image, transparency)
         if type(image) == "number" then
