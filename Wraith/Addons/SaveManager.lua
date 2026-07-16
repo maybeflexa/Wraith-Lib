@@ -93,7 +93,27 @@ local SaveManager = {} do
                 return {type = "Input", idx = idx, value = object.Value}
             end,
             Load = function(idx, data)
-                if SaveManager.Library.Flags[idx] and type(data.value) == "string" then
+                if SaveManager.Library.Flags[idx] and data.value ~= nil then
+                    SaveManager.Library.Flags[idx]:Set(data.value)
+                end
+            end
+        },
+        MultiInput = {
+            Save = function(idx, object)
+                return {type = "MultiInput", idx = idx, value = object.Value}
+            end,
+            Load = function(idx, data)
+                if SaveManager.Library.Flags[idx] and type(data.value) == "table" then
+                    SaveManager.Library.Flags[idx]:Set(data.value)
+                end
+            end
+        },
+        MultiSlider = {
+            Save = function(idx, object)
+                return {type = "MultiSlider", idx = idx, value = object.Value}
+            end,
+            Load = function(idx, data)
+                if SaveManager.Library.Flags[idx] and type(data.value) == "table" then
                     SaveManager.Library.Flags[idx]:Set(data.value)
                 end
             end
@@ -158,6 +178,7 @@ local SaveManager = {} do
         if not name then
             return false, "no config file is selected"
         end
+        self:CheckFolderTree()
         local fullPath = self.Folder .. "/settings/" .. name .. ".json"
         local data = {objects = {}}
 
@@ -173,7 +194,10 @@ local SaveManager = {} do
             return false, "failed to encode data"
         end
 
-        writefile(fullPath, encoded)
+        local written = pcall(writefile, fullPath, encoded)
+        if not written then
+            return false, "failed to write file"
+        end
         return true
     end
 
