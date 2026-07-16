@@ -1,55 +1,5 @@
+
 local HttpService = game:GetService("HttpService")
-
-local FileSystem = {}
-do
-    function FileSystem.IsFolder(path)
-        local fn = isfolder
-        if type(fn) ~= "function" then
-            return false
-        end
-        local success, result = pcall(fn, path)
-        return success and result == true
-    end
-
-    function FileSystem.IsFile(path)
-        local fn = isfile
-        if type(fn) ~= "function" then
-            return false
-        end
-        local success, result = pcall(fn, path)
-        return success and result == true
-    end
-
-    function FileSystem.MakeFolder(path)
-        local fn = makefolder
-        if type(fn) ~= "function" then
-            return false
-        end
-        local success = pcall(fn, path)
-        return success
-    end
-
-    function FileSystem.ReadFile(path)
-        local fn = readfile
-        if type(fn) ~= "function" then
-            return nil
-        end
-        local success, result = pcall(fn, path)
-        if success then
-            return result
-        end
-        return nil
-    end
-
-    function FileSystem.WriteFile(path, content)
-        local fn = writefile
-        if type(fn) ~= "function" then
-            return false
-        end
-        local success = pcall(fn, path, content)
-        return success
-    end
-end
 
 local InterfaceManager = {} do
     InterfaceManager.Folder = "WraithSettings"
@@ -75,8 +25,8 @@ local InterfaceManager = {} do
             self.Folder .. "/settings"
         }
         for _, path in ipairs(paths) do
-            if not FileSystem.IsFolder(path) then
-                FileSystem.MakeFolder(path)
+            if not isfolder(path) then
+                makefolder(path)
             end
         end
     end
@@ -85,15 +35,14 @@ local InterfaceManager = {} do
         local fullPath = self.Folder .. "/options.json"
         local success, encoded = pcall(HttpService.JSONEncode, HttpService, self.Settings)
         if success then
-            FileSystem.WriteFile(fullPath, encoded)
+            writefile(fullPath, encoded)
         end
     end
 
     function InterfaceManager:LoadSettings()
         local path = self.Folder .. "/options.json"
-        if FileSystem.IsFile(path) then
-            local content = FileSystem.ReadFile(path)
-            local success, decoded = pcall(HttpService.JSONDecode, HttpService, content)
+        if isfile(path) then
+            local success, decoded = pcall(HttpService.JSONDecode, HttpService, readfile(path))
             if success and type(decoded) == "table" then
                 for key, value in pairs(decoded) do
                     self.Settings[key] = value
@@ -169,6 +118,9 @@ local InterfaceManager = {} do
             Callback = function() end,
             ChangedCallback = function(key)
                 if key then
+                    if Library.SetToggleKey then
+                        Library:SetToggleKey(key)
+                    end
                     Library:Notify({
                         Title = "Wraith",
                         Content = "Interface Manager",
@@ -183,8 +135,8 @@ local InterfaceManager = {} do
     end
 
     function InterfaceManager:Apply()
-        if self.Settings.Transition and self.Library and self.Library.SetTransition then
-            self.Library:SetTransition(self.Settings.Transition)
+    if self.Settings.Transition and self.Library then
+        self.Library:SetTransition(self.Settings.Transition)
         end
         if self.Settings.Theme and self.Library then
             self.Library:SetTheme(self.Settings.Theme)
@@ -198,3 +150,6 @@ local InterfaceManager = {} do
 end
 
 return InterfaceManager
+
+
+        
