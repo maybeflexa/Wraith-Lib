@@ -1,4 +1,3 @@
-
 local HttpService = game:GetService("HttpService")
 
 local InterfaceManager = {} do
@@ -150,6 +149,3 @@ local InterfaceManager = {} do
 end
 
 return InterfaceManager
-
-
-        
