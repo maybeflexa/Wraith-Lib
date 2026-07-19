@@ -521,10 +521,10 @@ Section:AddToggle("KillAura", {
 
 ## Themes
 
-Wraith includes AMOLED, Aurora, Velvet and Pearl.
+Wraith includes AMOLED, Dark, Midnight, Obsidian, Mocha and Pearl.
 
 ```lua
-Wraith:SetTheme("Aurora")
+Wraith:SetTheme("Dark")
 local themes = Wraith:GetThemes()
 ```
 
