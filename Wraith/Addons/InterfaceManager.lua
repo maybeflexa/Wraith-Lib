@@ -111,7 +111,7 @@ local InterfaceManager = {} do
         tab:AddKeybind({
             Title = "Menu Keybind",
             Description = "Toggle UI visibility",
-            Default = Enum.KeyCode.LeftControl,
+            Default = self.Settings.MenuKeybind and Enum.KeyCode[self.Settings.MenuKeybind] or (Library.CurrentWindow and Library.CurrentWindow.ToggleKey or Enum.KeyCode.LeftControl),
             Flag = "MenuKeybind",
             Save = false,
             Callback = function() end,
@@ -120,6 +120,8 @@ local InterfaceManager = {} do
                     if Library.SetToggleKey then
                         Library:SetToggleKey(key)
                     end
+                    self.Settings.MenuKeybind = key.Name
+                    self:SaveSettings()
                     Library:Notify({
                         Title = "Wraith",
                         Content = "Interface Manager",
@@ -142,6 +144,9 @@ local InterfaceManager = {} do
         end
         if self.Settings.Animation and self.Library then
             self.Library:SetAnimation(self.Settings.Animation)
+        end
+        if self.Settings.MenuKeybind and self.Library and self.Library.SetToggleKey then
+            self.Library:SetToggleKey(Enum.KeyCode[self.Settings.MenuKeybind])
         end
     end
 
