@@ -59,40 +59,78 @@ local Themes = {
         ElTr = 0.32,
         SbTr = 0.12
     },
-    ["Aurora"] = {
-        Bg = Color3.fromRGB(8, 14, 24),
-        Bg2 = Color3.fromRGB(13, 22, 36),
-        Bg3 = Color3.fromRGB(21, 34, 52),
-        El = Color3.fromRGB(18, 29, 44),
-        ElHov = Color3.fromRGB(30, 46, 66),
-        Border = Color3.fromRGB(44, 69, 92),
-        Txt = Color3.fromRGB(231, 248, 250),
-        Txt2 = Color3.fromRGB(153, 198, 204),
-        Txt3 = Color3.fromRGB(88, 135, 145),
-        Acc = Color3.fromRGB(79, 214, 188),
-        AccD = Color3.fromRGB(46, 157, 148),
-        TOn = Color3.fromRGB(79, 214, 188),
-        TOff = Color3.fromRGB(38, 65, 74),
-        Slider = Color3.fromRGB(79, 214, 188),
+    ["Dark"] = {
+        Bg = Color3.fromRGB(10, 12, 18),
+        Bg2 = Color3.fromRGB(15, 18, 27),
+        Bg3 = Color3.fromRGB(23, 27, 39),
+        El = Color3.fromRGB(20, 23, 34),
+        ElHov = Color3.fromRGB(32, 37, 51),
+        Border = Color3.fromRGB(45, 52, 68),
+        Txt = Color3.fromRGB(244, 247, 255),
+        Txt2 = Color3.fromRGB(156, 167, 190),
+        Txt3 = Color3.fromRGB(94, 105, 128),
+        Acc = Color3.fromRGB(116, 151, 255),
+        AccD = Color3.fromRGB(76, 105, 202),
+        TOn = Color3.fromRGB(116, 151, 255),
+        TOff = Color3.fromRGB(44, 50, 67),
+        Slider = Color3.fromRGB(116, 151, 255),
         BgTr = 0.09,
         ElTr = 0.34,
         SbTr = 0.16
     },
-    ["Velvet"] = {
-        Bg = Color3.fromRGB(20, 13, 27),
-        Bg2 = Color3.fromRGB(31, 20, 40),
-        Bg3 = Color3.fromRGB(44, 30, 57),
-        El = Color3.fromRGB(38, 25, 50),
-        ElHov = Color3.fromRGB(58, 39, 74),
-        Border = Color3.fromRGB(82, 58, 103),
-        Txt = Color3.fromRGB(250, 236, 255),
-        Txt2 = Color3.fromRGB(202, 165, 217),
-        Txt3 = Color3.fromRGB(135, 101, 154),
-        Acc = Color3.fromRGB(214, 126, 255),
-        AccD = Color3.fromRGB(159, 79, 205),
-        TOn = Color3.fromRGB(214, 126, 255),
-        TOff = Color3.fromRGB(67, 49, 82),
-        Slider = Color3.fromRGB(214, 126, 255),
+    ["Midnight"] = {
+        Bg = Color3.fromRGB(7, 9, 25),
+        Bg2 = Color3.fromRGB(12, 15, 37),
+        Bg3 = Color3.fromRGB(19, 24, 54),
+        El = Color3.fromRGB(16, 20, 47),
+        ElHov = Color3.fromRGB(28, 35, 70),
+        Border = Color3.fromRGB(42, 52, 94),
+        Txt = Color3.fromRGB(237, 243, 255),
+        Txt2 = Color3.fromRGB(151, 169, 210),
+        Txt3 = Color3.fromRGB(88, 109, 154),
+        Acc = Color3.fromRGB(93, 139, 255),
+        AccD = Color3.fromRGB(57, 93, 207),
+        TOn = Color3.fromRGB(93, 139, 255),
+        TOff = Color3.fromRGB(34, 43, 78),
+        Slider = Color3.fromRGB(93, 139, 255),
+        BgTr = 0.09,
+        ElTr = 0.34,
+        SbTr = 0.16
+    },
+    ["Obsidian"] = {
+        Bg = Color3.fromRGB(6, 5, 10),
+        Bg2 = Color3.fromRGB(11, 10, 18),
+        Bg3 = Color3.fromRGB(18, 17, 29),
+        El = Color3.fromRGB(15, 14, 25),
+        ElHov = Color3.fromRGB(28, 26, 42),
+        Border = Color3.fromRGB(43, 39, 62),
+        Txt = Color3.fromRGB(239, 236, 248),
+        Txt2 = Color3.fromRGB(158, 150, 178),
+        Txt3 = Color3.fromRGB(100, 91, 121),
+        Acc = Color3.fromRGB(166, 126, 255),
+        AccD = Color3.fromRGB(113, 78, 201),
+        TOn = Color3.fromRGB(166, 126, 255),
+        TOff = Color3.fromRGB(45, 40, 62),
+        Slider = Color3.fromRGB(166, 126, 255),
+        BgTr = 0.06,
+        ElTr = 0.31,
+        SbTr = 0.12
+    },
+    ["Mocha"] = {
+        Bg = Color3.fromRGB(25, 19, 16),
+        Bg2 = Color3.fromRGB(36, 27, 23),
+        Bg3 = Color3.fromRGB(49, 37, 30),
+        El = Color3.fromRGB(42, 32, 27),
+        ElHov = Color3.fromRGB(62, 47, 38),
+        Border = Color3.fromRGB(83, 62, 50),
+        Txt = Color3.fromRGB(250, 239, 224),
+        Txt2 = Color3.fromRGB(196, 168, 145),
+        Txt3 = Color3.fromRGB(133, 107, 88),
+        Acc = Color3.fromRGB(232, 157, 94),
+        AccD = Color3.fromRGB(180, 103, 52),
+        TOn = Color3.fromRGB(232, 157, 94),
+        TOff = Color3.fromRGB(68, 50, 41),
+        Slider = Color3.fromRGB(232, 157, 94),
         BgTr = 0.08,
         ElTr = 0.33,
         SbTr = 0.16
@@ -115,101 +153,6 @@ local Themes = {
         BgTr = 0.04,
         ElTr = 0.13,
         SbTr = 0.07
-    },
-    ["Ember"] = {
-        Bg = Color3.fromRGB(24, 12, 10),
-        Bg2 = Color3.fromRGB(36, 18, 14),
-        Bg3 = Color3.fromRGB(52, 26, 20),
-        El = Color3.fromRGB(44, 22, 17),
-        ElHov = Color3.fromRGB(68, 34, 25),
-        Border = Color3.fromRGB(92, 48, 34),
-        Txt = Color3.fromRGB(255, 236, 225),
-        Txt2 = Color3.fromRGB(210, 157, 132),
-        Txt3 = Color3.fromRGB(145, 92, 73),
-        Acc = Color3.fromRGB(255, 116, 68),
-        AccD = Color3.fromRGB(195, 70, 42),
-        TOn = Color3.fromRGB(255, 116, 68),
-        TOff = Color3.fromRGB(70, 38, 30),
-        Slider = Color3.fromRGB(255, 116, 68),
-        BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
-    },
-    ["Lagoon"] = {
-        Bg = Color3.fromRGB(7, 20, 28),
-        Bg2 = Color3.fromRGB(11, 31, 42),
-        Bg3 = Color3.fromRGB(18, 45, 59),
-        El = Color3.fromRGB(15, 39, 52),
-        ElHov = Color3.fromRGB(25, 59, 74),
-        Border = Color3.fromRGB(39, 82, 99),
-        Txt = Color3.fromRGB(225, 250, 255),
-        Txt2 = Color3.fromRGB(141, 201, 213),
-        Txt3 = Color3.fromRGB(82, 136, 151),
-        Acc = Color3.fromRGB(64, 196, 220),
-        AccD = Color3.fromRGB(35, 139, 170),
-        TOn = Color3.fromRGB(64, 196, 220),
-        TOff = Color3.fromRGB(35, 66, 78),
-        Slider = Color3.fromRGB(64, 196, 220),
-        BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
-    },
-    ["Moss"] = {
-        Bg = Color3.fromRGB(13, 20, 13),
-        Bg2 = Color3.fromRGB(20, 30, 20),
-        Bg3 = Color3.fromRGB(29, 43, 29),
-        El = Color3.fromRGB(25, 37, 25),
-        ElHov = Color3.fromRGB(39, 57, 38),
-        Border = Color3.fromRGB(55, 78, 53),
-        Txt = Color3.fromRGB(235, 247, 231),
-        Txt2 = Color3.fromRGB(166, 194, 157),
-        Txt3 = Color3.fromRGB(103, 129, 96),
-        Acc = Color3.fromRGB(139, 207, 106),
-        AccD = Color3.fromRGB(89, 150, 67),
-        TOn = Color3.fromRGB(139, 207, 106),
-        TOff = Color3.fromRGB(45, 64, 42),
-        Slider = Color3.fromRGB(139, 207, 106),
-        BgTr = 0.08,
-        ElTr = 0.34,
-        SbTr = 0.16
-    },
-    ["Vapor"] = {
-        Bg = Color3.fromRGB(17, 12, 30),
-        Bg2 = Color3.fromRGB(26, 18, 45),
-        Bg3 = Color3.fromRGB(38, 26, 64),
-        El = Color3.fromRGB(32, 22, 55),
-        ElHov = Color3.fromRGB(51, 35, 79),
-        Border = Color3.fromRGB(74, 51, 105),
-        Txt = Color3.fromRGB(248, 235, 255),
-        Txt2 = Color3.fromRGB(192, 161, 222),
-        Txt3 = Color3.fromRGB(127, 99, 157),
-        Acc = Color3.fromRGB(191, 103, 255),
-        AccD = Color3.fromRGB(134, 66, 204),
-        TOn = Color3.fromRGB(191, 103, 255),
-        TOff = Color3.fromRGB(60, 44, 84),
-        Slider = Color3.fromRGB(191, 103, 255),
-        BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
-    },
-    ["Slate"] = {
-        Bg = Color3.fromRGB(15, 18, 22),
-        Bg2 = Color3.fromRGB(22, 26, 31),
-        Bg3 = Color3.fromRGB(31, 36, 43),
-        El = Color3.fromRGB(27, 31, 38),
-        ElHov = Color3.fromRGB(41, 47, 56),
-        Border = Color3.fromRGB(57, 65, 76),
-        Txt = Color3.fromRGB(239, 243, 247),
-        Txt2 = Color3.fromRGB(164, 174, 184),
-        Txt3 = Color3.fromRGB(101, 112, 124),
-        Acc = Color3.fromRGB(143, 170, 203),
-        AccD = Color3.fromRGB(94, 121, 157),
-        TOn = Color3.fromRGB(143, 170, 203),
-        TOff = Color3.fromRGB(48, 55, 64),
-        Slider = Color3.fromRGB(143, 170, 203),
-        BgTr = 0.08,
-        ElTr = 0.32,
-        SbTr = 0.15
     }
 }
 local T = Themes["AMOLED"]
@@ -1832,6 +1775,7 @@ function Wraith:CreateWindow(o)
         Vis = true,
         Min = false,
         Gui = gui,
+        ToggleKey = minimizeKey,
         CurrentSize = windowSize,
         ConfigManager = Wraith.ConfigManager,
         CurrentConfig = Wraith.ConfigManager:CreateConfig("default")
@@ -2312,7 +2256,7 @@ function Wraith:CreateWindow(o)
 
     UIS.InputBegan:Connect(function(input, gp)
         if gp then return end
-        if input.KeyCode == minimizeKey then
+        if input.KeyCode == W.ToggleKey then
             if W.Vis then
                 hideWindow()
             else
@@ -4282,6 +4226,14 @@ function Wraith:CreateWindow(o)
         if main then main:Destroy() end
         if floatBtn then floatBtn:Destroy() end
     end
+    function W:SetToggleKey(key)
+        if type(key) == "string" then
+            key = Enum.KeyCode[key]
+        end
+        if key then
+            self.ToggleKey = key
+        end
+    end
     function W:SetBackgroundImage(image, transparency)
         if type(image) == "number" then
             image = "rbxassetid://" .. tostring(image)
@@ -4302,7 +4254,14 @@ function Wraith:CreateWindow(o)
         main.Size = W.CurrentSize
     end
 
+    Wraith.CurrentWindow = W
     return W
+end
+
+function Wraith:SetToggleKey(key)
+    if self.CurrentWindow and self.CurrentWindow.SetToggleKey then
+        self.CurrentWindow:SetToggleKey(key)
+    end
 end
 
 Wraith.Icons = {
