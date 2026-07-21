@@ -41,59 +41,59 @@ local CurrentAnim = AnimPresets.Default
 
 local Themes = {
     ["AMOLED"] = {
-        Bg = Color3.fromRGB(1, 1, 3),
-        Bg2 = Color3.fromRGB(6, 6, 10),
-        Bg3 = Color3.fromRGB(13, 13, 20),
-        El = Color3.fromRGB(10, 10, 16),
-        ElHov = Color3.fromRGB(20, 20, 30),
-        Border = Color3.fromRGB(35, 35, 48),
-        Txt = Color3.fromRGB(248, 248, 252),
-        Txt2 = Color3.fromRGB(164, 166, 180),
-        Txt3 = Color3.fromRGB(94, 97, 112),
-        Acc = Color3.fromRGB(226, 228, 236),
-        AccD = Color3.fromRGB(158, 162, 180),
-        TOn = Color3.fromRGB(226, 228, 236),
-        TOff = Color3.fromRGB(37, 37, 49),
-        Slider = Color3.fromRGB(226, 228, 236),
-        BgTr = 0.06,
-        ElTr = 0.32,
+        Bg = Color3.fromRGB(0, 0, 0),
+        Bg2 = Color3.fromRGB(5, 5, 7),
+        Bg3 = Color3.fromRGB(12, 12, 16),
+        El = Color3.fromRGB(9, 9, 12),
+        ElHov = Color3.fromRGB(20, 20, 26),
+        Border = Color3.fromRGB(34, 34, 42),
+        Txt = Color3.fromRGB(250, 250, 252),
+        Txt2 = Color3.fromRGB(168, 170, 180),
+        Txt3 = Color3.fromRGB(94, 97, 110),
+        Acc = Color3.fromRGB(230, 232, 238),
+        AccD = Color3.fromRGB(160, 164, 178),
+        TOn = Color3.fromRGB(230, 232, 238),
+        TOff = Color3.fromRGB(35, 35, 44),
+        Slider = Color3.fromRGB(230, 232, 238),
+        BgTr = 0.05,
+        ElTr = 0.3,
         SbTr = 0.12
     },
     ["Dark"] = {
-        Bg = Color3.fromRGB(10, 12, 18),
+        Bg = Color3.fromRGB(9, 11, 17),
         Bg2 = Color3.fromRGB(15, 18, 27),
         Bg3 = Color3.fromRGB(23, 27, 39),
-        El = Color3.fromRGB(20, 23, 34),
-        ElHov = Color3.fromRGB(32, 37, 51),
-        Border = Color3.fromRGB(45, 52, 68),
+        El = Color3.fromRGB(19, 23, 34),
+        ElHov = Color3.fromRGB(31, 37, 52),
+        Border = Color3.fromRGB(44, 52, 70),
         Txt = Color3.fromRGB(244, 247, 255),
-        Txt2 = Color3.fromRGB(156, 167, 190),
-        Txt3 = Color3.fromRGB(94, 105, 128),
+        Txt2 = Color3.fromRGB(158, 168, 190),
+        Txt3 = Color3.fromRGB(95, 106, 128),
         Acc = Color3.fromRGB(116, 151, 255),
         AccD = Color3.fromRGB(76, 105, 202),
         TOn = Color3.fromRGB(116, 151, 255),
-        TOff = Color3.fromRGB(44, 50, 67),
+        TOff = Color3.fromRGB(43, 50, 68),
         Slider = Color3.fromRGB(116, 151, 255),
-        BgTr = 0.09,
+        BgTr = 0.08,
         ElTr = 0.34,
         SbTr = 0.16
     },
     ["Midnight"] = {
-        Bg = Color3.fromRGB(7, 9, 25),
-        Bg2 = Color3.fromRGB(12, 15, 37),
-        Bg3 = Color3.fromRGB(19, 24, 54),
-        El = Color3.fromRGB(16, 20, 47),
-        ElHov = Color3.fromRGB(28, 35, 70),
-        Border = Color3.fromRGB(42, 52, 94),
-        Txt = Color3.fromRGB(237, 243, 255),
-        Txt2 = Color3.fromRGB(151, 169, 210),
-        Txt3 = Color3.fromRGB(88, 109, 154),
-        Acc = Color3.fromRGB(93, 139, 255),
-        AccD = Color3.fromRGB(57, 93, 207),
-        TOn = Color3.fromRGB(93, 139, 255),
-        TOff = Color3.fromRGB(34, 43, 78),
-        Slider = Color3.fromRGB(93, 139, 255),
-        BgTr = 0.09,
+        Bg = Color3.fromRGB(6, 8, 24),
+        Bg2 = Color3.fromRGB(11, 14, 37),
+        Bg3 = Color3.fromRGB(18, 23, 55),
+        El = Color3.fromRGB(15, 20, 47),
+        ElHov = Color3.fromRGB(27, 35, 72),
+        Border = Color3.fromRGB(41, 53, 96),
+        Txt = Color3.fromRGB(237, 244, 255),
+        Txt2 = Color3.fromRGB(151, 171, 212),
+        Txt3 = Color3.fromRGB(88, 111, 156),
+        Acc = Color3.fromRGB(88, 136, 255),
+        AccD = Color3.fromRGB(55, 92, 205),
+        TOn = Color3.fromRGB(88, 136, 255),
+        TOff = Color3.fromRGB(33, 43, 78),
+        Slider = Color3.fromRGB(88, 136, 255),
+        BgTr = 0.08,
         ElTr = 0.34,
         SbTr = 0.16
     },
@@ -102,13 +102,13 @@ local Themes = {
         Bg2 = Color3.fromRGB(11, 10, 18),
         Bg3 = Color3.fromRGB(18, 17, 29),
         El = Color3.fromRGB(15, 14, 25),
-        ElHov = Color3.fromRGB(28, 26, 42),
-        Border = Color3.fromRGB(43, 39, 62),
-        Txt = Color3.fromRGB(239, 236, 248),
-        Txt2 = Color3.fromRGB(158, 150, 178),
-        Txt3 = Color3.fromRGB(100, 91, 121),
+        ElHov = Color3.fromRGB(29, 26, 43),
+        Border = Color3.fromRGB(45, 39, 64),
+        Txt = Color3.fromRGB(240, 237, 248),
+        Txt2 = Color3.fromRGB(160, 151, 180),
+        Txt3 = Color3.fromRGB(102, 92, 124),
         Acc = Color3.fromRGB(166, 126, 255),
-        AccD = Color3.fromRGB(113, 78, 201),
+        AccD = Color3.fromRGB(112, 78, 200),
         TOn = Color3.fromRGB(166, 126, 255),
         TOff = Color3.fromRGB(45, 40, 62),
         Slider = Color3.fromRGB(166, 126, 255),
@@ -116,24 +116,24 @@ local Themes = {
         ElTr = 0.31,
         SbTr = 0.12
     },
-    ["Mocha"] = {
-        Bg = Color3.fromRGB(25, 19, 16),
-        Bg2 = Color3.fromRGB(36, 27, 23),
-        Bg3 = Color3.fromRGB(49, 37, 30),
-        El = Color3.fromRGB(42, 32, 27),
-        ElHov = Color3.fromRGB(62, 47, 38),
-        Border = Color3.fromRGB(83, 62, 50),
-        Txt = Color3.fromRGB(250, 239, 224),
-        Txt2 = Color3.fromRGB(196, 168, 145),
-        Txt3 = Color3.fromRGB(133, 107, 88),
-        Acc = Color3.fromRGB(232, 157, 94),
-        AccD = Color3.fromRGB(180, 103, 52),
-        TOn = Color3.fromRGB(232, 157, 94),
-        TOff = Color3.fromRGB(68, 50, 41),
-        Slider = Color3.fromRGB(232, 157, 94),
+    ["Graphite"] = {
+        Bg = Color3.fromRGB(15, 16, 18),
+        Bg2 = Color3.fromRGB(22, 23, 26),
+        Bg3 = Color3.fromRGB(32, 34, 38),
+        El = Color3.fromRGB(27, 29, 33),
+        ElHov = Color3.fromRGB(43, 46, 52),
+        Border = Color3.fromRGB(60, 64, 72),
+        Txt = Color3.fromRGB(244, 245, 247),
+        Txt2 = Color3.fromRGB(166, 170, 178),
+        Txt3 = Color3.fromRGB(104, 109, 119),
+        Acc = Color3.fromRGB(188, 197, 210),
+        AccD = Color3.fromRGB(132, 143, 158),
+        TOn = Color3.fromRGB(188, 197, 210),
+        TOff = Color3.fromRGB(55, 58, 66),
+        Slider = Color3.fromRGB(188, 197, 210),
         BgTr = 0.08,
-        ElTr = 0.33,
-        SbTr = 0.16
+        ElTr = 0.32,
+        SbTr = 0.15
     },
     ["Pearl"] = {
         Bg = Color3.fromRGB(239, 242, 248),
@@ -3400,16 +3400,36 @@ function Wraith:CreateWindow(o)
                 B(inputBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
                 B(ibs, {Color = "Border"})
                 local el = {Type = "Input", Value = p.Default or "", Flag = flag, Save = p.Save ~= false}
-                inputBox.FocusLost:Connect(function()
-                    local v = inputBox.Text
-                    if p.Numeric then
-                        v = tonumber(v) or el.Value
-                        inputBox.Text = tostring(v)
+                local function setValue(value, fireCallback)
+                    value = tostring(value or "")
+                    if p.MaxLength and #value > p.MaxLength then
+                        value = value:sub(1, p.MaxLength)
                     end
-                    el.Value = v
-                    cb(v)
-                end)
-                function el:Set(v) el.Value = v; inputBox.Text = tostring(v); cb(v) end
+                    if p.Numeric and value ~= "" and not tonumber(value) then
+                        value = tostring(el.Value or "")
+                    end
+                    el.Value = value
+                    if inputBox.Text ~= value then
+                        inputBox.Text = value
+                    end
+                    if fireCallback ~= false then
+                        cb(value)
+                    end
+                end
+                if p.Finished then
+                    inputBox.FocusLost:Connect(function(enterPressed)
+                        if enterPressed then
+                            setValue(inputBox.Text, true)
+                        else
+                            inputBox.Text = tostring(el.Value or "")
+                        end
+                    end)
+                else
+                    inputBox:GetPropertyChangedSignal("Text"):Connect(function()
+                        setValue(inputBox.Text, true)
+                    end)
+                end
+                function el:Set(v) setValue(v, true) end
                 regSearch(container, p.Title or "Input", p.Description, "Input")
                 if p.Tooltip then AttachTooltip(container, p.Tooltip) end
                 WraithFlags[flag] = el
@@ -3461,6 +3481,7 @@ function Wraith:CreateWindow(o)
                     Parent = inputsFrame
                 })
                 local values = {}
+                local setters = {}
                 local el = {Type = "MultiInput", Value = values, Flag = flag, Save = p.Save ~= false}
                 local count = #fields
                 local widthPerField = count > 0 and (1 / count) or 1
@@ -3469,6 +3490,9 @@ function Wraith:CreateWindow(o)
                     local fieldDefault = field.Default or ""
                     local fieldPlaceholder = field.Placeholder or fieldName
                     local fieldCallback = field.Callback or function() end
+                    local fieldFinished = field.Finished ~= nil and field.Finished or p.Finished
+                    local fieldNumeric = field.Numeric ~= nil and field.Numeric or p.Numeric
+                    local maxLength = field.MaxLength or p.MaxLength
                     values[fieldName] = fieldDefault
                     local inBox = C("TextBox", {
                         Size = UDim2.new(widthPerField, -6, 1, 0),
@@ -3487,23 +3511,44 @@ function Wraith:CreateWindow(o)
                     local ibs = St(inBox, T.Border, 1, 0.5)
                     B(inBox, {BackgroundColor3 = "Bg3", TextColor3 = "Txt", PlaceholderColor3 = "Txt3"})
                     B(ibs, {Color = "Border"})
-                    inBox.FocusLost:Connect(function()
-                        local v = inBox.Text
-                        if field.Numeric then
-                            v = tonumber(v) or fieldDefault
-                            inBox.Text = tostring(v)
+                    local function setFieldValue(value, fireCallback)
+                        value = tostring(value or "")
+                        if maxLength and #value > maxLength then
+                            value = value:sub(1, maxLength)
                         end
-                        values[fieldName] = v
+                        if fieldNumeric and value ~= "" and not tonumber(value) then
+                            value = tostring(values[fieldName] or "")
+                        end
+                        values[fieldName] = value
                         el.Value = values
-                        fieldCallback(v, values)
-                        if p.Callback then p.Callback(values) end
-                    end)
+                        if inBox.Text ~= value then
+                            inBox.Text = value
+                        end
+                        if fireCallback ~= false then
+                            fieldCallback(value, values)
+                            if p.Callback then p.Callback(values) end
+                        end
+                    end
+                    setters[fieldName] = setFieldValue
+                    if fieldFinished then
+                        inBox.FocusLost:Connect(function(enterPressed)
+                            if enterPressed then
+                                setFieldValue(inBox.Text, true)
+                            else
+                                inBox.Text = tostring(values[fieldName] or "")
+                            end
+                        end)
+                    else
+                        inBox:GetPropertyChangedSignal("Text"):Connect(function()
+                            setFieldValue(inBox.Text, true)
+                        end)
+                    end
                 end
                 function el:Set(t)
                     if type(t) ~= "table" then return end
                     for k, v in pairs(t) do
                         if setters[k] then
-                            setters[k](v)
+                            setters[k](v, false)
                         else
                             values[k] = v
                         end
