@@ -93,7 +93,7 @@ local SaveManager = {} do
                 return {type = "Input", idx = idx, value = object.Value}
             end,
             Load = function(idx, data)
-                if SaveManager.Library.Flags[idx] and data.value ~= nil then
+                if SaveManager.Library.Flags[idx] and type(data.value) == "string" then
                     SaveManager.Library.Flags[idx]:Set(data.value)
                 end
             end
@@ -178,7 +178,6 @@ local SaveManager = {} do
         if not name then
             return false, "no config file is selected"
         end
-        self:CheckFolderTree()
         local fullPath = self.Folder .. "/settings/" .. name .. ".json"
         local data = {objects = {}}
 
@@ -194,10 +193,7 @@ local SaveManager = {} do
             return false, "failed to encode data"
         end
 
-        local written = pcall(writefile, fullPath, encoded)
-        if not written then
-            return false, "failed to write file"
-        end
+        writefile(fullPath, encoded)
         return true
     end
 
