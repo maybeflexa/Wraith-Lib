@@ -386,12 +386,29 @@ local Input = Tabs.Main:AddInput("Username", {
     Title = "Username",
     Placeholder = "Enter username",
     Default = "",
+    Numeric = false,
+    Finished = false,
     Callback = function(value)
         print(value)
     end
 })
 
 Input:Set("maybeflexa")
+```
+
+With `Finished = true`, the callback only runs after Enter is pressed.
+
+```lua
+Tabs.Main:AddInput("FinishedInput", {
+    Title = "Finished Input",
+    Default = "Default",
+    Placeholder = "Press Enter to submit",
+    Numeric = false,
+    Finished = true,
+    Callback = function(value)
+        print(value)
+    end
+})
 ```
 
 ## MultiInput
@@ -401,6 +418,8 @@ Multiple text boxes in one element.
 ```lua
 local MultiInput = Tabs.Main:AddMultiInput("Coords", {
     Title = "Coordinates",
+    Finished = true,
+    Numeric = true,
     Fields = {
         {Name = "X", Placeholder = "0"},
         {Name = "Y", Placeholder = "0"},
@@ -521,7 +540,7 @@ Section:AddToggle("KillAura", {
 
 ## Themes
 
-Wraith includes AMOLED, Dark, Midnight, Obsidian, Mocha and Pearl.
+Wraith includes AMOLED, Dark, Midnight, Obsidian, Graphite and Pearl.
 
 ```lua
 Wraith:SetTheme("Dark")
