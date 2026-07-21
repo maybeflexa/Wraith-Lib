@@ -80,22 +80,6 @@ Tabs.Main:AddButton({
     end
 })
 
-Tabs.Main:AddButton({
-    Title = "Set Background Image",
-    Description = "Sets an optional window background image",
-    Callback = function()
-        Window:SetBackgroundImage("rbxassetid://6031302932", 0.82)
-    end
-})
-
-Tabs.Main:AddButton({
-    Title = "Clear Background Image",
-    Description = "Removes the window background image",
-    Callback = function()
-        Window:SetBackgroundImage(nil)
-    end
-})
-
 local Toggle = Tabs.Elements:AddToggle("ExampleToggle", {
     Title = "Toggle",
     Description = "Toggle example",
@@ -219,8 +203,22 @@ Tabs.Elements:AddInput("Input", {
     Title = "Input",
     Default = "Hello",
     Placeholder = "Type something...",
+    Numeric = false,
+    Finished = false,
     Callback = function(value)
         print("Input:", value)
+    end
+})
+
+Tabs.Elements:AddInput("FinishedInput", {
+    Title = "Finished Input",
+    Description = "Callback runs when Enter is pressed",
+    Default = "Default",
+    Placeholder = "Press Enter to submit",
+    Numeric = false,
+    Finished = true,
+    Callback = function(value)
+        print("Finished input:", value)
     end
 })
 
@@ -275,6 +273,7 @@ Tabs.Layout:AddDivider({
 local MultiInput = Tabs.Layout:AddMultiInput("MultiInput", {
     Title = "Multi Input",
     Description = "Multiple inputs in one row",
+    Finished = true,
     Fields = {
         {Name = "X", Default = "0", Placeholder = "X", Numeric = true},
         {Name = "Y", Default = "0", Placeholder = "Y", Numeric = true},
@@ -355,6 +354,53 @@ SaveManager:SetFolder("WraithExample/specific-game")
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Configs)
+
+Tabs.Settings:AddDivider({
+    Text = "Background"
+})
+
+local BackgroundImageId = ""
+
+Tabs.Settings:AddInput("BackgroundImageId", {
+    Title = "Background Image ID",
+    Description = "Paste an asset id or rbxassetid string",
+    Default = "",
+    Placeholder = "6031302932",
+    Save = false,
+    Callback = function(value)
+        BackgroundImageId = value
+    end
+})
+
+Tabs.Settings:AddSlider("BackgroundTransparency", {
+    Title = "Background Transparency",
+    Min = 0,
+    Max = 1,
+    Default = 0.82,
+    Rounding = 0.01,
+    Save = false,
+    Callback = function(value)
+        Window:SetBackgroundImageTransparency(value)
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "Apply Background Image",
+    Description = "Applies the image to the window background",
+    Save = false,
+    Callback = function()
+        Window:SetBackgroundImage(BackgroundImageId, 0.82)
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "Clear Background Image",
+    Description = "Removes the window background image",
+    Save = false,
+    Callback = function()
+        Window:SetBackgroundImage(nil)
+    end
+})
 
 Tabs.Configs:AddDivider({
     Text = "ConfigManager"
